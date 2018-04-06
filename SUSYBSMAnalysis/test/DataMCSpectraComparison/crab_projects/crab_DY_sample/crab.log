@@ -1,0 +1,296 @@
+DEBUG 2018-01-17 22:00:06,759: 	 Executing command: 'submit'
+DEBUG 2018-01-17 22:00:06,760: 	 Found CRAB cache file /u/user/hgass66/.crab3
+DEBUG 2018-01-17 22:00:06,790: 	 Checking credentials
+DEBUG 2018-01-17 22:00:06,791: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-17 22:00:06,791: 	 Getting proxy life time left
+DEBUG 2018-01-17 22:00:07,896: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 573875
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:08,802: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 573875
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:08,802: 	 Proxy valid for 159:24:35 hours
+INFO 2018-01-17 22:00:08,803: 	 Will use CRAB configuration file crabConfig.py
+DEBUG 2018-01-17 22:00:08,803: 	 Loading CRAB configuration file.
+DEBUG 2018-01-17 22:00:08,809: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2018-01-17 22:00:09,041: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:09,042: 	 Checking credentials
+DEBUG 2018-01-17 22:00:09,042: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-17 22:00:09,042: 	 Getting proxy life time left
+DEBUG 2018-01-17 22:00:09,847: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 573873
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:10,652: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 573873
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:10,652: 	 Proxy valid for 159:24:33 hours
+DEBUG 2018-01-17 22:00:11,457: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u41069 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:13,434: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+DEBUG 2018-01-17 22:00:13,569: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:13,569: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2018-01-17 22:00:13,569: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim_cmsweb.cern.ch for credential name
+DEBUG 2018-01-17 22:00:15,477: 	 Executing : 
+ command : myproxy-info -l 919e39066e5571666d359c0c2be3e0c3e8b38755 -s myproxy.cern.ch
+ output : username: 919e39066e5571666d359c0c2be3e0c3e8b38755
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  timeleft: 598:22:40  (24.9 days)
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-17 22:00:15,478: 	 Myproxy is valid: 2154160
+DEBUG 2018-01-17 22:00:15,478: 	 Command use: submit
+DEBUG 2018-01-17 22:00:15,478: 	 Options use: ['-c', 'crabConfig.py']
+DEBUG 2018-01-17 22:00:17,441: 	 CRABClient version: 3.3.1707.patch1
+DEBUG 2018-01-17 22:00:17,441: 	 Instance is prod
+DEBUG 2018-01-17 22:00:17,441: 	 Server base url is cmsweb.cern.ch
+DEBUG 2018-01-17 22:00:17,441: 	 Command url /crabserver/prod/workflow
+DEBUG 2018-01-17 22:00:17,441: 	 Started submission
+DEBUG 2018-01-17 22:00:17,441: 	 Working on /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_DY_sample
+DEBUG 2018-01-17 22:00:19,739: 	 Loading required information from the environment
+DEBUG 2018-01-17 22:00:19,739: 	 Found CMSSW_7_3_5_patch2 for slc6_amd64_gcc491 with base /u/user/hgass66/CMSSW_7_3_5_patch2
+DEBUG 2018-01-17 22:00:19,739: 	 Loading required information from the environment
+DEBUG 2018-01-17 22:00:19,740: 	 Found CMSSW_7_3_5_patch2 for slc6_amd64_gcc491 with base /u/user/hgass66/CMSSW_7_3_5_patch2
+DEBUG 2018-01-17 22:00:19,844: 	 UNIQUE NAME: tarUUID b1227442-89a3-4200-9eba-7c4cc515034c 
+DEBUG 2018-01-17 22:00:19,845: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = True
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.General.requestName = 'DY_sample'
+config.section_('JobType')
+config.JobType.psetName = 'histosSimplified.py'
+config.JobType.pluginName = 'Analysis'
+config.section_('Data')
+config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO'
+config.Data.totalUnits = 10
+config.Data.unitsPerJob = 1
+config.Data.inputDBS = 'global'
+config.Data.splitting = 'FileBased'
+config.Data.outLFNDirBase = '/store/user/hgass66/crab'
+config.section_('Site')
+config.Site.storageSite = 'T2_KR_KNU'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2018-01-17 22:00:19,845: 	 self.config.JobType.psetName: histosSimplified.py
+INFO 2018-01-17 22:00:19,846: 	 Importing CMSSW configuration histosSimplified.py
+ERROR 2018-01-17 22:00:20,584: 	 Unhandled Exception!
+ERROR 2018-01-17 22:00:20,584: 	 No module named Zprime2muAnalysis.Zprime2muAnalysis_cff
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/bin/crab", line 148, in __call__
+    self.cmd()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 99, in __call__
+    dummy_inputfiles, jobconfig = plugjobtype.run(filecacheurl)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/CRABClient/JobType/Analysis.py", line 86, in run
+    userConfig=self.config.JobType.psetName)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/CRABClient/JobType/CMSSWConfig.py", line 60, in __init__
+    self.fullConfig = imp.load_module(cfgBaseName, file, pathname, description)
+  File "/u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/histosSimplified.py", line 7, in <module>
+    from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import switch_hlt_process_name
+ImportError: No module named Zprime2muAnalysis.Zprime2muAnalysis_cff
+ERROR 2018-01-17 22:00:20,597: 	 ERROR: ImportError: No module named Zprime2muAnalysis.Zprime2muAnalysis_cff
+ERROR 2018-01-17 22:00:20,597: 	 
+	Please email hn-cms-computing-tools@cern.ch for support with the crab.log file or crab.log URL.
+ERROR 2018-01-17 22:00:20,597: 	 	Client Version: 3.3.1707.patch1
+INFO 2018-01-17 22:00:20,597: 	 Fetching user enviroment to log file
+DEBUG 2018-01-17 22:00:20,598: 	 Running env command
+DEBUG 2018-01-17 22:00:20,630: 	 
+
+
+USER ENVIROMENT
+SRT_G4LEVELGAMMADATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4PhotonEvaporation/3.0/data/PhotonEvaporation3.0
+G4LEVELGAMMADATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4PhotonEvaporation/3.0/data/PhotonEvaporation3.0
+MANPATH=/cvmfs/cms.cern.ch/share/man:/opt/glite/share/man::
+SCRAMRT_SET=CMSSW:CMSSW_7_3_5_patch2:slc6_amd64_gcc491:V2_2_7_pre6:SRT_
+CMSSW_RELEASE_BASE=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2
+CMSSW_FWLITE_INCLUDE_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/include:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/hepmc/2.06.07-cms/include:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/boost/1.57.0-jlbgio/include:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/clhep/2.1.4.1-cms/include
+HOSTNAME=cms.knu.ac.kr
+SRT_MALLOC_CONF_SCRAMRTDEL=lg_chunk:18,lg_dirty_mult:4
+COMPILER_RUNTIME_OBJECTS=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms
+ROOT_INCLUDE_PATH=/u/user/hgass66/CMSSW_7_3_5_patch2/src:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/src
+SHELL=/bin/bash
+TERM=xterm
+GRID_ENV_LOCATION=/usr/libexec
+SRT_GEANT4_PARFULLCMS_CONFIG_DIR_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-parfullcms/2014.01.27-cms/share/ParFullCMS
+HISTSIZE=1000
+SRT_TNS_ADMIN_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/oracle-env/29/etc
+DBSCMD_HOME=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib/DBSAPI
+PDFPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/rivet/2.1.2-jlbgio/share
+SSH_CLIENT=155.230.152.54 62877 22
+LHAPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lhapdf/5.9.1-cms/share/lhapdf/PDFsets
+VO_OPS_DEFAULT_SE=cluster142.knu.ac.kr
+SRT_PDFPATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/rivet/2.1.2-jlbgio/share
+SRT_QTDIR_SCRAMRT=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/qt/4.8.1-cms
+G4FORCENUMBEROFTHREADS=max
+PERL5LIB=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/share/perl5
+GT_PROXY_MODE=old
+DPM_HOST=my-dpm.knu.ac.kr
+CVSROOT=:gserver:cmssw.cvs.cern.ch:/local/reps/CMSSW
+CMSSW_DATA_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms
+SRT_G4ABLADATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4ABLA/3.0/data/G4ABLA3.0
+CMSSW_GIT_HASH=CMSSW_7_3_5_patch2
+QTDIR=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/qt/4.8.1-cms:/usr/lib64/qt-3.3
+QTINC=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/qt/4.8.1-cms/include:/usr/lib64/qt-3.3/include
+SCRAM_ARCH=slc6_amd64_gcc491
+SRT_COMPILER_RUNTIME_OBJECTS_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms
+G4NEUTRONXSDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4NEUTRONXS/1.4/data/G4NEUTRONXS1.4
+SSH_TTY=/dev/pts/13
+SRT_GIT_EXEC_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/libexec/git-core
+DBS_CLIENT_CONFIG=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib/DBSAPI/dbs.config
+GIT_SSL_CAINFO=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/share/ssl/certs/ca-bundle.crt
+GRIDMAPDIR=/etc/grid-security/gridmapdir
+SRT_ROOT_INCLUDE_PATH_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2/src:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/src
+EVTGENDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/evtgen/1.3.0-cms5/share
+SRT_QTINC_SCRAMRT=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/qt/4.8.1-cms/include
+G4LEDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4EMLOW/6.35/data/G4EMLOW6.35
+USER=hgass66
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lz=01;31:*.xz=01;31:*.bz2=01;31:*.tbz=01;31:*.tbz2=01;31:*.bz=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=01;36:*.au=01;36:*.flac=01;36:*.mid=01;36:*.midi=01;36:*.mka=01;36:*.mp3=01;36:*.mpc=01;36:*.ogg=01;36:*.ra=01;36:*.wav=01;36:*.axa=01;36:*.oga=01;36:*.spx=01;36:*.xspf=01;36:
+LD_LIBRARY_PATH=/u/user/hgass66/CMSSW_7_3_5_patch2/biglib/slc6_amd64_gcc491:/u/user/hgass66/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/u/user/hgass66/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/biglib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/biglib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/llvm/3.5/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/lib64:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/lib
+SHERPA_INCLUDE_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/include/SHERPA-MC
+SRT_RIVET_ANALYSIS_PATH_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/rivet/2.1.2-jlbgio/lib
+SRT_CMSSW_RELEASE_BASE_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2
+VO_DTEAM_SW_DIR=/opt/exp_soft/dteam
+VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+LCG_LOCATION=/usr
+SRT_CMSSW_VERSION_SCRAMRTDEL=CMSSW_7_3_5_patch2
+SRT_ROOTSYS_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.18-jlbgio/
+SRT_CMSSW_GIT_HASH_SCRAMRTDEL=CMSSW_7_3_5_patch2
+VALGRIND_LIB=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/valgrind/3.10.0/lib/valgrind
+G4NEUTRONHPDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4NDL/4.4/data/G4NDL4.4
+GEANT4_PARFULLCMS_CONFIG_DIR=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-parfullcms/2014.01.27-cms/share/ParFullCMS
+SRT_CLHEP_PARAM_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/clhep/2.1.4.1-cms
+SRT_G4RADIOACTIVEDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4RadioactiveDecay/4.0/data/RadioactiveDecay4.0
+SRT_ROOFITSYS_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.18-jlbgio/
+ROOFITSYS=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/roofit/5.34.18-jlbgio/
+G4RADIOACTIVEDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4RadioactiveDecay/4.0/data/RadioactiveDecay4.0
+VO_OPS_SW_DIR=/opt/exp_soft/ops
+G4ABLADATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4ABLA/3.0/data/G4ABLA3.0
+SRT_SHERPA_INCLUDE_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/include/SHERPA-MC
+SRT_WORKER_DATA_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/blackhat/0.9.9-cms/share/blackhat/datafiles/
+SRT_PERL5LIB_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/share/perl5
+SRT_G4FORCENUMBEROFTHREADS_SCRAMRTDEL=max
+PATH=/cvmfs/cms.cern.ch/share/overrides/bin:/u/user/hgass66/CMSSW_7_3_5_patch2/bin/slc6_amd64_gcc491:/u/user/hgass66/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/bin/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/bin/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/llvm/3.5/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/bin:/cvmfs/cms.cern.ch/common:/cvmfs/cms.cern.ch/bin:/usr/lib64/qt-3.3/bin:/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/u/cms/bin:/u/cms/hep-tools:/u/user/hgass66/bin:/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/bin
+MAIL=/var/spool/mail/hgass66
+SRT_HEPPDT_PARAM_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/heppdt/3.03.00-cms
+TNS_ADMIN=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/oracle-env/29/etc
+DPNS_HOST=my-dpm.knu.ac.kr
+SRT_GIT_SSL_CAINFO_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/share/ssl/certs/ca-bundle.crt
+SRT_CMSSW_SEARCH_PATH_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2/src:/u/user/hgass66/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/data:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/src:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/data
+SRT_DBS_CLIENT_CONFIG_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib/DBSAPI/dbs.config
+_=/bin/env
+CMS_PATH=/cvmfs/cms.cern.ch
+VO_DTEAM_DEFAULT_SE=cluster142.knu.ac.kr
+VO_CMS_DEFAULT_SE=cluster142.knu.ac.kr
+SRT_PATH_SCRAMRT=/cvmfs/cms.cern.ch/share/overrides/bin:/u/user/hgass66/CMSSW_7_3_5_patch2/bin/slc6_amd64_gcc491:/u/user/hgass66/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/bin/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/bin/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/llvm/3.5/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/bin
+PWD=/u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison
+SRT_LANG_SCRAMRT=C
+SRT_CMSSW_BASE_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2
+SRT_LOCALRT_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2
+RIVET_ANALYSIS_PATH=/u/user/hgass66/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/rivet/2.1.2-jlbgio/lib
+SITE_GIIS_URL=cluster51.knu.ac.kr
+KDE_IS_PRELINKED=1
+LANG=C
+SRT_TAUOLAPPDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/tauolapp/1.1.5-cms/share
+KDEDIRS=/usr
+SRT_G4NEUTRONHPDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4NDL/4.4/data/G4NDL4.4
+SRT_SHERPA_SHARE_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/share/SHERPA-MC
+MYPROXY_SERVER=cluster6.knu.ac.kr
+SRT_CASCADE_PDFPATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/cascade/2.2.04-cms/share
+CASCADE_PDFPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/cascade/2.2.04-cms/share
+SRT_LHAPATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/lhapdf/5.9.1-cms/share/lhapdf/PDFsets
+SRT_DBSCMD_HOME_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib/DBSAPI
+GIT_TEMPLATE_DIR=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/share/git-core/templates
+G4SAIDXSDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4SAIDDATA/1.1/data/G4SAIDDATA1.1
+WORKER_DATA_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/blackhat/0.9.9-cms/share/blackhat/datafiles/
+SRT_CMSSW_FWLITE_INCLUDE_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/include:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/hepmc/2.06.07-cms/include:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/boost/1.57.0-jlbgio/include:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/clhep/2.1.4.1-cms/include
+HISTCONTROL=ignoredups
+SRT_HERWIGPATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/herwigpp/2.7.1-jlbgio/share/Herwig++
+SRT_PYTHIA8DATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/pythia8/201/share/Pythia8/xmldoc
+ROOTSYS=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.18-jlbgio/
+GLEXEC_LOCATION=/usr
+TAUOLAPPDATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/tauolapp/1.1.5-cms/share
+HOME=/u/user/hgass66
+SHLVL=2
+GLITE_LOCATION_VAR=/var
+SHERPA_LIBRARY_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/lib/SHERPA-MC
+CMSSW_SEARCH_PATH=/u/user/hgass66/CMSSW_7_3_5_patch2/src:/u/user/hgass66/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/data:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/src:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/data
+SRT_GENREFLEX_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.18-jlbgio/bin/genreflex
+SRT_G4LEDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4EMLOW/6.35/data/G4EMLOW6.35
+GENREFLEX=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.18-jlbgio/bin/genreflex
+SRT_QTLIB_SCRAMRT=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/qt/4.8.1-cms/lib
+SRT_EVTGENDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/evtgen/1.3.0-cms5/share
+MALLOC_CONF=lg_chunk:18,lg_dirty_mult:4
+GLITE_ENV_SET=TRUE
+SRT_CMSSW_DATA_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms
+LOGNAME=hgass66
+LCG_GFAL_INFOSYS=cluster131.knu.ac.kr:2170
+HEPPDT_PARAM_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/heppdt/3.03.00-cms
+PYTHONPATH=/u/user/hgass66/CMSSW_7_3_5_patch2/python:/u/user/hgass66/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/python:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/bin/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/coral/CORAL_2_3_21-jlbgio/slc6_amd64_gcc491/python:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/coral/CORAL_2_3_21-jlbgio/slc6_amd64_gcc491/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/pyqt/4.8.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-scipy/0.8.0-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-matplotlib/1.2.1-cms3/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/yoda/1.1.0-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/python-ldap/2.4.10-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sip/4.11.2-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/llvm/3.5/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-sqlalchemy/0.8.2-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pytz/2014.7/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pycurl/7.19.0-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-python-dateutil/1.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-numpy/1.6.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-lint/0.25.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-ipython/0.10-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-dxr/1.0/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-cx-oracle/5.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-cjson/1.0.5-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/frontier_client/2.8.11/python/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/das-client/2.5.0-cms/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/cython/0.19.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/rivet/2.1.2-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/pyminuit2/0.0.1-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pygithub/1.23.0-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-networkx/1.8.1-cms3/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pygments/1.6/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-parsimonious/0.6.1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-ordereddict/1.1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-markupsafe/0.23/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-jinja/2.7.2/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-futures/2.2.0/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-dablooms/0.9.1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/professor/1.0.0-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.18-jlbgio/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib/DBSAPI:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/cvs2git/5419-cms/lib:/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/dbs3-client/3.4.4//lib/python2.7/site-packages:/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/dbs3-pycurl-client/3.4.4/lib/python2.7/site-packages
+CVS_RSH=ssh
+QTLIB=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/qt/4.8.1-cms/lib:/usr/lib64/qt-3.3/lib
+SSH_CONNECTION=155.230.152.54 62877 155.230.20.251 22
+DBS3_CLIENT_ROOT=/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/dbs3-client/3.4.4//
+LESSOPEN=||/usr/bin/lesspipe.sh %s
+SRT_G4NEUTRONXSDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4NEUTRONXS/1.4/data/G4NEUTRONXS1.4
+FRONTIER_CLIENT=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/frontier_client/2.8.11/
+SRT_SHERPA_LIBRARY_PATH_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/lib/SHERPA-MC
+CLHEP_PARAM_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/clhep/2.1.4.1-cms
+SRT_FRONTIER_CLIENT_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/frontier_client/2.8.11/
+PYTHIA8DATA=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/pythia8/201/share/Pythia8/xmldoc
+HERWIGPATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/herwigpp/2.7.1-jlbgio/share/Herwig++
+DISPLAY=localhost:16.0
+SRT_LD_LIBRARY_PATH_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2/biglib/slc6_amd64_gcc491:/u/user/hgass66/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/u/user/hgass66/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/biglib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/external/slc6_amd64_gcc491/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/biglib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/llvm/3.5/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/lib64:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/gcc/4.9.1-cms/lib
+GLITE_LOCATION=/usr
+SRT_G4SAIDXSDATA_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/geant4-G4SAIDDATA/1.1/data/G4SAIDDATA1.1
+SRT_GIT_TEMPLATE_DIR_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/share/git-core/templates
+CMSSW_VERSION=CMSSW_7_3_5_patch2
+SITE_NAME=LCG_KNU
+SRT_PYTHONPATH_SCRAMRTDEL=/u/user/hgass66/CMSSW_7_3_5_patch2/python:/u/user/hgass66/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/python:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw-patch/CMSSW_7_3_5_patch2/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/bin/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/cmssw/CMSSW_7_3_5/lib/slc6_amd64_gcc491:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/coral/CORAL_2_3_21-jlbgio/slc6_amd64_gcc491/python:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/coral/CORAL_2_3_21-jlbgio/slc6_amd64_gcc491/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/pyqt/4.8.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-scipy/0.8.0-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-matplotlib/1.2.1-cms3/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/yoda/1.1.0-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/python-ldap/2.4.10-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sip/4.11.2-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/llvm/3.5/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-sqlalchemy/0.8.2-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pytz/2014.7/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pycurl/7.19.0-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-python-dateutil/1.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-numpy/1.6.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-lint/0.25.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-ipython/0.10-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-dxr/1.0/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-cx-oracle/5.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-cjson/1.0.5-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/frontier_client/2.8.11/python/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/das-client/2.5.0-cms/bin:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/cython/0.19.1-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/rivet/2.1.2-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/pyminuit2/0.0.1-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pygithub/1.23.0-cms/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-networkx/1.8.1-cms3/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-pygments/1.6/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-parsimonious/0.6.1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-ordereddict/1.1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-markupsafe/0.23/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-jinja/2.7.2/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-futures/2.2.0/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/py2-dablooms/0.9.1/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/professor/1.0.0-jlbgio/lib/python2.7/site-packages:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/lcg/root/5.34.18-jlbgio/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/cms/dbs-client/DBS_2_1_9-cms/lib/DBSAPI:/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/cvs2git/5419-cms/lib
+SHERPA_SHARE_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/sherpa/2.1.1-cms5/share/SHERPA-MC
+G_BROKEN_FILENAMES=1
+GIT_EXEC_PATH=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/git/1.8.3.1-cms2/libexec/git-core
+SRT_VALGRIND_LIB_SCRAMRTDEL=/cvmfs/cms.cern.ch/slc6_amd64_gcc491/external/valgrind/3.10.0/lib/valgrind
+CMSSW_BASE=/u/user/hgass66/CMSSW_7_3_5_patch2
+LOCALRT=/u/user/hgass66/CMSSW_7_3_5_patch2
+
+DEBUG 2018-01-17 22:00:22,623: 	 cacheURL: https://cmsweb.cern.ch/crabcache
+Log file name: 2018-01-17_220020_crab.log
+INFO 2018-01-17 22:00:22,623: 	 Uploading log file...
+INFO 2018-01-17 22:00:25,367: 	 Success: Log file uploaded successfully.
+DEBUG 2018-01-17 22:00:25,367: 	 Retrieving username from SiteDB...
+DEBUG 2018-01-17 22:00:31,335: 	 Username is: hyeahyun
+INFO 2018-01-17 22:00:31,336: 	 Log file URL: https://cmsweb.cern.ch/crabcache/logfile?name=2018-01-17_220020_crab.log&username=hyeahyun
+ERROR 2018-01-17 22:00:31,337: 	 	The log file /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_DY_sample/crab.log has been uploaded automatically to the CRAB cache.
+	Please email the following URL 'https://cmsweb.cern.ch/crabcache/logfile?name=2018-01-17_220020_crab.log&username=hyeahyun' to hn-cms-computing-tools@cern.ch if you need help from Analysis Operations.

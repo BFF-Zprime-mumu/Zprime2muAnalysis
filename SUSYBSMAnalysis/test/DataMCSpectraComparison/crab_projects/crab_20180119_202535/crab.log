@@ -1,0 +1,208 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+DEBUG 2018-01-19 20:25:33,728: 	 Executing command: 'submit'
+DEBUG 2018-01-19 20:25:33,729: 	 Found CRAB cache file /u/user/hgass66/.crab3
+DEBUG 2018-01-19 20:25:33,736: 	 Checking credentials
+DEBUG 2018-01-19 20:25:33,737: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-19 20:25:33,737: 	 Getting proxy life time left
+DEBUG 2018-01-19 20:25:34,642: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 42960
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:35,348: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 42960
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:35,348: 	 Proxy valid for 11:56:00 hours
+INFO 2018-01-19 20:25:35,348: 	 Will use CRAB configuration file crabConfig.py
+DEBUG 2018-01-19 20:25:35,349: 	 Loading CRAB configuration file.
+DEBUG 2018-01-19 20:25:35,353: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2018-01-19 20:25:35,465: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:35,465: 	 Checking credentials
+DEBUG 2018-01-19 20:25:35,465: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-19 20:25:35,465: 	 Getting proxy life time left
+DEBUG 2018-01-19 20:25:36,070: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 42958
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:36,676: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 42959
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:36,676: 	 Proxy valid for 11:55:58 hours
+DEBUG 2018-01-19 20:25:37,281: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u41069 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:39,137: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+DEBUG 2018-01-19 20:25:39,246: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:39,246: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2018-01-19 20:25:39,246: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim_cmsweb.cern.ch for credential name
+DEBUG 2018-01-19 20:25:41,154: 	 Executing : 
+ command : myproxy-info -l 919e39066e5571666d359c0c2be3e0c3e8b38755 -s myproxy.cern.ch
+ output : username: 919e39066e5571666d359c0c2be3e0c3e8b38755
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  timeleft: 551:57:14  (23.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:25:41,155: 	 Myproxy is valid: 1987034
+DEBUG 2018-01-19 20:25:41,155: 	 Command use: submit
+DEBUG 2018-01-19 20:25:41,155: 	 Options use: ['-c', 'crabConfig.py']
+DEBUG 2018-01-19 20:25:42,969: 	 CRABClient version: 3.3.1707.patch1
+DEBUG 2018-01-19 20:25:42,969: 	 Instance is prod
+DEBUG 2018-01-19 20:25:42,969: 	 Server base url is cmsweb.cern.ch
+DEBUG 2018-01-19 20:25:42,969: 	 Command url /crabserver/prod/workflow
+DEBUG 2018-01-19 20:25:42,969: 	 Started submission
+DEBUG 2018-01-19 20:25:42,969: 	 Working on /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535
+DEBUG 2018-01-19 20:25:44,944: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:25:44,944: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:25:44,944: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:25:44,944: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:25:44,959: 	 UNIQUE NAME: tarUUID 3d53dae3-21d7-497e-988f-57ff5065331b 
+DEBUG 2018-01-19 20:25:44,960: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = True
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.section_('JobType')
+config.JobType.psetName = 'histosSimplified.py'
+config.JobType.pluginName = 'Analysis'
+config.section_('Data')
+config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO'
+config.Data.unitsPerJob = 1
+config.Data.totalUnits = 10
+config.Data.inputDBS = 'global'
+config.Data.splitting = 'FileBased'
+config.section_('Site')
+config.Site.storageSite = 'T2_KR_KNU'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2018-01-19 20:25:44,960: 	 self.config.JobType.psetName: histosSimplified.py
+INFO 2018-01-19 20:25:44,960: 	 Importing CMSSW configuration histosSimplified.py
+INFO 2018-01-19 20:25:45,738: 	 Finished importing CMSSW configuration histosSimplified.py
+DEBUG 2018-01-19 20:25:45,739: 	 Writing CMSSW configuration to /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/inputs/PSet.py
+DEBUG 2018-01-19 20:25:45,873: 	 The following EDM output files will be collected: []
+DEBUG 2018-01-19 20:25:45,873: 	 The following TFile output files will be collected: ['zp2mu_histos.root']
+DEBUG 2018-01-19 20:25:45,873: 	 The following user output files will be collected: []
+DEBUG 2018-01-19 20:25:45,873: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:25:45,873: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:25:45,874: 	 Making tarball in /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/inputs/3d53dae3-21d7-497e-988f-57ff5065331bdefault.tgz
+DEBUG 2018-01-19 20:25:45,946: 	 Checking directory /u/user/hgass66/zp/CMSSW_8_0_20/lib
+DEBUG 2018-01-19 20:25:45,947: 	 Adding directory /u/user/hgass66/zp/CMSSW_8_0_20/lib to tarball
+DEBUG 2018-01-19 20:25:47,240: 	 Checking directory /u/user/hgass66/zp/CMSSW_8_0_20/biglib
+DEBUG 2018-01-19 20:25:47,240: 	 Adding directory /u/user/hgass66/zp/CMSSW_8_0_20/biglib to tarball
+DEBUG 2018-01-19 20:25:47,248: 	 Checking directory /u/user/hgass66/zp/CMSSW_8_0_20/module
+DEBUG 2018-01-19 20:25:47,362: 	 Uploading archive /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/inputs/3d53dae3-21d7-497e-988f-57ff5065331bdefault.tgz (1.443359.1 MB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2018-01-19 20:26:00,479: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:26:00,479: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:26:00,479: 	 Making tarball in /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/inputs/debugFiles.tgz
+DEBUG 2018-01-19 20:26:00,492: 	 Uploading archive /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/inputs/debugFiles.tgz (9 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2018-01-19 20:26:02,848: 	 Result uploading input files: 7c7aa6dbe20c498117165ece0944297cf224d06ad85fd83de191796d64777557.tar.gz 
+WARNING 2018-01-19 20:26:02,849: 	 Warning: The following output files will not be published, as they are not EDM files: ['zp2mu_histos.root']
+INFO 2018-01-19 20:26:02,849: 	 Sending the request to the server
+DEBUG 2018-01-19 20:26:02,849: 	 Submitting {'maxjobruntime': 1250, 'extrajdl': [], 'ignorelocality': 0, 'savelogsflag': 1, 'useparent': 0, 'asyncdest': 'T2_KR_KNU', 'algoargs': 1, 'cachefilename': '7c7aa6dbe20c498117165ece0944297cf224d06ad85fd83de191796d64777557.tar.gz', 'numcores': 1, 'addoutputfiles': [], 'generator': 'pythia', 'maxmemory': 2000, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_8_0_20', 'edmoutfiles': [], 'userfiles': [], 'primarydataset': '', 'inputdata': '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO', 'dryrun': 0, 'workflow': 'crab_20180119_202535', 'cacheurl': u'https://cmsweb.cern.ch/crabcache', 'nonprodsw': 0, 'tfileoutfiles': ['zp2mu_histos.root'], 'oneEventMode': 0, 'debugfilename': '926dfee146b385dde74e43d62b4c6d0b144db52707325efe2b476545e79b6e52.tar.gz', 'saveoutput': 1, 'publication': 1, 'jobarch': 'slc6_amd64_gcc530', 'totalunits': 10, 'splitalgo': 'FileBased', 'ignoreglobalblacklist': 0, 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'publishgroupname': 0, 'jobtype': 'Analysis', 'publishname2': ''} 
+DEBUG 2018-01-19 20:26:02,849: 	 Encoded submit request: maxjobruntime=1250&ignorelocality=0&savelogsflag=1&useparent=0&asyncdest=T2_KR_KNU&algoargs=1&cachefilename=7c7aa6dbe20c498117165ece0944297cf224d06ad85fd83de191796d64777557.tar.gz&numcores=1&generator=pythia&maxmemory=2000&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_8_0_20&primarydataset=&inputdata=%2FDYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8%2FRunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1%2FDQMIO&dryrun=0&workflow=crab_20180119_202535&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&nonprodsw=0&oneEventMode=0&debugfilename=926dfee146b385dde74e43d62b4c6d0b144db52707325efe2b476545e79b6e52.tar.gz&saveoutput=1&publication=1&jobarch=slc6_amd64_gcc530&totalunits=10&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&publishgroupname=0&jobtype=Analysis&publishname2=&tfileoutfiles=zp2mu_histos.root
+DEBUG 2018-01-19 20:26:04,984: 	 Result: {u'result': [{u'RequestName': u'180119_112606:hyeahyun_crab_20180119_202535'}]}
+INFO 2018-01-19 20:26:04,986: 	 Success: Your task has been delivered to the CRAB3 server.
+INFO 2018-01-19 20:26:04,986: 	 Task name: 180119_112606:hyeahyun_crab_20180119_202535
+INFO 2018-01-19 20:26:04,986: 	 Please use 'crab status' to check how the submission process proceeds.
+DEBUG 2018-01-19 20:26:04,986: 	 About to return
+INFO 2018-01-19 20:26:04,991: 	 Log file is /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/crab.log
+DEBUG 2018-01-19 20:27:29,890: 	 Executing command: 'status'
+DEBUG 2018-01-19 20:27:29,891: 	 Found CRAB cache file /u/user/hgass66/.crab3
+DEBUG 2018-01-19 20:27:29,901: 	 Checking credentials
+DEBUG 2018-01-19 20:27:29,902: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-19 20:27:29,902: 	 Getting proxy life time left
+DEBUG 2018-01-19 20:27:30,507: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 42844
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:31,112: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 42844
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:31,112: 	 Proxy valid for 11:54:04 hours
+DEBUG 2018-01-19 20:27:31,224: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:31,225: 	 Checking credentials
+DEBUG 2018-01-19 20:27:31,225: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-19 20:27:31,225: 	 Getting proxy life time left
+DEBUG 2018-01-19 20:27:31,830: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 42843
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:32,435: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 42843
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:32,435: 	 Proxy valid for 11:54:03 hours
+DEBUG 2018-01-19 20:27:34,291: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+DEBUG 2018-01-19 20:27:34,399: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:34,399: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2018-01-19 20:27:34,400: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim_cmsweb.cern.ch for credential name
+DEBUG 2018-01-19 20:27:36,307: 	 Executing : 
+ command : myproxy-info -l 919e39066e5571666d359c0c2be3e0c3e8b38755 -s myproxy.cern.ch
+ output : username: 919e39066e5571666d359c0c2be3e0c3e8b38755
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  timeleft: 551:55:19  (23.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:27:36,309: 	 Myproxy is valid: 1986919
+DEBUG 2018-01-19 20:27:36,309: 	 Command use: status
+DEBUG 2018-01-19 20:27:36,309: 	 Options use: ['-d', 'crab_projects/crab_20180119_202535']
+DEBUG 2018-01-19 20:27:38,107: 	 CRABClient version: 3.3.1707.patch1
+DEBUG 2018-01-19 20:27:38,107: 	 Instance is prod
+DEBUG 2018-01-19 20:27:38,107: 	 Server base url is cmsweb.cern.ch
+DEBUG 2018-01-19 20:27:38,107: 	 Command url /crabserver/prod/workflow
+DEBUG 2018-01-19 20:27:39,931: 	 Got information from server oracle database: {u'result': [u'180119_112606:hyeahyun_crab_20180119_202535', u'None', u'SUBMITFAILED', u'2018-01-19 11:26:06.956917', u'None', u'2018-01-19 11:26:56.681809', u'Task could not be submitted because there is no DISK replica for dataset /DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO . Please, check DAS, https://cmsweb.cern.ch/das, and make sure the dataset is accessible on DISK You might want to contact your physics group if you need a disk replica.', u'CMSSW_8_0_20', u'slc6_amd64_gcc530', u'/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO', u'[]', u'[]', u'FileBased', u"{'splitOnRun': False, 'halt_job_on_file_boundaries': False, 'files_per_job': 1, 'runs': [], 'lumis': []}", u'10', u'7c7aa6dbe20c498117165ece0944297cf224d06ad85fd83de191796d64777557.tar.gz', u'https://cmsweb.cern.ch/crabcache', u'hyeahyun', u'/DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim', u'cms', u'None', u'None', u'crab_20180119_202535-00000000000000000000000000000000', u'T2_KR_KNU', u'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', u'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', u'T', u'Analysis', u'{}', u'[]', u'T', u'vocms052', u'[]', u'1250', u'1', u'2000', u'10', u'None', u'None', u'None', u'None', u'[]', u'[]', u'[]', u'pythia', u'[]', u"['zp2mu_histos.root']", u'[]', u'https://cmsweb.cern.ch/crabserver/prod', u'None', u'0', u'cmsgwms-collector-global.cern.ch:9620,cmssrv221.fnal.gov:9620', u'None', u'F', u'[]', u'T', u'/store/user/hyeahyun/', u'F', u'None', u'F', u'F', u'F', u'None', u'DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8', u'filetransfers', u'SUBMIT', u'None', u'926dfee146b385dde74e43d62b4c6d0b144db52707325efe2b476545e79b6e52.tar.gz', u'155.230.20.251', u'F', u'None'], u'desc': {u'columns': [u'tm_taskname', u'panda_jobset_id', u'tm_task_status', u'tm_start_time', u'tm_start_injection', u'tm_end_injection', u'tm_task_failure', u'tm_job_sw', u'tm_job_arch', u'tm_input_dataset', u'tm_site_whitelist', u'tm_site_blacklist', u'tm_split_algo', u'tm_split_args', u'tm_totalunits', u'tm_user_sandbox', u'tm_cache_url', u'tm_username', u'tm_user_dn', u'tm_user_vo', u'tm_user_role', u'tm_user_group', u'tm_publish_name', u'tm_asyncdest', u'tm_dbs_url', u'tm_publish_dbs_url', u'tm_publication', u'tm_job_type', u'tm_arguments', u'panda_resubmitted_jobs', u'tm_save_logs', u'tw_name', u'tm_user_infiles', u'tm_maxjobruntime', u'tm_numcores', u'tm_maxmemory', u'tm_priority', u'tm_output_dataset', u'tm_user_webdir', u'tm_activity', u'tm_scriptexe', u'tm_scriptargs', u'tm_extrajdl', u'tm_task_warnings', u'tm_generator', u'tm_outfiles', u'tm_tfile_outfiles', u'tm_edm_outfiles', u'tm_asourl', u'tm_events_per_lumi', u'tm_use_parent', u'tm_collector', u'tm_schedd', u'tm_dry_run', u'tm_user_files', u'tm_transfer_outputs', u'tm_output_lfn', u'tm_ignore_locality', u'tm_fail_limit', u'tm_one_event_mode', u'tm_publish_groupname', u'tm_nonvalid_input_dataset', u'tm_secondary_input_dataset', u'tm_primary_dataset', u'tm_asodb', u'tm_task_command', u'clusterid', u'tm_debug_files', u'tm_submitter_ip_addr', u'tm_ignore_global_blacklist', u'tm_last_publication']}}
+INFO 2018-01-19 20:27:39,931: 	 CRAB project directory:		/u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535
+INFO 2018-01-19 20:27:39,931: 	 Task name:			180119_112606:hyeahyun_crab_20180119_202535
+INFO 2018-01-19 20:27:39,931: 	 Status on the CRAB server:	SUBMITFAILED
+INFO 2018-01-19 20:27:39,932: 	 Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/180119_112606%3Ahyeahyun_crab_20180119_202535
+ERROR 2018-01-19 20:27:39,932: 	 Failure message from the server:		Task could not be submitted because there is no DISK replica for dataset /DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO . Please, check DAS, https://cmsweb.cern.ch/das, and make sure the dataset is accessible on DISK You might want to contact your physics group if you need a disk replica.
+DEBUG 2018-01-19 20:27:39,932: 	 The task has not been submitted to the Grid scheduler yet. Not printing job information.
+INFO 2018-01-19 20:27:40,017: 	 Log file is /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202535/crab.log

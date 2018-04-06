@@ -1,0 +1,183 @@
+# Conditions read from  CMS_CONDITIONS  via FrontierProd 
+DEBUG 2018-01-19 20:22:59,810: 	 Executing command: 'submit'
+DEBUG 2018-01-19 20:22:59,811: 	 Found CRAB cache file /u/user/hgass66/.crab3
+DEBUG 2018-01-19 20:22:59,826: 	 Checking credentials
+DEBUG 2018-01-19 20:22:59,827: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-19 20:22:59,827: 	 Getting proxy life time left
+DEBUG 2018-01-19 20:23:00,531: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 43114
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:01,136: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 43114
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:01,137: 	 Proxy valid for 11:58:34 hours
+INFO 2018-01-19 20:23:01,137: 	 Will use CRAB configuration file crabConfig.py
+DEBUG 2018-01-19 20:23:01,137: 	 Loading CRAB configuration file.
+DEBUG 2018-01-19 20:23:01,155: 	 Will use CRAB Analysis plugin (i.e. will run an analysis job type).
+DEBUG 2018-01-19 20:23:01,267: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:01,267: 	 Checking credentials
+DEBUG 2018-01-19 20:23:01,267: 	 Found proxy file /tmp/x509up_u41069
+DEBUG 2018-01-19 20:23:01,267: 	 Getting proxy life time left
+DEBUG 2018-01-19 20:23:01,872: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -timeleft
+ output : 43113
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:02,477: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u41069 -actimeleft
+ output : 43113
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:02,477: 	 Proxy valid for 11:58:33 hours
+DEBUG 2018-01-19 20:23:03,082: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u41069 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:05,590: 	 Registering user credentials for server /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+DEBUG 2018-01-19 20:23:05,701: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:05,702: 	 Getting myproxy life time left for myproxy.cern.ch
+DEBUG 2018-01-19 20:23:05,702: 	 Calculating hash of /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim_cmsweb.cern.ch for credential name
+DEBUG 2018-01-19 20:23:07,509: 	 Executing : 
+ command : myproxy-info -l 919e39066e5571666d359c0c2be3e0c3e8b38755 -s myproxy.cern.ch
+ output : username: 919e39066e5571666d359c0c2be3e0c3e8b38755
+owner: /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=hyeahyun/CN=824116/CN=Hyeahyun Kim
+  renewal policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  trusted retrieval policy: /DC=ch/DC=cern/OU=computers/CN=vocms(045|052|021|031|0118|0118a|0119|0108|0105|0109).cern.ch
+  timeleft: 551:59:48  (23.0 days)
+
+ error: 
+ retcode : 0
+DEBUG 2018-01-19 20:23:07,510: 	 Myproxy is valid: 1987188
+DEBUG 2018-01-19 20:23:07,510: 	 Command use: submit
+DEBUG 2018-01-19 20:23:07,510: 	 Options use: ['-c', 'crabConfig.py']
+DEBUG 2018-01-19 20:23:09,443: 	 CRABClient version: 3.3.1707.patch1
+DEBUG 2018-01-19 20:23:09,443: 	 Instance is prod
+DEBUG 2018-01-19 20:23:09,443: 	 Server base url is cmsweb.cern.ch
+DEBUG 2018-01-19 20:23:09,443: 	 Command url /crabserver/prod/workflow
+DEBUG 2018-01-19 20:23:09,443: 	 Started submission
+DEBUG 2018-01-19 20:23:09,443: 	 Working on /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301
+DEBUG 2018-01-19 20:23:12,013: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:23:12,013: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:23:12,014: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:23:12,014: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:23:12,036: 	 UNIQUE NAME: tarUUID 8b8253da-d86c-4cb7-ada2-7020d161f3ab 
+DEBUG 2018-01-19 20:23:12,036: 	 self.config: from WMCore.Configuration import Configuration
+config = Configuration()
+config.section_('General')
+config.General.transferLogs = True
+config.General.transferOutputs = True
+config.General.workArea = 'crab_projects'
+config.section_('JobType')
+config.JobType.psetName = 'histosSimplified.py'
+config.JobType.pluginName = 'Analysis'
+config.section_('Data')
+config.Data.inputDataset = '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO'
+config.Data.totalUnits = 10
+config.Data.unitsPerJob = 1
+config.Data.inputDBS = 'global'
+config.Data.splitting = 'FileBased'
+config.Data.outLFNDirBase = '/store/user/hgass66/crab'
+config.section_('Site')
+config.Site.storageSite = 'T2_KR_KNU'
+config.section_('User')
+config.section_('Debug')
+
+DEBUG 2018-01-19 20:23:12,036: 	 self.config.JobType.psetName: histosSimplified.py
+INFO 2018-01-19 20:23:12,037: 	 Importing CMSSW configuration histosSimplified.py
+INFO 2018-01-19 20:23:12,832: 	 Finished importing CMSSW configuration histosSimplified.py
+DEBUG 2018-01-19 20:23:12,832: 	 Writing CMSSW configuration to /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301/inputs/PSet.py
+DEBUG 2018-01-19 20:23:12,964: 	 The following EDM output files will be collected: []
+DEBUG 2018-01-19 20:23:12,964: 	 The following TFile output files will be collected: ['zp2mu_histos.root']
+DEBUG 2018-01-19 20:23:12,964: 	 The following user output files will be collected: []
+DEBUG 2018-01-19 20:23:12,964: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:23:12,964: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:23:12,964: 	 Making tarball in /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301/inputs/8b8253da-d86c-4cb7-ada2-7020d161f3abdefault.tgz
+DEBUG 2018-01-19 20:23:13,037: 	 Checking directory /u/user/hgass66/zp/CMSSW_8_0_20/lib
+DEBUG 2018-01-19 20:23:13,038: 	 Adding directory /u/user/hgass66/zp/CMSSW_8_0_20/lib to tarball
+DEBUG 2018-01-19 20:23:14,671: 	 Checking directory /u/user/hgass66/zp/CMSSW_8_0_20/biglib
+DEBUG 2018-01-19 20:23:14,671: 	 Adding directory /u/user/hgass66/zp/CMSSW_8_0_20/biglib to tarball
+DEBUG 2018-01-19 20:23:14,680: 	 Checking directory /u/user/hgass66/zp/CMSSW_8_0_20/module
+DEBUG 2018-01-19 20:23:14,762: 	 Uploading archive /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301/inputs/8b8253da-d86c-4cb7-ada2-7020d161f3abdefault.tgz (1.442383.1 MB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2018-01-19 20:23:23,287: 	 Loading required information from the environment
+DEBUG 2018-01-19 20:23:23,287: 	 Found CMSSW_8_0_20 for slc6_amd64_gcc530 with base /u/user/hgass66/zp/CMSSW_8_0_20
+DEBUG 2018-01-19 20:23:23,287: 	 Making tarball in /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301/inputs/debugFiles.tgz
+DEBUG 2018-01-19 20:23:23,300: 	 Uploading archive /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301/inputs/debugFiles.tgz (9 KB) to the CRAB cache. Using URI https://cmsweb.cern.ch/crabcache
+DEBUG 2018-01-19 20:23:25,656: 	 Result uploading input files: 1e020e85f96ec9575d13a65a33054efad684bfe3da9e887a2237011e88893251.tar.gz 
+WARNING 2018-01-19 20:23:25,656: 	 Warning: The following output files will not be published, as they are not EDM files: ['zp2mu_histos.root']
+INFO 2018-01-19 20:23:25,656: 	 Sending the request to the server
+DEBUG 2018-01-19 20:23:25,657: 	 Submitting {'maxjobruntime': 1250, 'extrajdl': [], 'ignorelocality': 0, 'savelogsflag': 1, 'useparent': 0, 'asyncdest': 'T2_KR_KNU', 'algoargs': 1, 'cachefilename': '1e020e85f96ec9575d13a65a33054efad684bfe3da9e887a2237011e88893251.tar.gz', 'numcores': 1, 'addoutputfiles': [], 'generator': 'pythia', 'maxmemory': 2000, 'publishdbsurl': 'https://cmsweb.cern.ch/dbs/prod/phys03/DBSWriter', 'priority': 10, 'jobsw': 'CMSSW_8_0_20', 'edmoutfiles': [], 'userfiles': [], 'primarydataset': '', 'inputdata': '/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1/DQMIO', 'lfn': '/store/user/hgass66/crab', 'dryrun': 0, 'workflow': 'crab_20180119_202301', 'cacheurl': u'https://cmsweb.cern.ch/crabcache', 'nonprodsw': 0, 'tfileoutfiles': ['zp2mu_histos.root'], 'oneEventMode': 0, 'debugfilename': '29e1d810d2663cb90a66073f7b97e5e61af29abdf69a84eae6c6d8153da25902.tar.gz', 'saveoutput': 1, 'publication': 1, 'jobarch': 'slc6_amd64_gcc530', 'totalunits': 10, 'splitalgo': 'FileBased', 'ignoreglobalblacklist': 0, 'nonvaliddata': 0, 'dbsurl': 'https://cmsweb.cern.ch/dbs/prod/global/DBSReader', 'publishgroupname': 0, 'jobtype': 'Analysis', 'publishname2': ''} 
+DEBUG 2018-01-19 20:23:25,657: 	 Encoded submit request: maxjobruntime=1250&ignorelocality=0&savelogsflag=1&useparent=0&asyncdest=T2_KR_KNU&algoargs=1&cachefilename=1e020e85f96ec9575d13a65a33054efad684bfe3da9e887a2237011e88893251.tar.gz&numcores=1&generator=pythia&maxmemory=2000&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_8_0_20&primarydataset=&inputdata=%2FDYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8%2FRunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1%2FDQMIO&lfn=%2Fstore%2Fuser%2Fhgass66%2Fcrab&dryrun=0&workflow=crab_20180119_202301&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&nonprodsw=0&oneEventMode=0&debugfilename=29e1d810d2663cb90a66073f7b97e5e61af29abdf69a84eae6c6d8153da25902.tar.gz&saveoutput=1&publication=1&jobarch=slc6_amd64_gcc530&totalunits=10&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&publishgroupname=0&jobtype=Analysis&publishname2=&tfileoutfiles=zp2mu_histos.root
+INFO 2018-01-19 20:23:27,694: 	 The server answered with an error.
+INFO 2018-01-19 20:23:27,695: 	 Server answered with: Invalid input parameter
+INFO 2018-01-19 20:23:27,695: 	 Reason is: The parameter Data.outLFNDirBase in the CRAB configuration file must start with either '/store/user/<username>/' or '/store/group/<groupname>/' (or '/store/local/<something>/' if publication is off...
+INFO 2018-01-19 20:23:27,695: 	 Error Id: 348a4023179654246e12b29e7eea9ba5
+DEBUG 2018-01-19 20:23:27,695: 	 ERROR: Bad Request (400):  '<!DOCTYPE html PUBLIC
+"-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+    <title>400 Bad Request</title>
+    <style type="text/css">
+    #powered_by {
+        margin-top: 20px;
+        border-top: 2px solid black;
+        font-style: italic;
+    }
+
+    #traceback {
+        color: red;
+    }
+    </style>
+</head>
+    <body>
+        <h2>400 Bad Request</h2>
+        <p>Invalid input parameter</p>
+        <pre id="traceback"></pre>
+    <div id="powered_by">
+      <span>
+        Powered by <a href="http://www.cherrypy.org">CherryPy unknown</a>
+      </span>
+    </div>
+    </body>
+</html>
+'
+DEBUG 2018-01-19 20:23:27,695: 	 Command failed with URI: https://cmsweb.cern.ch/crabserver/prod/workflow
+DEBUG 2018-01-19 20:23:27,695: 	      Input data: maxjobruntime=1250&ignorelocality=0&savelogsflag=1&useparent=0&asyncdest=T2_KR_KNU&algoargs=1&cachefilename=1e020e85f96ec9575d13a65a33054efad684bfe3da9e887a2237011e88893251.tar.gz&numcores=1&generator=pythia&maxmemory=2000&publishdbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fphys03%2FDBSWriter&priority=10&jobsw=CMSSW_8_0_20&primarydataset=&inputdata=%2FDYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8%2FRunIIFall15DR75-Asympt25nsFlat10to30RawReco_HCALDebug_75X_mcRun2_asymptotic_v8-v1%2FDQMIO&lfn=%2Fstore%2Fuser%2Fhgass66%2Fcrab&dryrun=0&workflow=crab_20180119_202301&cacheurl=https%3A%2F%2Fcmsweb.cern.ch%2Fcrabcache&nonprodsw=0&oneEventMode=0&debugfilename=29e1d810d2663cb90a66073f7b97e5e61af29abdf69a84eae6c6d8153da25902.tar.gz&saveoutput=1&publication=1&jobarch=slc6_amd64_gcc530&totalunits=10&splitalgo=FileBased&ignoreglobalblacklist=0&nonvaliddata=0&dbsurl=https%3A%2F%2Fcmsweb.cern.ch%2Fdbs%2Fprod%2Fglobal%2FDBSReader&publishgroupname=0&jobtype=Analysis&publishname2=&tfileoutfiles=zp2mu_histos.root
+DEBUG 2018-01-19 20:23:27,695: 	      Request headers: {'Content-Length': '734', 'X-Error-Http': '400', 'X-Rest-Time': '238974.810 us', 'Server': 'CherryPy/unknown', 'Connection': 'close', 'X-Error-Detail': 'Invalid input parameter', 'CMS-Server-Time': 'D=267678 t=1516361009402782', 'X-Rest-Status': '302', 'Date': 'Fri, 19 Jan 2018 11:23:29 GMT', 'Content-Type': 'text/html;charset=utf-8', 'X-Error-Info': "The parameter Data.outLFNDirBase in the CRAB configuration file must start with either '/store/user/<username>/' or '/store/group/<groupname>/' (or '/store/local/<something>/' if publication is off...", 'X-Error-Id': '348a4023179654246e12b29e7eea9ba5'}
+ERROR 2018-01-19 20:23:27,696: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/bin/crab", line 148, in __call__
+    self.cmd()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 124, in __call__
+    dictresult, status, reason = server.put(self.uri, data = self.configreq_encoded)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/RESTInteractions.py", line 91, in put
+    return self.makeRequest(uri = uri, data = data, verb = 'PUT')
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/RESTInteractions.py", line 128, in makeRequest
+    capath=caCertPath)#, verbose=True)# for debug
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1707.patch1/lib/python2.7/site-packages/WMCore/Services/pycurl_manager.py", line 207, in request
+    raise exc
+HTTPException: url=https://cmsweb.cern.ch/crabserver/prod/workflow, code=400, reason=Bad Request, headers={'Content-Length': '734', 'X-Error-Http': '400', 'X-Rest-Time': '238974.810 us', 'Server': 'CherryPy/unknown', 'Connection': 'close', 'X-Error-Detail': 'Invalid input parameter', 'CMS-Server-Time': 'D=267678 t=1516361009402782', 'X-Rest-Status': '302', 'Date': 'Fri, 19 Jan 2018 11:23:29 GMT', 'Content-Type': 'text/html;charset=utf-8', 'X-Error-Info': "The parameter Data.outLFNDirBase in the CRAB configuration file must start with either '/store/user/<username>/' or '/store/group/<groupname>/' (or '/store/local/<something>/' if publication is off...", 'X-Error-Id': '348a4023179654246e12b29e7eea9ba5'}
+INFO 2018-01-19 20:23:27,724: 	 Log file is /u/user/hgass66/zp/CMSSW_8_0_20/src/SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison/crab_projects/crab_20180119_202301/crab.log

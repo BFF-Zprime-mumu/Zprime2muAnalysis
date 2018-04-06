@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
 
-Electrons = False
+#Electrons = False
+Electrons = True
 
 import sys, os, FWCore.ParameterSet.Config as cms
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import switch_hlt_process_name
@@ -10,7 +11,8 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cfg import process
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFiltersMiniAOD
 
 process.source.fileNames =[#'file:./pat.root'
-'file:/afs/cern.ch/user/h/hyeahyun/zp/sample/zpmm_200_001_miniaod.root'
+'/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM'
+#'/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/MINIAODSIM'
 # '/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
 # '/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_50_120/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/60000/243D09B4-90D1-E611-B0FA-001E674DA347.root',
 # '/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_3500_4500/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/06BD3929-EDC7-E611-8EC3-02163E019C96.root',
@@ -215,7 +217,9 @@ for cut_name, Selection in cuts.iteritems():
     # any of the muons. The cutFor flag actually gets ignored by the
     # LooseTightPairSelector in use for all the cuts above, at
     # present
-    path_list.append(process.egmGsfElectronIDSequence)
+    #path_list.append(process.egmGsfElectronIDSequence)
+    process.load("RecoEgamma.ElectronIdentification.heepIdVarValueMapProducer_cfi")
+    path_list.append(process.heepIDVarValueMaps * process.egmGsfElectronIDSequence)
 	    
    
     leptons_name = cut_name + 'Leptons'
@@ -261,8 +265,18 @@ for cut_name, Selection in cuts.iteritems():
         # not the ones passed into the LeptonProducer to set cutFor above.
         if cut_name == 'Simple':
             alldil.electron_cut_mask = cms.uint32(0)
-            alldil.loose_cut = 'isGlobalMuon && pt > 20.'
-            alldil.tight_cut = ''
+    	    #alldil.loose_cut = 'isGlobalMuon && pt > 20.'
+	    #alldil.tight_cut = ''
+            alldil.loose_cut = 'isGlobalMuon && '\
+			       'pt > 53 && '\
+			       'abs(eta) < 2.4 && ' \
+			       'abs(dB) < 0.2 && ' \
+			       'isolationR03.sumPt / innerTrack.pt < 0.10 && ' \
+			       'globalTrack.hitPattern.trackerLayersWithMeasurement > 5 && ' \
+			       'globalTrack.hitPattern.numberOfValidPixelHits > 0 && ' \
+			       'globalTrack.hitPattern.numberOfValidMuonHits > 0 && ' \
+			       'numberOfMatchedStations > 1'
+            alldil.tight_cut = trigger_match
             dil.max_candidates = 100
             dil.sort_by_pt = True
             dil.do_remove_overlap = False

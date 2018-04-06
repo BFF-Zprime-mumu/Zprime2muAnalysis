@@ -232,10 +232,10 @@ private:
     float met_pt;
     float met_phi;
     int nJets;
-    float jet_pt[4];
-    float jet_eta[4];
-    float jet_phi[4];
-    float jet_btag[4];
+    float jet_pt[10];
+    float jet_eta[10];
+    float jet_phi[10];
+    float jet_btag[10];
 
   };
 
@@ -448,10 +448,10 @@ SimpleNtupler_miniAOD::SimpleNtupler_miniAOD(const edm::ParameterSet& cfg)
   tree->Branch("met_pt", &t.met_pt, "met_pt/F");
   tree->Branch("met_phi", &t.met_phi, "met_phi/F");
   tree->Branch("nJets", &t.nJets, "nJets/I");
-  tree->Branch("jet_pt", t.jet_pt, "jet_pt[4]/F");
-  tree->Branch("jet_eta", t.jet_eta, "jet_eta[4]/F");
-  tree->Branch("jet_phi", t.jet_phi, "jet_phi[4]/F");
-  tree->Branch("jet_btag", t.jet_btag, "jet_btag[4]/F");
+  tree->Branch("jet_pt", t.jet_pt, "jet_pt[10]/F");
+  tree->Branch("jet_eta", t.jet_eta, "jet_eta[10]/F");
+  tree->Branch("jet_phi", t.jet_phi, "jet_phi[10]/F");
+  tree->Branch("jet_btag", t.jet_btag, "jet_btag[10]/F");
   if (fill_gen_info) {
     tree->Branch("genWeight", &t.genWeight, "genWeight/F");
     tree->Branch("gen_res_mass", &t.gen_res_mass, "gen_res_mass/F");
@@ -1317,14 +1317,14 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
 
   int nJets = 0;
 
-
   for (std::vector<pat::Jet>::const_iterator itJet = jets->begin(); itJet != jets->end(); itJet++) {
         if ((itJet->pt() > 30 && deltaR((*itJet),dil.daughter(0)->p4()) > 0.4 && deltaR((*itJet),dil.daughter(1)->p4()) > 0.4) && (((itJet->neutralHadronEnergyFraction() < 0.99 && itJet->neutralEmEnergyFraction() < 0.99 && (itJet->chargedMultiplicity()+itJet->neutralMultiplicity()) > 1 && itJet->muonEnergyFraction() < 0.8) && ((fabs(itJet->eta()) <= 2.4 && itJet->chargedHadronEnergyFraction() > 0 && itJet->chargedMultiplicity() > 0 && itJet->chargedEmEnergyFraction() < 0.99) || fabs(itJet->eta()) > 2.4) && fabs(itJet->eta()) <= 2.7) || (itJet->neutralHadronEnergyFraction() < 0.98 && itJet->neutralEmEnergyFraction() > 0.01 && itJet->neutralMultiplicity() > 2 && fabs(itJet->eta()) > 2.7 && fabs(itJet->eta()) <= 3.0) || (itJet->neutralEmEnergyFraction() < 0.90 && itJet->neutralMultiplicity() > 10 && fabs(itJet->eta()) > 3.0)) ) {
-           	if (nJets < 4){
+           	if (nJets < 10){
 			t.jet_pt[nJets] = itJet->pt();		
 			t.jet_eta[nJets] = itJet->eta();		
 			t.jet_phi[nJets] = itJet->phi();
-			t.jet_btag[nJets] = itJet->bDiscriminator("combinedSecondaryVertexV2BJetTags");		
+			//t.jet_btag[nJets] = itJet->bDiscriminator("combinedSecondaryVertexV2BJetTags");		
+			t.jet_btag[nJets] = itJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
 		}
 	   	nJets++; 		
 	}
@@ -1332,28 +1332,13 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
     //
   t.nJets = nJets;
 
-  if (nJets < 4){
-	if (nJets < 3){
-		if (nJets < 2){
-			if (nJets < 1){
-				t.jet_pt[0] = -999.;
-				t.jet_eta[0] = -999.;
-				t.jet_phi[0] = -999.;
-				t.jet_btag[0] = -999.;
-			}
-			t.jet_pt[1] = -999.;
-			t.jet_eta[1] = -999.;
-			t.jet_phi[1] = -999.;
-			t.jet_btag[1] = -999.;
-	
-		}
-		t.jet_pt[2] = -999.;
-		t.jet_eta[2] = -999.;
-		t.jet_phi[2] = -999.;
-	}
-	t.jet_pt[3] = -999.;
-	t.jet_eta[3] = -999.;
-	t.jet_phi[3] = -999.;		
+  for(int k=10; k>0; k--) {
+        if(nJets < k) {
+                t.jet_pt[k-1] = -999.;
+                t.jet_eta[k-1] = -999.;
+                t.jet_phi[k-1] = -999.;
+                t.jet_btag[k-1] = -999.;
+        }
   }
 
     tree->Fill();
