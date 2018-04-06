@@ -9,7 +9,7 @@ cmsenv
 
 git clone git@github.com:hyeahyun/test.git
 
-mv test/pest/SUSYBSMAnalysis SUSYBSMAnalysis
+mv Zprime2muAnalysis/SUSYBSMAnalysis SUSYBSMAnalysis
 
 scram b -j 16
 
