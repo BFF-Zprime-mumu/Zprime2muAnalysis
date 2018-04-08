@@ -123,7 +123,8 @@ for fileName in process.source.fileNames:
 	elif "Run2016" in fileName:
 		process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
 	else:
-		process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+		#process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_miniAODv2_v1'
+		process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v6'
 		isMC = True
 #process.options.wantSummary = cms.untracked.bool(True)# false di default
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000 # default 1000
