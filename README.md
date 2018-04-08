@@ -7,7 +7,7 @@ cd CMSSW_8_0_25/src
 
 cmsenv
 
-git clone git@github.com:hyeahyun/test.git
+git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
 
 mv Zprime2muAnalysis/SUSYBSMAnalysis SUSYBSMAnalysis
 
