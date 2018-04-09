@@ -9,7 +9,7 @@ cmsenv
 
 git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
 
-mv Zprime2muAnalysis/SUSYBSMAnalysis SUSYBSMAnalysis
+mv Zprime2muAnalysis/SUSYBSMAnalysis SUSYBSMAnalysis/Zprime2muAnalysis
 
 scram b -j 16
 
