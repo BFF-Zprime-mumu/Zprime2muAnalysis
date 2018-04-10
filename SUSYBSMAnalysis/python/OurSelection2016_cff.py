@@ -39,6 +39,7 @@ import FWCore.ParameterSet.Config as cms
 from SUSYBSMAnalysis.Zprime2muAnalysis.hltTriggerMatch_cfi import trigger_match, offline_pt_threshold
 
 loose_cut = 'isGlobalMuon && ' \
+            'isTrackerMuon && ' \
             'pt > %s && ' \
             'abs(eta) < 2.4 && ' \
             'abs(dB) < 0.2 && ' \
@@ -47,6 +48,7 @@ loose_cut = 'isGlobalMuon && ' \
             'globalTrack.hitPattern.numberOfValidPixelHits > 0 && ' \
             'globalTrack.hitPattern.numberOfValidMuonHits > 0 && ' \
             'numberOfMatchedStations > 1'
+
 loose_cut = loose_cut % offline_pt_threshold
 
 tight_cut = trigger_match
