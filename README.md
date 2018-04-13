@@ -9,6 +9,7 @@ cd CMSSW_8_0_25/src
 cmsenv
 mkdir SUSYBSMAnalysis && cd SUSYBSMAnalysis/
 git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
+cd ../
 ```
 
 ## Setup electron HEEP ID
@@ -16,13 +17,10 @@ Follow the [official instructions](https://twiki.cern.ch/twiki/bin/view/CMS/HEEP
 ```bash
 git cms-merge-topic Sam-Harper:HEEPV70VID_8010_ReducedCheckout  #brings in HEEP V70 into VID
 git cms-merge-topic ikrav:egm_id_80X_v3 #for other E/gamma IDs in VID if you wish to have them
-git cms-merge-topic Sam-Harper:PackedCandNoPuppi #only necessary to run HEEP V70 on AOD (it will
-crash if this is not present looking for puppi candidates
-mkdir -p ../external/slc6_amd64_gcc530/data/RecoEgamma/ElectronIdentification/ #we need this for the
-mva weights which runs in VID regardless if you need it or not
+git cms-merge-topic Sam-Harper:PackedCandNoPuppi #only necessary to run HEEP V70 on AOD (it will crash if this is not present looking for puppi candidates
+mkdir -p ../external/slc6_amd64_gcc530/data/RecoEgamma/ElectronIdentification/ #we need this for the mva weights which runs in VID regardless if you need it or not
 git clone git@github.com:cms-data/RecoEgamma-ElectronIdentification
-../external/slc6_amd64_gcc530/data/RecoEgamma/ElectronIdentification/data #we need this for the mva
-weights which runs in VID regardless if you need it or not
+../external/slc6_amd64_gcc530/data/RecoEgamma/ElectronIdentification/data #we need this for the mva weights which runs in VID regardless if you need it or not
 scram b -j 16
 ```
 
