@@ -1,4 +1,4 @@
-#Compilation instructions
+# Compilation instructions
 
 ## Setup CMSSW_8_0_29
 It is required for latest JEC
@@ -12,7 +12,7 @@ git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
 ```
 
 ## Setup electron HEEP ID
-Follow the [official instructions][https://twiki.cern.ch/twiki/bin/view/CMS/HEEPElectronIdentificationRun2#Instructions_to_check_out_HEEPV7]
+Follow the [official instructions](https://twiki.cern.ch/twiki/bin/view/CMS/HEEPElectronIdentificationRun2#Instructions_to_check_out_HEEPV7)
 ```bash
 git cms-merge-topic Sam-Harper:HEEPV70VID_8010_ReducedCheckout  #brings in HEEP V70 into VID
 git cms-merge-topic ikrav:egm_id_80X_v3 #for other E/gamma IDs in VID if you wish to have them
