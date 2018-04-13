@@ -2,7 +2,7 @@
 
 
 # Set to True in order to select e-mu and dielectron final states
-Electrons = True
+Electrons = False
 # Flag, setting whether we work with simulation or data
 isMC = False
 
@@ -13,9 +13,11 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cfg import process
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFiltersMiniAOD
 
 process.source.fileNames =[#'file:./pat.root'
-'/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM'
+#'/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/MINIAODSIM'
+#'/store/mc/RunIISummer16MiniAODv2/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/120000/0030B9D6-72C1-E611-AE49-02163E00E602.root',
+'/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
 			   ]
-process.maxEvents.input = -1
+process.maxEvents.input = 100
 # Set global tags
 for fileName in process.source.fileNames:
 	if "Run2016H" in fileName:
@@ -278,8 +280,8 @@ def ntuplify(process, fill_gen_info=False):
                                            jet_src = cms.InputTag("slimmedJets"),
                                            beamspot_src = cms.InputTag('offlineBeamSpot'),
                                            vertices_src = cms.InputTag('offlineSlimmedPrimaryVertices'),
-                                           #TriggerResults_src = cms.InputTag('TriggerResults', '', 'PAT'),	#mc
-                                           TriggerResults_src = cms.InputTag('TriggerResults', '', 'RECO'),	#data
+                                           TriggerResults_src = cms.InputTag('TriggerResults', '', 'PAT'),	#mc
+                                           #TriggerResults_src = cms.InputTag('TriggerResults', '', 'RECO'),	#data
                                            genEventInfo = cms.untracked.InputTag('generator'),
                                            metFilter = cms.VInputTag( cms.InputTag("Flag_HBHENoiseFilter"), cms.InputTag("Flag_HBHENoiseIsoFilter"), cms.InputTag("Flag_EcalDeadCellTriggerPrimitiveFilter"), cms.InputTag("Flag_eeBadScFilter"), cms.InputTag("Flag_globalTightHalo2016Filter"))
                                            )
@@ -287,14 +289,27 @@ def ntuplify(process, fill_gen_info=False):
     if fill_gen_info:
         from SUSYBSMAnalysis.Zprime2muAnalysis.HardInteraction_cff import hardInteraction
         process.SimpleNtupler.hardInteraction = hardInteraction
+    else: 
+        pass
     if hasattr(process, 'pathOur2016'):
-	if fill_gen_info:
-        process.pathOur2016 *=obj * process.SimpleNtupler 
-    if Electrons:
-	    process.SimpleNtuplerEmu = process.SimpleNtupler.clone(dimu_src = cms.InputTag('SimpleMuonsElectronsAllSigns'))
-		process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
+        if fill_gen_info:
+            process.pathOur2016 *= obj * process.SimpleNtupler
+            if Electrons:
+                process.SimpleNtuplerEmu = process.SimpleNtupler.clone(dimu_src = cms.InputTag('SimpleMuonsElectronsAllSigns'))
+                process.pathOur2016 *= process.SimpleNtuplerEmu
+        else: 
+            pass
+    else: 
+        pass
+#    if hasattr(process, 'pathOur2016'):
+#	    if fill_gen_info:
+#            process.pathOur2016 *=obj * process.SimpleNtupler 
+#            if Electrons:
+#    	        process.SimpleNtuplerEmu = process.SimpleNtupler.clone(dimu_src = cms.InputTag('SimpleMuonsElectronsAllSigns'))
+#    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
+#    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
-ntuplify(process) #to have ntuples also running in interactive way
+#ntuplify(process) #to have ntuples also running in interactive way
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
@@ -474,7 +489,7 @@ process.DYGenMassFilter = cms.EDFilter('DibosonGenMass',
 for path_name, path in process.paths.iteritems():
 	getattr(process,path_name).insert(0,process.DYGenMassFilter)'''
 
-	    wwFilter = '''
+        wwFilter = '''
 process.load('SUSYBSMAnalysis.Zprime2muAnalysis.PrunedMCLeptons_cfi')
 process.DYGenMassFilter = cms.EDFilter('DibosonGenMass',
 				       src = cms.InputTag('prunedGenParticles'),
@@ -484,7 +499,7 @@ process.DYGenMassFilter = cms.EDFilter('DibosonGenMass',
 for path_name, path in process.paths.iteritems():
 	getattr(process,path_name).insert(0,process.DYGenMassFilter)'''
 
-	    dyFilter = '''
+        dyFilter = '''
 process.load('SUSYBSMAnalysis.Zprime2muAnalysis.PrunedMCLeptons_cfi')
 process.DYGenMassFilter = cms.EDFilter('TauTauSelection',
 				       src = cms.InputTag('prunedGenParticles'),                                      
