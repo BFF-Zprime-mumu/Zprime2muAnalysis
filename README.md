@@ -24,7 +24,7 @@ git clone git@github.com:cms-data/RecoEgamma-ElectronIdentification
 scram b -j 16
 ```
 
-## Running the code for grid production of miniAOD and ntuples
+# Running the code for grid production of miniAOD and ntuples
 
 ```bash
 cd SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison
