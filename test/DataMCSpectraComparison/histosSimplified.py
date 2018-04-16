@@ -2,7 +2,7 @@
 
 
 # Set to True in order to select e-mu and dielectron final states
-Electrons = False
+Electrons = True
 # Flag, setting whether we work with simulation or data
 isMC = False
 
@@ -15,7 +15,7 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFilt
 process.source.fileNames =[#'file:./pat.root'
 '/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
 			   ]
-process.maxEvents.input = 100
+process.maxEvents.input = -1 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
 # Set global tags
 for fileName in process.source.fileNames:
 	if "Run2016H" in fileName:
@@ -89,6 +89,11 @@ if Electrons:
 		('MuonsElectronsOppSign',        '%(leptons_name)s:muons@+ %(leptons_name)s:electrons@-',     ''),
 		('MuonsElectronsSameSign',       '%(leptons_name)s:muons@+ %(leptons_name)s:electrons@+',     ''),
 		('MuonsElectronsAllSigns',       '%(leptons_name)s:muons@+ %(leptons_name)s:electrons@+',     ''),
+		('ElectronsPlusElectronsMinus',          '%(leptons_name)s:electrons@+ %(leptons_name)s:electrons@-',         'daughter(0).pdgId() + daughter(1).pdgId() == 0'),
+		('ElectronsPlusElectronsPlus',           '%(leptons_name)s:electrons@+ %(leptons_name)s:electrons@+',         'daughter(0).pdgId() + daughter(1).pdgId() == -22'),
+		('ElectronsMinusElectronsMinus',         '%(leptons_name)s:electrons@- %(leptons_name)s:electrons@-',         'daughter(0).pdgId() + daughter(1).pdgId() == 22'),
+		('ElectronsSameSign',                '%(leptons_name)s:electrons@- %(leptons_name)s:electrons@-',         ''),
+		('ElectronsAllSigns',                '%(leptons_name)s:electrons@- %(leptons_name)s:electrons@-',         ''),
 		]
 	
 	cuts = {
