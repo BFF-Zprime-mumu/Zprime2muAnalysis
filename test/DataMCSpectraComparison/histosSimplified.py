@@ -15,7 +15,7 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFilt
 process.source.fileNames =[#'file:./pat.root'
 '/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
 			   ]
-process.maxEvents.input = -1 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
+process.maxEvents.input = 100 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
 # Set global tags
 for fileName in process.source.fileNames:
 	if "Run2016H" in fileName:
@@ -187,14 +187,14 @@ for cut_name, Selection in cuts.iteritems():
             assert alldil.tight_cut == trigger_match
             alldil.tight_cut = prescaled_trigger_match
 
-    # Histos now just needs to know which leptons and dileptons to use.
-	histos = HistosFromPAT.clone(lepton_src = cms.InputTag(leptons_name, 'muons'), dilepton_src = cms.InputTag(name))
+        # Histos now just needs to know which leptons and dileptons to use.
+        histos = HistosFromPAT.clone(lepton_src = cms.InputTag(leptons_name, 'muons'), dilepton_src = cms.InputTag(name))
 
-    # Add all these modules to the process and the path list.
-    setattr(process, allname, alldil)
-    setattr(process, name, dil)
-    setattr(process, name + 'Histos', histos)
-    path_list.append(alldil * dil * histos)
+        # Add all these modules to the process and the path list.
+        setattr(process, allname, alldil)
+        setattr(process, name, dil)
+        setattr(process, name + 'Histos', histos)
+        path_list.append(alldil * dil * histos)
 
 
     #define the list of MC samples to be read here. be careful that if WWinclusive or tautau sample are not commented it will apply the filters when running locally.
@@ -312,7 +312,7 @@ def ntuplify(process, fill_gen_info=False):
 #    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
 #    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
-#ntuplify(process) #to have ntuples also running in interactive way
+ntuplify(process) #to have ntuples also running in interactive way
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
