@@ -21,20 +21,20 @@ git clone git@github.com:cms-data/RecoEgamma-ElectronIdentification
 ```
 
 ## Get BFF-Zprime-mumu code
-```
+```bash
 mkdir SUSYBSMAnalysis && cd SUSYBSMAnalysis/
 git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
 #if required, checkout the non-default branch by running git checkout <branch name>
 cd ../
 ```
 ## Compile
-```
+```bash
 scram b clean
 scram b -j 16
 ```
 
 # Running test jobs locally
-```
+```bash
 cd SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison
 #modify the number of events to process to some small quantity, e.g. 100
 cmsRun histosSimplified.py
@@ -42,7 +42,7 @@ cmsRun histosSimplified.py
 
 # Running the code for grid production of miniAOD and ntuples
 
-```
+```bash
 cd SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison
 
 #DY Dataset: /DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/RunIISummer16MiniAODv2-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/MINIAODSIM
