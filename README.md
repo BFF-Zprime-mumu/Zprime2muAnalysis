@@ -24,7 +24,7 @@ git clone git@github.com:cms-data/RecoEgamma-ElectronIdentification
 ```bash
 mkdir SUSYBSMAnalysis && cd SUSYBSMAnalysis/
 git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
-#if required, checkout the non-default branch by running git checkout <branch name>
+#if required, checkout the non-default branch by running cd Zprime2muAnalysis && git checkout <branch name> && cd ../
 cd ../
 ```
 ## Compile
