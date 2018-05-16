@@ -236,6 +236,11 @@ private:
     float jet_eta[10];
     float jet_phi[10];
     float jet_btag[10];
+    //Added jet information
+    float jet_px[10];
+    float jet_py[10];
+    float jet_pz[10];
+    float jet_E[10];
 
   };
 
@@ -452,6 +457,12 @@ SimpleNtupler_miniAOD::SimpleNtupler_miniAOD(const edm::ParameterSet& cfg)
   tree->Branch("jet_eta", t.jet_eta, "jet_eta[10]/F");
   tree->Branch("jet_phi", t.jet_phi, "jet_phi[10]/F");
   tree->Branch("jet_btag", t.jet_btag, "jet_btag[10]/F");
+  //jet information
+  tree->Branch("jet_px", t.jet_px, "jet_px[10]/F");
+  tree->Branch("jet_py", t.jet_py, "jet_py[10]/F");
+  tree->Branch("jet_pz", t.jet_pz, "jet_pz[10]/F");
+  tree->Branch("jet_E", t.jet_E, "jet_E[10]/F");
+  //////////////////////////////////////////////////////
   if (fill_gen_info) {
     tree->Branch("genWeight", &t.genWeight, "genWeight/F");
     tree->Branch("gen_res_mass", &t.gen_res_mass, "gen_res_mass/F");
@@ -1325,6 +1336,11 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
 			t.jet_phi[nJets] = itJet->phi();
 			//t.jet_btag[nJets] = itJet->bDiscriminator("combinedSecondaryVertexV2BJetTags");		
 			t.jet_btag[nJets] = itJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+            //jet information
+            t.jet_px[nJets] = itJet->px();
+            t.jet_py[nJets] = itJet->py();
+            t.jet_pz[nJets] = itJet->pz();
+            t.jet_E[nJets] = itJet->energy();
 		}
 	   	nJets++; 		
 	}
@@ -1338,6 +1354,11 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
                 t.jet_eta[k-1] = -999.;
                 t.jet_phi[k-1] = -999.;
                 t.jet_btag[k-1] = -999.;
+                //jet information
+                t.jet_px[k-1] = -999.;
+                t.jet_py[k-1] = -999.;
+                t.jet_pz[k-1] = -999.;
+                t.jet_E[k-1] = -999.;
         }
   }
 
