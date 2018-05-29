@@ -255,7 +255,14 @@ for cut_name, Selection in cuts.iteritems():
 
     # Finally, make the path for this set of cuts.
     pathname = 'path' + cut_name
-    process.load('SUSYBSMAnalysis.Zprime2muAnalysis.DileptonPreselector_cfi')
+    #process.load('SUSYBSMAnalysis.Zprime2muAnalysis.DileptonPreselector_cfi')
+    from SUSYBSMAnalysis.Zprime2muAnalysis.DileptonPreselector_cfi import dileptonPreseletor
+    process.dileptonPreseletor = cms.EDFilter("DileptonPreselector",
+    muons = cms.InputTag("slimmedMuons"),
+    nMuons = cms.double(0),
+    ptCut = cms.double(40), 
+    )
+    #######Adrian and Ryan
     process.load("SUSYBSMAnalysis.Zprime2muAnalysis.EventCounter_cfi")
     pobj = process.EventCounter * process.dileptonPreseletor *  process.muonPhotonMatchMiniAOD * reduce(lambda x,y: x*y, path_list)
 
