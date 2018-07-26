@@ -1341,12 +1341,12 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
 
   for(int k=10; k>0; k--) {
         if(nJets < k) {
-                t.jet_pt[k-1] = -999.;
-                t.jet_eta[k-1] = -999.;
-                t.jet_phi[k-1] = -999.;
-                t.jet_btag[k-1] = -999.;
-                //Add jet information
-                t.jet_E[k-1] = -999.;
+            t.jet_pt[k-1] = -999.;
+            t.jet_eta[k-1] = -999.;
+            t.jet_phi[k-1] = -999.;
+            t.jet_btag[k-1] = -999.;
+            //Add jet information
+            t.jet_E[k-1] = -999.;
         }
   }
 
