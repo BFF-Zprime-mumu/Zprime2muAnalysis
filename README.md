@@ -5,11 +5,8 @@ It is required for latest JEC
 
 ```bash
 cmsrel CMSSW_8_0_29
-cd CMSSW_8_0_25/src
+cd CMSSW_8_0_29/src
 cmsenv
-mkdir SUSYBSMAnalysis && cd SUSYBSMAnalysis/
-git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
-cd ../
 ```
 
 ## Setup electron HEEP ID
@@ -21,7 +18,26 @@ git cms-merge-topic Sam-Harper:PackedCandNoPuppi #only necessary to run HEEP V70
 mkdir -p ../external/slc6_amd64_gcc530/data/RecoEgamma/ElectronIdentification/ #we need this for the mva weights which runs in VID regardless if you need it or not
 git clone git@github.com:cms-data/RecoEgamma-ElectronIdentification
 ../external/slc6_amd64_gcc530/data/RecoEgamma/ElectronIdentification/data #we need this for the mva weights which runs in VID regardless if you need it or not
+```
+
+## Get BFF-Zprime-mumu code
+```bash
+mkdir SUSYBSMAnalysis && cd SUSYBSMAnalysis/
+git clone git@github.com:BFF-Zprime-mumu/Zprime2muAnalysis.git
+#if required, checkout the non-default branch by running cd Zprime2muAnalysis && git checkout <branch name> && cd ../
+cd ../
+```
+## Compile
+```bash
+scram b clean
 scram b -j 16
+```
+
+# Running test jobs locally
+```bash
+cd SUSYBSMAnalysis/Zprime2muAnalysis/test/DataMCSpectraComparison
+#modify the number of events to process to some small quantity, e.g. 100
+cmsRun histosSimplified.py
 ```
 
 # Running the code for grid production of miniAOD and ntuples

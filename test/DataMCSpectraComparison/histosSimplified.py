@@ -291,8 +291,7 @@ def ntuplify(process, fill_gen_info=False):
                                            jet_src = cms.InputTag("slimmedJets"),
                                            beamspot_src = cms.InputTag('offlineBeamSpot'),
                                            vertices_src = cms.InputTag('offlineSlimmedPrimaryVertices'),
-                                           TriggerResults_src = cms.InputTag('TriggerResults', '', 'PAT'),	#mc
-                                           #TriggerResults_src = cms.InputTag('TriggerResults', '', 'RECO'),	#data
+                                           TriggerResults_src = cms.InputTag('TriggerResults', '', 'RECO'),	#data
                                            genEventInfo = cms.untracked.InputTag('generator'),
                                            metFilter = cms.VInputTag( cms.InputTag("Flag_HBHENoiseFilter"), cms.InputTag("Flag_HBHENoiseIsoFilter"), cms.InputTag("Flag_EcalDeadCellTriggerPrimitiveFilter"), cms.InputTag("Flag_eeBadScFilter"), cms.InputTag("Flag_globalTightHalo2016Filter"))
                                            )
@@ -322,7 +321,11 @@ def ntuplify(process, fill_gen_info=False):
 #    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
 #    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
+<<<<<<< HEAD
 ntuplify(process) #to have ntuples also running in interactive way
+=======
+#ntuplify(process) #to have ntuples also running in interactive way -- no need as will be executed twice
+>>>>>>> central/develop
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
