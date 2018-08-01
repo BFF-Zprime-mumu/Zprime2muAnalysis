@@ -321,7 +321,11 @@ def ntuplify(process, fill_gen_info=False):
 #    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
 #    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
+<<<<<<< HEAD
+ntuplify(process) #to have ntuples also running in interactive way
+=======
 #ntuplify(process) #to have ntuples also running in interactive way -- no need as will be executed twice
+>>>>>>> central/develop
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
