@@ -12,7 +12,8 @@ struct Lepton{
     float Iso;
 };
 
-void mumu::Loop()
+
+void mumu::Loop(TString sample_name)
 {
 //   In a ROOT session, you can do:
 //      root> .L mumu.C
@@ -40,37 +41,37 @@ void mumu::Loop()
    if (fChain == 0) return;
 
    //Create root file with histograms
-   TFile *output = new TFile("TT_DiMu_Histograms.root","recreate");
+   TFile *output = new TFile(sample_name+"_DiMu_Nobjet_Histograms.root","recreate");
 
    //histograms
-   TH1F *run_TT = new TH1F("run_TT","run; Total number of events passed through the pre-selection cut",3,0,3); run_TT->Sumw2();
-   TH1F *leppT_TT = new TH1F("leppT_TT","lepton pt",100,0,500); leppT_TT->Sumw2();
-   TH1F *lepeta_TT = new TH1F("lepeta_TT","lepton eta",20,-3,3); lepeta_TT->Sumw2();
-   TH1F *lepphi_TT = new TH1F("lepphi_TT","lepton phi",20,-3.5,3.5); lepphi_TT->Sumw2();
-   TH1F *lepIso_TT = new TH1F("lepIso_TT","lepton isolation",100,0,400); lepIso_TT->Sumw2();
+   TH1F *run_hist = new TH1F("run_hist","run; Total number of events passed through the pre-selection cut",3,0,3); run_hist->Sumw2();
+   TH1F *leppT_hist = new TH1F("leppT_hist","lepton pt",100,0,500); leppT_hist->Sumw2();
+   TH1F *lepeta_hist = new TH1F("lepeta_hist","lepton eta",20,-3,3); lepeta_hist->Sumw2();
+   TH1F *lepphi_hist = new TH1F("lepphi_hist","lepton phi",20,-3.5,3.5); lepphi_hist->Sumw2();
+   TH1F *lepIso_hist = new TH1F("lepIso_hist","lepton isolation",100,0,400); lepIso_hist->Sumw2();
 
-   TH1F *dPhi_TT = new TH1F("dPhi_TT","delta phi_{e,#mu}",50,-4,4); dPhi_TT->Sumw2();
-   TH1F *dR_TT = new TH1F("dR_TT","delta R_{e,#mu}",50,0,5); dR_TT->Sumw2();
-   TH1F *mass_TT = new TH1F("mass_TT","Mass_{lep,lep}",50,0,500); mass_TT->Sumw2();
+   TH1F *dPhi_hist = new TH1F("dPhi_hist","delta phi_{#mu,#mu}",50,-4,4); dPhi_hist->Sumw2();
+   TH1F *dR_hist = new TH1F("dR_hist","delta R_{#mu,#mu}",50,0,5); dR_hist->Sumw2();
+   TH1F *mass_hist = new TH1F("mass_hist","Mass_{lep,lep}",50,0,500); mass_hist->Sumw2();
 
-   TH1F *jetpT_TT = new TH1F("jetpT_TT","jet pT",100,0,500); jetpT_TT->Sumw2();
-   TH1F *jeteta_TT = new TH1F("jeteta_TT","jet eta",20,-5,5); jeteta_TT->Sumw2();
+   TH1F *jetpT_hist = new TH1F("jetpT_hist","jet pT",100,0,500); jetpT_hist->Sumw2();
+   TH1F *jeteta_hist = new TH1F("jeteta_hist","jet eta",20,-5,5); jeteta_hist->Sumw2();
 
-   TH1F *bjetpT_TT = new TH1F("bjetpT_TT","b-jet pT",100,0,500); bjetpT_TT->Sumw2();
-   TH1F *bjeteta_TT = new TH1F("bjeteta_TT","b-jet eta",20,-5,5); bjeteta_TT->Sumw2();
+   TH1F *bjetpT_hist = new TH1F("bjetpT_hist","b-jet pT",100,0,500); bjetpT_hist->Sumw2();
+   TH1F *bjeteta_hist = new TH1F("bjeteta_hist","b-jet eta",20,-5,5); bjeteta_hist->Sumw2();
 
-   TH1F *njet_TT = new TH1F("njet_TT","Number of jet",11,0,11); njet_TT->Sumw2();
-   TH1F *nbjet_TT = new TH1F("nbjet_TT","Number of b-jet",11,0,11); nbjet_TT->Sumw2();
-   TH1F *id_TT = new TH1F("id_TT","particle id",30,-15,15); id_TT->Sumw2();
+   TH1F *njet_hist = new TH1F("njet_hist","Number of jet",11,0,11); njet_hist->Sumw2();
+   TH1F *nbjet_hist = new TH1F("nbjet_hist","Number of b-jet",11,0,11); nbjet_hist->Sumw2();
+   TH1F *id_hist = new TH1F("id_hist","particle id",30,-15,15); id_hist->Sumw2();
 
-   TH1F *MET_TT = new TH1F("MET_TT","Missing ET",100,0,1000); MET_TT->Sumw2();
-   TH1F *dilep_mass_TT = new TH1F("dilep_mass_TT","dilepton mass",100,0,1000); dilep_mass_TT->Sumw2();
+   TH1F *MET_hist = new TH1F("MET_hist","Missing ET",100,0,1000); MET_hist->Sumw2();
+   TH1F *dilep_mass_hist = new TH1F("dilep_mass_hist","dilepton mass",100,0,1000); dilep_mass_hist->Sumw2();
 
-   TH1F *SBM_TT = new TH1F("SBM_TT","max(SBM)",100,0,300); SBM_TT->Sumw2();
-   TH1F *METvsMmm_TT = new TH1F("METvsMmm_TT","E^{miss}_{T}/M(#mu^{+}#mu^{-})",100,0,1); METvsMmm_TT->Sumw2();
-   TH1F *HTLT_TT = new TH1F("HTLT_TT","HT-LT",100,-500,500); HTLT_TT->Sumw2();
+   TH1F *SBM_hist = new TH1F("SBM_hist","max(SBM)",100,0,300); SBM_hist->Sumw2();
+   TH1F *METvsMmm_hist = new TH1F("METvsMmm_hist","E^{miss}_{T}/M(#mu^{+}#mu^{-})",100,0,1); METvsMmm_hist->Sumw2();
+   TH1F *HTLT_hist = new TH1F("HTLT_hist","HT-LT",100,-500,500); HTLT_hist->Sumw2();
 
-   TH1F *Mass_TT = new TH1F("Mass_TT","Lepton mass(M_{e})",100,0,500); Mass_TT->Sumw2();
+   TH1F *Mass_hist = new TH1F("Mass_hist","Lepton mass(M_{#mu})",100,0,500); Mass_hist->Sumw2();
 
    Long64_t nentries = fChain->GetEntriesFast();
 
@@ -86,7 +87,7 @@ void mumu::Loop()
        nb = fChain->GetEntry(jentry);   nbytes += nb;
        // if (Cut(ientry) < 0) continue;
 
-       run_TT->Fill(run);
+       run_hist->Fill(run);
 
        if(lep_pt[0] > 53 &&lep_pt[1] > 53){ //lep pT > 53GeV
            if(dil_dR > 0.1){ // dR(lep,lep) > 0.1
@@ -100,8 +101,8 @@ void mumu::Loop()
                        int id1 = lep_id[0];
                        int id2 = lep_id[1];
 
-                       id_TT->Fill(id1);
-                       id_TT->Fill(id2);
+                       id_hist->Fill(id1);
+                       id_hist->Fill(id2);
 
                        const double muon_mass = 0.1056583715;
 
@@ -132,7 +133,7 @@ void mumu::Loop()
                        vector<TLorentzVector> bJets;
 
                        for(int NJ=0; NJ<nJets; NJ++){
-                           if(jet_pt[NJ] > 30){ //jet pT > 30GeV
+                           if(jet_pt[NJ] > 30){ //jet pT > 20GeV
                                if(fabs(jet_eta[NJ]) < 5.0){ // jet |eta| <5.0
 
                                    //di-lepton information (delta-Phi, delta-R, dilepton mass)
@@ -143,7 +144,8 @@ void mumu::Loop()
                                    //Missing ET
                                    MET[0] = met_pt;
 
-                                   //Save jet information 
+                                   //Save all jet information 
+
                                    TLorentzVector Jet;
                                    Jet.SetPtEtaPhiE(jet_pt[NJ],jet_eta[NJ],jet_phi[NJ],jet_E[NJ]);
                                    Jets.push_back(Jet);
@@ -162,34 +164,34 @@ void mumu::Loop()
                                    }
                                }
                            }
-                       }
+                       }// b jet pT > 20 GeV , non-b jet pT > 30 GeV
 
-                       njet_TT->Fill(Njet);
+                       njet_hist->Fill(Njet);
                        if(Njet < 2) continue;//Number of jet >=2
                        
-                       nbjet_TT->Fill(Nbjet);
+                       nbjet_hist->Fill(Nbjet);
                        if(Nbjet < 1) continue;// >= 1 b-jet
 
                        //pT
-                       leppT_TT->Fill(leptons[0].Pt());
-                       leppT_TT->Fill(leptons[1].Pt());
+                       leppT_hist->Fill(leptons[0].Pt());
+                       leppT_hist->Fill(leptons[1].Pt());
 
                        //eta
-                       lepeta_TT->Fill(leptons[0].Eta());
-                       lepeta_TT->Fill(leptons[1].Eta());
+                       lepeta_hist->Fill(leptons[0].Eta());
+                       lepeta_hist->Fill(leptons[1].Eta());
 
                        //phi
-                       lepphi_TT->Fill(leptons[0].Phi());
-                       lepphi_TT->Fill(leptons[1].Phi());
+                       lepphi_hist->Fill(leptons[0].Phi());
+                       lepphi_hist->Fill(leptons[1].Phi());
 
                        //Iso
-                       lepIso_TT->Fill(leptons_[0].Iso);
-                       lepIso_TT->Fill(leptons_[1].Iso);
+                       lepIso_hist->Fill(leptons_[0].Iso);
+                       lepIso_hist->Fill(leptons_[1].Iso);
 
                        //lep-lep dPhi and dR, dilep mass
-                       dPhi_TT->Fill(Dil_dPhi[0]);
-                       dR_TT->Fill(Dil_dR[0]);
-                       mass_TT->Fill(Dil_mass[0]);
+                       dPhi_hist->Fill(Dil_dPhi[0]);
+                       dR_hist->Fill(Dil_dR[0]);
+                       mass_hist->Fill(Dil_mass[0]);
 
                        //Jet1_nonB: Non-bjet with the largest pT
                        //Jet2_nonB: Non-bjet with the second largest pT
@@ -204,6 +206,7 @@ void mumu::Loop()
                        int Jet2_B=-1;
                        float Jet1_B_PT=0.;
                        float Jet2_B_PT=0.;
+                       float All_bjet_PT=0.;
 
                        if(Nbjet == 0){
                            for(unsigned Nj=0; Nj<Jets.size(); ++Nj){
@@ -230,6 +233,7 @@ void mumu::Loop()
                        }
                        else if(Nbjet > 1){
                            for(unsigned Nbj=0; Nbj<bJets.size(); ++Nbj){
+                               All_bjet_PT += bJets[Nbj].Pt();
                                if(Jet1_B_PT < bJets[Nbj].Pt()){
                                    Jet1_B=Nbj;
                                    Jet1_B_PT=bJets[Nbj].Pt();
@@ -283,22 +287,23 @@ void mumu::Loop()
 
                        //Fill max SBM (Top mass bound)
                        //if(SBM1>170. || SBM2>170.){//>170 cut
-                       if(SBM1<SBM2)SBM_TT->Fill(SBM2,weight);
-                       else SBM_TT->Fill(SBM1,weight);
+                       if(SBM1<SBM2)SBM_hist->Fill(SBM2,weight);
+                       else SBM_hist->Fill(SBM1,weight);
 
                        //METvsMmm (Normalized MET)
                        float Mmm = ((leptons[0])+(leptons[1])).M();
                        float MET_t = MET[0];
                        float METvsMmm = MET_t/Mmm ;
                        //if(METvsMmm<0.2){ // <0.2 cut
-                       METvsMmm_TT->Fill(METvsMmm,weight);
-                       MET_TT->Fill(MET_t);
-                       dilep_mass_TT->Fill(Mmm);
+                       METvsMmm_hist->Fill(METvsMmm,weight);
+                       MET_hist->Fill(MET_t);
+                       dilep_mass_hist->Fill(Mmm);
 
                        //(HT-LT) calculation
                        float DHTLT = -999.;
                        if(Nbjet > 1){
                            DHTLT = (Jet1_B_PT+Jet2_B_PT) - (leptons[0].Pt()+leptons[1].Pt());
+                           //DHTLT = (All_bjet_PT) - (leptons[0].Pt()+leptons[1].Pt());
                        }
                        else if(Nbjet == 1){
                            DHTLT = (bJets[0].Pt()+Jet2_nonB_PT) - (leptons[0].Pt()+leptons[1].Pt());
@@ -308,14 +313,14 @@ void mumu::Loop()
                        }
 
                        //if(DHTLT<0){//<0 cut
-                       HTLT_TT->Fill(DHTLT,weight);
+                       HTLT_hist->Fill(DHTLT,weight);
                        //}
                        //}
                        //}
                        float Mm_1 = (leptons[0]).M();
                        float Mm_2 = (leptons[1]).M();
-                       Mass_TT->Fill(Mm_1);
-                       Mass_TT->Fill(Mm_2);
+                       Mass_hist->Fill(Mm_1);
+                       Mass_hist->Fill(Mm_2);
                        //          }
                    }
                    }
@@ -323,53 +328,10 @@ void mumu::Loop()
            }
        }
 
-       //(*) I tried to apply the code you gave me, but I got the following error:
-       //error: no matching constructor for initialization of 'vector<TH1F *>'
-       /*
-          vector<TH1F *> hists = {run_TT, leppT_TT, elepT_TT, mupT_TT, lepeta_TT, eleEta_TT, muEta_TT, lepphi_TT, elePhi_TT, muPhi_TT, dPhi_TT, dR_TT, mass_TT, eleIso_TT, muIso_TT, jetpT_TT, jeteta_TT, bjetpT_TT, bjeteta_TT, njet_TT, nbjet_TT, id_TT, MET_TT, dilep_mass_TT, SBM_TT, METvsMmm_TT, HTLT_TT, Mass_TT};
 
-          for(unsigned Nh=0; Nh<hists.size(); ++Nh) hists[Nh]->Write();
-          */
+std::vector<TH1F *> hists = {run_hist, leppT_hist, lepeta_hist, lepphi_hist, dPhi_hist, dR_hist, mass_hist, jetpT_hist, jeteta_hist, bjetpT_hist, bjeteta_hist, njet_hist, nbjet_hist, id_hist, MET_hist, dilep_mass_hist, SBM_hist, METvsMmm_hist, HTLT_hist, Mass_hist};
 
-       run_TT->Write();
+    for(unsigned Nh=0; Nh<hists.size(); ++Nh) hists[Nh]->Write();
 
-       leppT_TT->Write();
-       elepT_TT->Write();
-       mupT_TT->Write();
-
-       lepeta_TT->Write();
-       eleEta_TT->Write();
-       muEta_TT->Write();
-
-       lepphi_TT->Write();
-       elePhi_TT->Write();
-       muPhi_TT->Write();
-
-       dPhi_TT->Write();
-       dR_TT->Write();
-       mass_TT->Write();
-
-       eleIso_TT->Write();
-       muIso_TT->Write();
-
-       jetpT_TT->Write();
-       jeteta_TT->Write();
-
-       bjetpT_TT->Write();
-       bjeteta_TT->Write();
-
-       njet_TT->Write();
-       nbjet_TT->Write();
-       id_TT->Write();
-
-       MET_TT->Write();
-       dilep_mass_TT->Write();
-
-       SBM_TT->Write();
-       METvsMmm_TT->Write();
-       HTLT_TT->Write();
-
-       Mass_TT->Write();
-
-       output->Close();
+    output->Close();
    }

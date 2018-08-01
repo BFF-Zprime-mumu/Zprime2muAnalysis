@@ -1323,31 +1323,31 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
   int nJets = 0;
 
   for (std::vector<pat::Jet>::const_iterator itJet = jets->begin(); itJet != jets->end(); itJet++) {
-        if ((itJet->pt() > 30 && deltaR((*itJet),dil.daughter(0)->p4()) > 0.4 && deltaR((*itJet),dil.daughter(1)->p4()) > 0.4) && (((itJet->neutralHadronEnergyFraction() < 0.99 && itJet->neutralEmEnergyFraction() < 0.99 && (itJet->chargedMultiplicity()+itJet->neutralMultiplicity()) > 1 && itJet->muonEnergyFraction() < 0.8) && ((fabs(itJet->eta()) <= 2.4 && itJet->chargedHadronEnergyFraction() > 0 && itJet->chargedMultiplicity() > 0 && itJet->chargedEmEnergyFraction() < 0.99) || fabs(itJet->eta()) > 2.4) && fabs(itJet->eta()) <= 2.7) || (itJet->neutralHadronEnergyFraction() < 0.98 && itJet->neutralEmEnergyFraction() > 0.01 && itJet->neutralMultiplicity() > 2 && fabs(itJet->eta()) > 2.7 && fabs(itJet->eta()) <= 3.0) || (itJet->neutralEmEnergyFraction() < 0.90 && itJet->neutralMultiplicity() > 10 && fabs(itJet->eta()) > 3.0)) ) {
-           	if (nJets < 10){
-			    t.jet_pt[nJets] = itJet->pt();		
-			    t.jet_eta[nJets] = itJet->eta();		
-			    t.jet_phi[nJets] = itJet->phi();
-			    //t.jet_btag[nJets] = itJet->bDiscriminator("combinedSecondaryVertexV2BJetTags");		
-			    t.jet_btag[nJets] = itJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
-                //Add jet information
-                t.jet_E[nJets] = itJet->energy();
-		    }
-	   	nJets++; 		
-	    }
+      if ((itJet->pt() > 30 && deltaR((*itJet),dil.daughter(0)->p4()) > 0.4 && deltaR((*itJet),dil.daughter(1)->p4()) > 0.4) && (((itJet->neutralHadronEnergyFraction() < 0.99 && itJet->neutralEmEnergyFraction() < 0.99 && (itJet->chargedMultiplicity()+itJet->neutralMultiplicity()) > 1 && itJet->muonEnergyFraction() < 0.8) && ((fabs(itJet->eta()) <= 2.4 && itJet->chargedHadronEnergyFraction() > 0 && itJet->chargedMultiplicity() > 0 && itJet->chargedEmEnergyFraction() < 0.99) || fabs(itJet->eta()) > 2.4) && fabs(itJet->eta()) <= 2.7) || (itJet->neutralHadronEnergyFraction() < 0.98 && itJet->neutralEmEnergyFraction() > 0.01 && itJet->neutralMultiplicity() > 2 && fabs(itJet->eta()) > 2.7 && fabs(itJet->eta()) <= 3.0) || (itJet->neutralEmEnergyFraction() < 0.90 && itJet->neutralMultiplicity() > 10 && fabs(itJet->eta()) > 3.0)) ) {
+          if (nJets < 10){
+              t.jet_pt[nJets] = itJet->pt();		
+              t.jet_eta[nJets] = itJet->eta();		
+              t.jet_phi[nJets] = itJet->phi();
+              //t.jet_btag[nJets] = itJet->bDiscriminator("combinedSecondaryVertexV2BJetTags");		
+              t.jet_btag[nJets] = itJet->bDiscriminator("pfCombinedInclusiveSecondaryVertexV2BJetTags");
+              //Add jet information
+              t.jet_E[nJets] = itJet->energy();
+          }
+          nJets++; 		
+      }
   }
     //
   t.nJets = nJets;
 
   for(int k=10; k>0; k--) {
-        if(nJets < k) {
-            t.jet_pt[k-1] = -999.;
-            t.jet_eta[k-1] = -999.;
-            t.jet_phi[k-1] = -999.;
-            t.jet_btag[k-1] = -999.;
-            //Add jet information
-            t.jet_E[k-1] = -999.;
-        }
+      if(nJets < k) {
+          t.jet_pt[k-1] = -999.;
+          t.jet_eta[k-1] = -999.;
+          t.jet_phi[k-1] = -999.;
+          t.jet_btag[k-1] = -999.;
+          //Add jet information
+          t.jet_E[k-1] = -999.;
+      }
   }
 
     tree->Fill();
