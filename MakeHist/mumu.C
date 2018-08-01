@@ -44,34 +44,34 @@ void mumu::Loop(TString sample_name)
    TFile *output = new TFile(sample_name+"_DiMu_Nobjet_Histograms.root","recreate");
 
    //histograms
-   TH1F *run_hist = new TH1F("run_hist","run; Total number of events passed through the pre-selection cut",3,0,3); run_hist->Sumw2();
-   TH1F *leppT_hist = new TH1F("leppT_hist","lepton pt",100,0,500); leppT_hist->Sumw2();
-   TH1F *lepeta_hist = new TH1F("lepeta_hist","lepton eta",20,-3,3); lepeta_hist->Sumw2();
-   TH1F *lepphi_hist = new TH1F("lepphi_hist","lepton phi",20,-3.5,3.5); lepphi_hist->Sumw2();
-   TH1F *lepIso_hist = new TH1F("lepIso_hist","lepton isolation",100,0,400); lepIso_hist->Sumw2();
+   TH1F *run_hist = new TH1F("run_hist","Total number of events passed through the pre-selection cut; run; Number of events;",3,0,3); run_hist->Sumw2();
+   TH1F *leppT_hist = new TH1F("leppT_hist","lepton pt; p_{T} [GeV]; Number of events",100,0,500); leppT_hist->Sumw2();
+   TH1F *lepeta_hist = new TH1F("lepeta_hist","lepton eta; #eta; Number of events",20,-3,3); lepeta_hist->Sumw2();
+   TH1F *lepphi_hist = new TH1F("lepphi_hist","lepton phi; #phi; Number of events",20,-3.5,3.5); lepphi_hist->Sumw2();
+   TH1F *lepIso_hist = new TH1F("lepIso_hist","lepton isolation; Isolation; Number of events;",100,0,400); lepIso_hist->Sumw2();
 
-   TH1F *dPhi_hist = new TH1F("dPhi_hist","delta phi_{#mu,#mu}",50,-4,4); dPhi_hist->Sumw2();
-   TH1F *dR_hist = new TH1F("dR_hist","delta R_{#mu,#mu}",50,0,5); dR_hist->Sumw2();
-   TH1F *mass_hist = new TH1F("mass_hist","Mass_{lep,lep}",50,0,500); mass_hist->Sumw2();
+   TH1F *dPhi_hist = new TH1F("dPhi_hist","delta phi_{#mu,#mu}; #Delta#phi_{#mu,#mu}; Number of events",50,-4,4); dPhi_hist->Sumw2();
+   TH1F *dR_hist = new TH1F("dR_hist","delta R_{#mu,#mu}; #DeltaR_{#mu,#mu}; Number of events",50,0,5); dR_hist->Sumw2();
+   TH1F *mass_hist = new TH1F("mass_hist","Dilepton mass tree; Dilepton mass; Number of events",50,0,500); mass_hist->Sumw2();
 
-   TH1F *jetpT_hist = new TH1F("jetpT_hist","jet pT",100,0,500); jetpT_hist->Sumw2();
-   TH1F *jeteta_hist = new TH1F("jeteta_hist","jet eta",20,-5,5); jeteta_hist->Sumw2();
+   TH1F *jetpT_hist = new TH1F("jetpT_hist","jet pT; p_{T} [GeV]; Number of events",100,0,500); jetpT_hist->Sumw2();
+   TH1F *jeteta_hist = new TH1F("jeteta_hist","jet eta; #eta; Number of events",20,-5,5); jeteta_hist->Sumw2();
 
-   TH1F *bjetpT_hist = new TH1F("bjetpT_hist","b-jet pT",100,0,500); bjetpT_hist->Sumw2();
-   TH1F *bjeteta_hist = new TH1F("bjeteta_hist","b-jet eta",20,-5,5); bjeteta_hist->Sumw2();
+   TH1F *bjetpT_hist = new TH1F("bjetpT_hist","b-jet pT; p_{T} [GeV]; Number of Evets",100,0,500); bjetpT_hist->Sumw2();
+   TH1F *bjeteta_hist = new TH1F("bjeteta_hist","b-jet eta; #eta; Number of events",20,-5,5); bjeteta_hist->Sumw2();
 
-   TH1F *njet_hist = new TH1F("njet_hist","Number of jet",11,0,11); njet_hist->Sumw2();
-   TH1F *nbjet_hist = new TH1F("nbjet_hist","Number of b-jet",11,0,11); nbjet_hist->Sumw2();
-   TH1F *id_hist = new TH1F("id_hist","particle id",30,-15,15); id_hist->Sumw2();
+   TH1F *njet_hist = new TH1F("njet_hist","Number of jet; Number of jets; Number of events",11,0,11); njet_hist->Sumw2();
+   TH1F *nbjet_hist = new TH1F("nbjet_hist","Number of b-jet; Number of b-jets; Number of events",11,0,11); nbjet_hist->Sumw2();
+   TH1F *id_hist = new TH1F("id_hist","particle id; id number; Number of events",30,-15,15); id_hist->Sumw2();
 
-   TH1F *MET_hist = new TH1F("MET_hist","Missing ET",100,0,1000); MET_hist->Sumw2();
-   TH1F *dilep_mass_hist = new TH1F("dilep_mass_hist","dilepton mass",100,0,1000); dilep_mass_hist->Sumw2();
+   TH1F *MET_hist = new TH1F("MET_hist","Missing ET; E^{miss}_{T} [GeV]; Number ofe events",100,0,1000); MET_hist->Sumw2();
+   TH1F *dilep_mass_hist = new TH1F("dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",100,0,1000); dilep_mass_hist->Sumw2();
 
-   TH1F *SBM_hist = new TH1F("SBM_hist","max(SBM)",100,0,300); SBM_hist->Sumw2();
-   TH1F *METvsMmm_hist = new TH1F("METvsMmm_hist","E^{miss}_{T}/M(#mu^{+}#mu^{-})",100,0,1); METvsMmm_hist->Sumw2();
-   TH1F *HTLT_hist = new TH1F("HTLT_hist","HT-LT",100,-500,500); HTLT_hist->Sumw2();
+   TH1F *SBM_hist = new TH1F("SBM_hist","max(SBM); max(SBM); a.u.",100,0,300); SBM_hist->Sumw2();
+   TH1F *METvsMmm_hist = new TH1F("METvsMmm_hist","E^{miss}_{T}/M(#mu^{+}#mu^{-}); E^{miss}_{T}/M(#mu^{+}#mu^{-}) [GeV]; a.u.",100,0,1); METvsMmm_hist->Sumw2();
+   TH1F *HTLT_hist = new TH1F("HTLT_hist","HT-LT; HT-LT [GeV]; a.u.",100,-500,500); HTLT_hist->Sumw2();
 
-   TH1F *Mass_hist = new TH1F("Mass_hist","Lepton mass(M_{#mu})",100,0,500); Mass_hist->Sumw2();
+   TH1F *Mass_hist = new TH1F("Mass_hist","Lepton mass(M_{#mu}); M_{#mu} [GeV]; Number of events",100,0,500); Mass_hist->Sumw2();
 
    Long64_t nentries = fChain->GetEntriesFast();
 
