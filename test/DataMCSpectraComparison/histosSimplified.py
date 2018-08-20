@@ -14,6 +14,7 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFilt
 
 process.source.fileNames =[#'file:./pat.root'
 '/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
+#'file:/cms/ldap_home/hyeahyun/zp/sample/0030B9D6-72C1-E611-AE49-02163E00E602.root',
 			   ]
 process.maxEvents.input = -1 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
 # Set global tags
@@ -253,7 +254,14 @@ for cut_name, Selection in cuts.iteritems():
 
     # Finally, make the path for this set of cuts.
     pathname = 'path' + cut_name
-    process.load('SUSYBSMAnalysis.Zprime2muAnalysis.DileptonPreselector_cfi')
+    #process.load('SUSYBSMAnalysis.Zprime2muAnalysis.DileptonPreselector_cfi')
+    from SUSYBSMAnalysis.Zprime2muAnalysis.DileptonPreselector_cfi import dileptonPreseletor
+    process.dileptonPreseletor = cms.EDFilter("DileptonPreselector",
+    muons = cms.InputTag("slimmedMuons"),
+    nMuons = cms.double(0),
+    ptCut = cms.double(40), 
+    )
+    #######Adrian and Ryan
     process.load("SUSYBSMAnalysis.Zprime2muAnalysis.EventCounter_cfi")
     pobj = process.EventCounter * process.dileptonPreseletor *  process.muonPhotonMatchMiniAOD * reduce(lambda x,y: x*y, path_list)
 
@@ -298,7 +306,9 @@ def ntuplify(process, fill_gen_info=False):
             process.pathOur2016 *= obj * process.SimpleNtupler
             if Electrons:
                 process.SimpleNtuplerEmu = process.SimpleNtupler.clone(dimu_src = cms.InputTag('SimpleMuonsElectronsAllSigns'))
+                process.SimpleNtuplerDiEle = process.SimpleNtupler.clone(dimu_src = cms.InputTag('Our2016ElectronsPlusElectronsMinus'))
                 process.pathOur2016 *= process.SimpleNtuplerEmu
+                process.pathOur2016 *= process.SimpleNtuplerDiEle
         else: 
             pass
     else: 
@@ -311,7 +321,11 @@ def ntuplify(process, fill_gen_info=False):
 #    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
 #    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
+<<<<<<< HEAD
+ntuplify(process) #to have ntuples also running in interactive way
+=======
 #ntuplify(process) #to have ntuples also running in interactive way -- no need as will be executed twice
+>>>>>>> central/develop
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
