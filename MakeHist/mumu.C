@@ -233,9 +233,9 @@ void mumu::Loop(TString sample_name)
                        float Jet2_PT=0.;
                       
                        //Putting the value in Jet1 and Jet2
-                       else if(Nbjet == 1){
+                       if(Nbjet == 1){
                            Jet1 = 0;
-                           Jet1_PT = bJets[0].PT();
+                           Jet1_PT = bJets[0].Pt();
                            for(unsigned Nj=0; Nj<Nnon_bjet; ++Nj){
                                if(Jet2_PT<non_bJets[Nj].Pt()){
                                    Jet2=Nj;
