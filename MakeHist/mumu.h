@@ -21,9 +21,21 @@ public :
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
-   //Define totalN and Lumi
+   //Define cross-section, totalN and Lumi
    Float_t         Lumi = 35.9;
 
+   Float_t         zp200_cs = 0.5125 * 1000;
+   Float_t         zp350_cs = 0.06838 * 1000;
+   Float_t         zp500_cs = 0.01628 * 1000;
+   Float_t         TT_cs = 76.7 * 1000;
+   Float_t         DY_cs = 5941.0 * 1000;
+   Float_t         ST_top_cs = 38.09 * 100;
+   Float_t         ST_antitop_cs = 38.06 * 1000;
+   Float_t         WW_cs = 10.48 * 1000;
+   Float_t         WZ_cs = 23.43 * 1000;
+   Float_t         ZZ_cs = 10.16 * 1000;
+
+   Float_t         zp_totalN = 10000;
    Float_t         TT_totalN = 79092400;
    Float_t         DY_totalN = 122055388;
    Float_t         ZZ_totalN = 990064;
@@ -200,9 +212,6 @@ public :
    Float_t         jet_eta[10];
    Float_t         jet_phi[10];
    Float_t         jet_btag[10];
-   Float_t         jet_px[10];
-   Float_t         jet_py[10];
-   Float_t         jet_pz[10];
    Float_t         jet_E[10];
    Float_t         genWeight;
    Float_t         gen_res_mass;
@@ -403,9 +412,6 @@ public :
    TBranch        *b_jet_eta;   //!
    TBranch        *b_jet_phi;   //!
    TBranch        *b_jet_btag;   //!
-   TBranch        *b_jet_px;   //!
-   TBranch        *b_jet_py;   //!
-   TBranch        *b_jet_pz;   //!
    TBranch        *b_jet_E;   //!
    TBranch        *b_genWeight;   //!
    TBranch        *b_gen_res_mass;   //!
@@ -466,9 +472,9 @@ mumu::mumu(TTree *tree) : fChain(0)
       dir->GetObject("t",tree);
 */
 #ifdef SINGLE_TRmumu
-       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0000/");
+       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180802_173830/180802_083858/0000/");
        if (!f || !f->IsOpen()) {
-           f = new TFile("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0000/");
+           f = new TFile("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180802_173830/180802_083858/0000/");
        }
        f->GetObject("SimpleNtupler/t","");
 
@@ -476,8 +482,8 @@ mumu::mumu(TTree *tree) : fChain(0)
        // The following code should be used if you want this class to access a chain of trees.
        TChain *chain = new TChain("SimpleNtupler/t","");
 
-       chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0000/*.root/SimpleNtupler/t");
-       chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0001/*.root/SimpleNtupler/t");
+       chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180802_173830/180802_083858/0000/*.root/SimpleNtupler/t");
+       chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180802_173830/180802_083858/0001/*.root/SimpleNtupler/t");
 
        tree = chain;
 #endif // SINGLE_TRmumu
@@ -694,9 +700,6 @@ void mumu::Init(TTree *tree)
    fChain->SetBranchAddress("jet_eta", jet_eta, &b_jet_eta);
    fChain->SetBranchAddress("jet_phi", jet_phi, &b_jet_phi);
    fChain->SetBranchAddress("jet_btag", jet_btag, &b_jet_btag);
-   fChain->SetBranchAddress("jet_px", jet_px, &b_jet_px);
-   fChain->SetBranchAddress("jet_py", jet_py, &b_jet_py);
-   fChain->SetBranchAddress("jet_pz", jet_pz, &b_jet_pz);
    fChain->SetBranchAddress("jet_E", jet_E, &b_jet_E);
    fChain->SetBranchAddress("genWeight", &genWeight, &b_genWeight);
    fChain->SetBranchAddress("gen_res_mass", &gen_res_mass, &b_gen_res_mass);
