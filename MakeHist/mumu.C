@@ -12,6 +12,7 @@ struct Lepton{
     float Iso;
 };
 
+
 void mumu::Loop(TString sample_name)
 {
 //   In a ROOT session, you can do:
@@ -140,6 +141,7 @@ void mumu::Loop(TString sample_name)
                                    jetpT_hist->Fill(jet_pt[NJ]);
                                    jeteta_hist->Fill(jet_eta[NJ]);
 
+
                                    if(jet_btag[NJ] >= 0.8484) { //b-tagging(WP=0.8484)
                                        //b-jet pT and eta
                                        bjetpT_hist->Fill(jet_pt[NJ]);
@@ -165,9 +167,7 @@ void mumu::Loop(TString sample_name)
                                            //Number of non b-jet
                                            Nnon_bjet ++;
                                        }
-
                                    }
-                                   
                                }
                            }
                        }// b jet pT > 20 GeV , non-b jet pT > 30 GeV
@@ -335,7 +335,6 @@ void mumu::Loop(TString sample_name)
            }
        }
    }   
-
 
 std::vector<TH1F *> hists = {run_hist, mini_SBM_hist, mini_SBM_minus173_hist, leppT_hist, lepeta_hist, lepphi_hist, dPhi_dimuon_hist, dPhi_hist, dR_hist, mass_hist, jetpT_hist, jeteta_hist, bjetpT_hist, bjeteta_hist, NonbjetpT_hist, Nonbjeteta_hist, nbjet_hist, nNonbjet_hist, id_hist, MET_hist, dilep_mass_hist, SBM_hist, METvsMmm_hist, HTLT_hist, Mass_hist};
 
