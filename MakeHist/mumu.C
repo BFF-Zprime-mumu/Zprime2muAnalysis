@@ -127,9 +127,6 @@ void mumu::Loop(TString sample_name)
                        }  // example(1): float FirstLeptonMass = leptons[0].M();
                        ///// example(2): float FirstLeptonIso = leptons_[0].Iso;
                        
-                       int Nbjet = 0;
-                       int Nnon_bjet = 0;
-
                        vector<TLorentzVector> bJets;
                        vector<TLorentzVector> non_bJets;
 
@@ -148,42 +145,32 @@ void mumu::Loop(TString sample_name)
                                        TLorentzVector bJet;
                                        bJet.SetPtEtaPhiE(jet_pt[NJ],jet_eta[NJ],jet_phi[NJ],jet_E[NJ]);
                                        bJets.push_back(bJet);
-
-                                       //Number of b-jet
-                                       Nbjet ++;
                                    }
-                                   else{
-                                       if(jet_pt[NJ] > 30){//non_bjet pT > 30
-                                           //non b-jet pT and eta
-                                           NonbjetpT_hist->Fill(jet_pt[NJ]);
-                                           Nonbjeteta_hist->Fill(jet_eta[NJ]);
-                                           //Save non b-jet information
-                                           TLorentzVector non_bJet;
-                                           non_bJet.SetPtEtaPhiE(jet_pt[NJ],jet_eta[NJ],jet_phi[NJ],jet_E[NJ]);
-                                           non_bJets.push_back(non_bJet);
-
-                                           //Number of non b-jet
-                                           Nnon_bjet ++;
-                                       }
-
+                                   else if(jet_pt[NJ] > 30){//non_bjet pT > 30
+                                       //non b-jet pT and eta
+                                       NonbjetpT_hist->Fill(jet_pt[NJ]);
+                                       Nonbjeteta_hist->Fill(jet_eta[NJ]);
+                                       //Save non b-jet information
+                                       TLorentzVector non_bJet;
+                                       non_bJet.SetPtEtaPhiE(jet_pt[NJ],jet_eta[NJ],jet_phi[NJ],jet_E[NJ]);
+                                       non_bJets.push_back(non_bJet);
                                    }
                                    
                                }
                            }
                        }// b jet pT > 20 GeV , non-b jet pT > 30 GeV
 
-                       nbjet_hist->Fill(Nbjet);
-                       nNonbjet_hist->Fill(Nnon_bjet);
-                       njvsnbj_hist->Fill(Nnon_bjet,Nbjet);
+                       nNonbjet_hist->Fill(non_bJets.size());
+                       njvsnbj_hist->Fill(non_bJets.size(),bJets.size());
+                       nbjet_hist->Fill(bJets.size());
 
-                       if(Nbjet != 1 || Nnon_bjet < 1) continue;//N_bjet = 1, N_jet >= 2
-                       //if(Nbjet < 2) continue;//N_bjet >= 2, N_jet >= 2
-                       //if(Nbjet < 1 || Njet < 2) continue;//N_bjet >= 1, N_jet >= 2
-                       //if(Nbjet != 1 || Nnon_bjet != 0) continue;//N_bjet = 1, N_jet = 1
-                       //if(Nbjet != 1 || Nnon_bjet != 1) continue;//N_bjet = 1, N_jet = 2
-                       //if(Nbjet != 2 || Nnon_bjet != 0) continue;//N_bjet = 2, N_jet = 2
-                       //if(Nbjet != 1 || Nnon_bjet < 2) continue;//N_bjet = 1, N_jet >= 3
-                       //if(Nbjet != 2 || Nnon_bjet < 1) continue;//N_bjet = 2, N_jet >= 3
+                       //Case 1 = Case 3 + Case 4 + Case 5
+                       if(bJets.size() < 1 || bJets.size()+non_bJets.size() < 2) continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
+                       //if(bJets.size() < 1 || Njet < 2) continue;//N_bjet >= 1, N_jet >= 2
+                       //if(bJets.size() != 1 || non_bJets.size() != 0) continue;//N_jet = 1, N_bjet = 1 (Case 2)
+                       //if(bJets.size() < 1 || bJets.size()+non_bJets.size() == 2) continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
+                       //if(bJets.size() < 1 || bJets.size() > 2 || bJets.size()+non_bJets.size() < 3) continue;//N_jet >= 3, N_bjets = 1or2 (Case 4)
+                       //if(bJets.size() < 3) continue;//N_jet >=3, N_bjet >= 3 (Case 5)
 
                        //pT
                        leppT_hist->Fill(leptons[0].Pt());
@@ -207,7 +194,7 @@ void mumu::Loop(TString sample_name)
                        mass_hist->Fill(dil_mass);
 
                        //dPhi(dimuon,b) calculation
-                       if(Nbjet==1){
+                       if(bJets.size()==1){
                            float Phi_dimuon = (leptons[0] + leptons[1]).Phi();
                            float Phi_b = bJets[0].Phi();
                            float dPhi_dimu_b = Phi_dimuon - Phi_b;
@@ -233,18 +220,18 @@ void mumu::Loop(TString sample_name)
                        float Jet2_PT=0.;
                       
                        //Putting the value in Jet1 and Jet2
-                       if(Nbjet == 1){
+                       if(bJets.size() == 1){
                            Jet1 = 0;
                            Jet1_PT = bJets[0].Pt();
-                           for(unsigned Nj=0; Nj<Nnon_bjet; ++Nj){
+                           for(unsigned Nj=0; Nj<non_bJets.size(); ++Nj){
                                if(Jet2_PT<non_bJets[Nj].Pt()){
                                    Jet2=Nj;
                                    Jet2_PT=non_bJets[Nj].Pt();
                                }
                            }
                        }
-                       else if(Nbjet > 1){
-                           for(unsigned Nbj=0; Nbj<Nbjet; ++Nbj){
+                       else if(bJets.size() > 1){
+                           for(unsigned Nbj=0; Nbj<bJets.size(); ++Nbj){
                                if(Jet1_PT < bJets[Nbj].Pt()){
                                    Jet1=Nbj;
                                    Jet1_PT=bJets[Nbj].Pt();
@@ -257,19 +244,19 @@ void mumu::Loop(TString sample_name)
                        }
                       
                        //SBM calculation
-                       if(Nbjet == 1 && Nnon_bjet == 0){
+                       if(bJets.size() == 1 && non_bJets.size() == 0){
                            SBM1 = ((leptons[0])+(bJets[0])).M();
                            SBM2 = ((leptons[1])+(bJets[0])).M();
                        }
                        else {
-                           if(Nbjet == 1){
+                           if(bJets.size() == 1){
                                lep1_jet1_mass = ((leptons[0])+(bJets[Jet1])).M();
                                lep1_jet2_mass = ((leptons[0])+(non_bJets[Jet2])).M();
                                lep2_jet1_mass = ((leptons[1])+(bJets[Jet1])).M();
                                lep2_jet2_mass = ((leptons[1])+(non_bJets[Jet2])).M();
                            }
 
-                           else if(Nbjet > 1){
+                           else if(bJets.size() > 1){
                                lep1_jet1_mass = ((leptons[0])+(bJets[Jet1])).M();
                                lep1_jet2_mass = ((leptons[0])+(bJets[Jet2])).M();
                                lep2_jet1_mass = ((leptons[1])+(bJets[Jet1])).M();
@@ -313,7 +300,7 @@ void mumu::Loop(TString sample_name)
 
                        //(HT-LT) calculation
                        float DHTLT = -999.;
-                       if(Nbjet == 1 && Nnon_bjet == 0){
+                       if(bJets.size() == 1 && non_bJets.size() == 0){
                            DHTLT = (bJets[0].Pt()) - (leptons[0].Pt()+leptons[1].Pt());
                        }
                        else {
