@@ -6,6 +6,7 @@
 #include <TVector2.h>
 #include <vector>
 #include <TH1.h>
+#include <TLorentzVector.h>
 
 struct Lepton{
     TLorentzVector LV;
@@ -15,6 +16,7 @@ struct Lepton{
 
 void mumu::Loop(TString sample_name)
 {
+
 //   In a ROOT session, you can do:
 //      root> .L mumu.C
 //      root> mumu t
@@ -38,11 +40,14 @@ void mumu::Loop(TString sample_name)
 // METHOD2: replace line
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
+
    if (fChain == 0) return;
 
+   
    //Create root file with histograms
    TFile *output = new TFile(sample_name+"_DiMu_Nobjet_Histograms.root","recreate");
 
+   
    //histograms
    TH1F *run_hist = new TH1F("run_hist","Total number of events passed through the pre-selection cut; run; Number of events;",3,0,3); run_hist->Sumw2();
    TH1F *leppT_hist = new TH1F("leppT_hist","lepton pt; p_{T} [GeV]; Number of events",100,0,500); leppT_hist->Sumw2();
@@ -73,7 +78,11 @@ void mumu::Loop(TString sample_name)
 
    TH1F *Mass_hist = new TH1F("Mass_hist","Lepton mass(M_{#mu}); M_{#mu} [GeV]; Number of events",100,0,500); Mass_hist->Sumw2();
 
+   
    Long64_t nentries = fChain->GetEntriesFast();
+
+   
+
 
    //totalN, Lumi -> Refer to see header file (.h)
    float cs = 76.7 * 1000;
@@ -88,6 +97,7 @@ void mumu::Loop(TString sample_name)
        // if (Cut(ientry) < 0) continue;
 
        run_hist->Fill(run);
+
 
        if(lep_pt[0] > 53 &&lep_pt[1] > 53){ //lep pT > 53GeV
            if(dil_dR > 0.1){ // dR(lep,lep) > 0.1

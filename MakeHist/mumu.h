@@ -452,39 +452,58 @@ public :
 
 #endif
 
+//#ifdef mumu_cxx
+//mumu::mumu(TTree *tree) : fChain(0) 
+//{
+//// if parameter tree is not specified (or zero), connect the file
+//// used to generate this class and read the Tree.
+//   if (tree == 0) {
+///*      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/xrootd/store/user/hyeahyun/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_20180527_181453/180527_091521/0000/zp2mu_histos_1.root");
+//      if (!f || !f->IsOpen()) {
+//         f = new TFile("/xrootd/store/user/hyeahyun/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_20180527_181453/180527_091521/0000/zp2mu_histos_1.root");
+//      }
+//      TDirectory * dir = (TDirectory*)f->Get("/xrootd/store/user/hyeahyun/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_20180527_181453/180527_091521/0000/zp2mu_histos_1.root:/SimpleNtupler");
+//      dir->GetObject("t",tree);
+//*/
+//#ifdef SINGLE_TRmumu
+//       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root");
+//       if (!f || !f->IsOpen()) {
+//           f = new TFile("/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root");
+//       }
+//       f->GetObject("SimpleNtupler/t","");
+//
+//#else // SINGLE_TRmumu
+//       // The following code should be used if you want this class to access a chain of trees.
+//       TChain *chain = new TChain("SimpleNtupler/t","");
+//
+//       chain->Add("/afs/cern.ch/work/h/hyeahyun/public/signal/zp200.root*.root/SimpleNtupler/t");
+//       //chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0001/*.root/SimpleNtupler/t");
+//
+//       tree = chain;
+//#endif // SINGLE_TRmumu
+//
+//   }
+//   Init(tree);
+//}
+
+
 #ifdef mumu_cxx
 mumu::mumu(TTree *tree) : fChain(0) 
 {
 // if parameter tree is not specified (or zero), connect the file
 // used to generate this class and read the Tree.
    if (tree == 0) {
-/*      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/xrootd/store/user/hyeahyun/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_20180527_181453/180527_091521/0000/zp2mu_histos_1.root");
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root");
       if (!f || !f->IsOpen()) {
-         f = new TFile("/xrootd/store/user/hyeahyun/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_20180527_181453/180527_091521/0000/zp2mu_histos_1.root");
+         f = new TFile("/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root");
       }
-      TDirectory * dir = (TDirectory*)f->Get("/xrootd/store/user/hyeahyun/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/crab_20180527_181453/180527_091521/0000/zp2mu_histos_1.root:/SimpleNtupler");
-      dir->GetObject("t",tree);
-*/
-#ifdef SINGLE_TRmumu
-       TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0000/");
-       if (!f || !f->IsOpen()) {
-           f = new TFile("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0000/");
-       }
-       f->GetObject("SimpleNtupler/t","");
+      f->GetObject("SimpleNtupler/t",tree);
 
-#else // SINGLE_TRmumu
-       // The following code should be used if you want this class to access a chain of trees.
-       TChain *chain = new TChain("SimpleNtupler/t","");
-
-       chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0000/*.root/SimpleNtupler/t");
-       chain->Add("/xrootd/store/user/hyeahyun/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/crab_20180719_234954/180719_145025/0001/*.root/SimpleNtupler/t");
-
-       tree = chain;
-#endif // SINGLE_TRmumu
 
    }
    Init(tree);
 }
+
 
 mumu::~mumu()
 {
