@@ -10,7 +10,7 @@ from os.path import isfile, join, exists
 ###
 usage = """%prog [options]
 
-This script takes as input a directory of input .root files, and runs the hatsTrees.C macro on them."""
+This script takes as input a directory of input .root files, and runs the mumu.C macro on them."""
 
 ###
 #    HATS comment: 
@@ -48,10 +48,16 @@ from ROOT import *
 ###
 chain = TChain(options.inTreeName)
 inFiles = []
-for inFile in filter(None,popen("xrdfs root://red-gridftp3.unl.edu/ ls -u "+options.inDir).read().split('\n')):
-  inFile.replace('red-gridftp3.unl.edu', 'cmsxrootd.fnal.gov')
-  if ".root" in inFile:
-    inFiles.append(inFile)
+
+for inFile in filter(None,popen("ls -u "+options.inDir).read().split('\n')):
+  #inFile.replace('red-gridftp3.unl.edu', 'cmsxrootd.fnal.gov')
+  if ".root" in inFile and ".root" not in options.inDir:
+    pathString = options.inDir  + inFile
+  elif ".root" in options.inDir:
+    pathString = options.inDir
+  print pathString
+  inFiles.append(pathString)
+
 for sample in inFiles:
   chain.Add(sample)
 
@@ -70,15 +76,15 @@ for sample in inFiles:
 # k --> keep the compiled library and don't delete it when the pyroot script ends.
 ###
 if not options.load:
-  gSystem.CompileMacro("hatsTrees.C", "gOck")
+  gSystem.CompileMacro("mumu.C", "gOck")
 
 ### Now we can load our class into our pyROOT session:
-gSystem.Load("hatsTrees_C")
+gSystem.Load("mumu_C")
 
 ### HATS comment:
 # now we create an instance of our class
 ###
-instance = hatsTrees(chain)
+instance = mumu(chain)
 
 ### HATS comment:
 # and now we call our class's 'Loop' method
