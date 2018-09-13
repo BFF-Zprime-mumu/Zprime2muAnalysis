@@ -19,19 +19,23 @@ public :
    TTree          *fChain;   //!pointer to the analyzed TTree or TChain
    Int_t           fCurrent; //!current Tree number in a TChain
 
+
+
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
-   //Define totalN and Lumi
-   Float_t         Lumi = 35.9;
+   //Define cross-section(fb), totalN and Lumi(fb^-1)
 
-   Float_t         TT_totalN = 79092400;
-   Float_t         DY_totalN = 122055388;
-   Float_t         ZZ_totalN = 990064;
-   Float_t         WZ_totalN = 1000000;
-   Float_t         WW_totalN = 1999000;
-   Float_t         ST_top_totalN = 6952830;
-   Float_t         ST_antitop_totalN = 6933094;
-   
+
+   //signal cross-section (7 page): https://indico.cern.ch/event/717002/contributions/2947604/attachments/1622674/2582782/2018Mar26_MCI.pdf
+   //The background cross-section refers to the DAS(xsdb).
+   //TT:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8
+   //DY:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8
+   //ST_top:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=ST_tW_top_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1
+   //ST_antitop:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=ST_tW_antitop_5f_inclusiveDecays_13TeV-powheg-pythia8_TuneCUETP8M1
+   //WW:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=WWTo2L2Nu_13TeV-powheg
+   //WZ:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=WZ_TuneCUETP8M1_13TeV-pythia8
+   //ZZ:  https://cms-gen-dev.cern.ch/xsdb/?searchQuery=DAS=ZZ_TuneCUETP8M1_13TeV-pythia8
+
    // Declaration of leaf types
    UInt_t          run;
    UInt_t          lumi;
@@ -200,9 +204,6 @@ public :
    Float_t         jet_eta[10];
    Float_t         jet_phi[10];
    Float_t         jet_btag[10];
-   Float_t         jet_px[10];
-   Float_t         jet_py[10];
-   Float_t         jet_pz[10];
    Float_t         jet_E[10];
    Float_t         genWeight;
    Float_t         gen_res_mass;
@@ -403,9 +404,6 @@ public :
    TBranch        *b_jet_eta;   //!
    TBranch        *b_jet_phi;   //!
    TBranch        *b_jet_btag;   //!
-   TBranch        *b_jet_px;   //!
-   TBranch        *b_jet_py;   //!
-   TBranch        *b_jet_pz;   //!
    TBranch        *b_jet_E;   //!
    TBranch        *b_genWeight;   //!
    TBranch        *b_gen_res_mass;   //!
@@ -445,7 +443,7 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
    //virtual void     Loop();
-   virtual void     Loop(TString sample_name);
+   virtual void     Loop(TString sample_name, Float_t l_xsection, Float_t l_targetLumi, Float_t l_numberOfEvents);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
@@ -498,7 +496,6 @@ mumu::mumu(TTree *tree) : fChain(0)
          f = new TFile("/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root");
       }
       f->GetObject("SimpleNtupler/t",tree);
-
 
    }
    Init(tree);
@@ -713,9 +710,6 @@ void mumu::Init(TTree *tree)
    fChain->SetBranchAddress("jet_eta", jet_eta, &b_jet_eta);
    fChain->SetBranchAddress("jet_phi", jet_phi, &b_jet_phi);
    fChain->SetBranchAddress("jet_btag", jet_btag, &b_jet_btag);
-   fChain->SetBranchAddress("jet_px", jet_px, &b_jet_px);
-   fChain->SetBranchAddress("jet_py", jet_py, &b_jet_py);
-   fChain->SetBranchAddress("jet_pz", jet_pz, &b_jet_pz);
    fChain->SetBranchAddress("jet_E", jet_E, &b_jet_E);
    fChain->SetBranchAddress("genWeight", &genWeight, &b_genWeight);
    fChain->SetBranchAddress("gen_res_mass", &gen_res_mass, &b_gen_res_mass);
