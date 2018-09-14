@@ -15,7 +15,7 @@ struct Lepton{
 };
 
 
-void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float_t numberOfEvents)
+void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float_t numberOfEvents, TString caseText)
 {
 
 //   In a ROOT session, you can do:
@@ -93,10 +93,16 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
 
 
    //cs, totalN, Lumi -> Refer to see header file (.h)
-   float weight = lumi * xsection/numberOfEvents;
+   float weight = targetLumi * xsection/numberOfEvents;
 
-   std::cout << "weight "<< weight << std::endl;
+   std::cout << "sample_name "<< sample_name << std::endl;
+   //std::cout << "weight "<< weight << std::endl;
+   //std::cout << "targetLumi "<< targetLumi << std::endl;
+   //std::cout << "xsection "<< xsection << std::endl;
+   //std::cout << "numberOfEvents "<< numberOfEvents << std::endl;
 
+
+   int count=0;
    Long64_t nbytes = 0, nb = 0;
    //Loop over all events
    for (Long64_t jentry=0; jentry<nentries;jentry++) {
@@ -179,12 +185,15 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
                        nbjet_hist->Fill(bJets.size());
 
                        //Case 1 = Case 3 + Case 4 + Case 5
-                       if(bJets.size() < 1 || bJets.size()+non_bJets.size() < 2) continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
-                       //if(bJets.size() < 1 || Njet < 2) continue;//N_bjet >= 1, N_jet >= 2
-                       //if(bJets.size() != 1 || non_bJets.size() != 0) continue;//N_jet = 1, N_bjet = 1 (Case 2)
-                       //if(bJets.size() < 1 || bJets.size()+non_bJets.size() == 2) continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
-                       //if(bJets.size() < 1 || bJets.size() > 2 || bJets.size()+non_bJets.size() < 3) continue;//N_jet >= 3, N_bjets = 1or2 (Case 4)
-                       //if(bJets.size() < 3) continue;//N_jet >=3, N_bjet >= 3 (Case 5)
+                       if(caseText == "1" and (bJets.size() < 1 || bJets.size()+non_bJets.size() < 2) )continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
+                       //if(caseText == "na" and (bJets.size() < 1 || non_bJets < 2) )continue;//N_bjet >= 1, N_jet >= 2
+                       if(caseText == "2" and (bJets.size() != 1 || non_bJets.size() != 0) )continue;//N_jet = 1, N_bjet = 1 (Case 2)
+                       //if(caseText == "3" and (bJets.size() < 1 || bJets.size()+non_bJets.size() == 2) )continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
+                       if(caseText == "3" and not (bJets.size() >= 1 && bJets.size()+non_bJets.size() == 2) )continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
+                       if(caseText == "4" and (bJets.size() < 1 || bJets.size() > 2 || bJets.size()+non_bJets.size() < 3) )continue;//N_jet >= 3, N_bjets = 1or2 (Case 4)
+                       if(caseText == "5" and (bJets.size() < 3) )continue;//N_jet >=3, N_bjet >= 3 (Case 5)
+
+                       count++;
 
                        //pT
                        leppT_hist->Fill(leptons[0].Pt());
@@ -335,7 +344,8 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
                }
            }
        }
-   }   
+   } 
+   std::cout << "count*weigth " << count*weight << std::endl;
 
 std::vector<TH1F *> hists = {run_hist, mini_SBM_hist, mini_SBM_minus173_hist, leppT_hist, lepeta_hist, lepphi_hist, dPhi_dimuon_hist, dPhi_hist, dR_hist, mass_hist, jetpT_hist, jeteta_hist, bjetpT_hist, bjeteta_hist, NonbjetpT_hist, Nonbjeteta_hist, nbjet_hist, nNonbjet_hist, id_hist, MET_hist, dilep_mass_hist, SBM_hist, METvsMmm_hist, HTLT_hist, Mass_hist};
 
