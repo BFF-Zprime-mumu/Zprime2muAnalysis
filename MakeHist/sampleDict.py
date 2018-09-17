@@ -1,6 +1,24 @@
 
 sampleDict = {}
 
+sampleDict['zp200'] ={
+"path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp200.root"],
+"xsection": 0.5125 * 1000,
+"totalEvents": 10000,
+"outName":"zp200.root"}
+
+sampleDict['zp350'] ={
+"path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp350.root"],
+"xsection": 0.06838 * 1000,
+"totalEvents": 10000,
+"outName":"zp350.root"}
+
+sampleDict['zp500'] ={
+"path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root"],
+"xsection": 0.01628 * 1000,
+"totalEvents": 10000,
+"outName":"zp500.root"}
+
 sampleDict['ZZ_TuneCUETP8M1_13TeV'] ={
 "path":["/afs/cern.ch/work/h/hyeahyun/public/background/ZZ_TuneCUETP8M1_13TeV-pythia8/180802_085945/0000/"],
 "xsection": 10.16 * 1000,
@@ -47,20 +65,3 @@ sampleDict['WZ_TuneCUETP8M1_13TeV'] ={
 "totalEvents": 1000000,
 "outName":"WZ_TuneCUETP8M1_13TeV.root"}
 
-sampleDict['zp200'] ={
-"path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp200.root"],
-"xsection": 0.5125 * 1000,
-"totalEvents": 10000,
-"outName":"zp200.root"}
-
-sampleDict['zp350'] ={
-"path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp350.root"],
-"xsection": 0.06838 * 1000,
-"totalEvents": 10000,
-"outName":"zp350.root"}
-
-sampleDict['zp500'] ={
-"path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp500.root"],
-"xsection": 0.01628 * 1000,
-"totalEvents": 10000,
-"outName":"zp500.root"}

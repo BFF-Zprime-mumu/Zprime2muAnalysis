@@ -86,9 +86,32 @@ gSystem.Load("mumu_C")
 ###
 instance = mumu(chain)
 
+
+#  mumu::Loop(TString sample_name, float xsection, float lumi, float numberOfEvents)  Float_t         Lumi = 35.9;
+#
+#   Float_t         zp200_cs = 0.5125 * 1000;
+#   Float_t         zp350_cs = 0.06838 * 1000;
+#   Float_t         zp500_cs = 0.01628 * 1000;
+#   Float_t         TT_cs = 76.7 * 1000;
+#   Float_t         DY_cs = 5941.0 * 1000;
+#   Float_t         ST_top_cs = 38.09 * 1000;
+#   Float_t         ST_antitop_cs = 38.06 * 1000;
+#   Float_t         WW_cs = 10.48 * 1000;
+#   Float_t         WZ_cs = 23.43 * 1000;
+#   Float_t         ZZ_cs = 10.16 * 1000;
+#
+#   Float_t         zp_totalN = 10000;
+#   Float_t         TT_totalN = 79092400;
+#   Float_t         DY_totalN = 122055388;
+#   Float_t         ZZ_totalN = 990064;
+#   Float_t         WZ_totalN = 1000000;
+#   Float_t         WW_totalN = 1999000;
+#   Float_t         ST_top_totalN = 6952830;
+#   Float_t         ST_antitop_totalN = 6933094;
+
 ### HATS comment:
 # and now we call our class's 'Loop' method
 ###
 if not exists("output"):
   mkdir("output")
-instance.Loop("output/%s" % options.outFileName)
+instance.Loop("output/%s" % options.outFileName,0.5125 * 1000,35.9,10000)

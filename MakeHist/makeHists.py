@@ -7,7 +7,7 @@ from ROOT import *
 gSystem.CompileMacro("mumu.C", "gOck")
 gSystem.Load("mumu_C")
 
-def makePlots(l_sampleDict, lumi):
+def makePlots(l_sampleDict, lumi, cutString):
   chain = TChain('SimpleNtupler/t')
   inFiles = []
 
@@ -25,14 +25,23 @@ def makePlots(l_sampleDict, lumi):
 
   if not exists("output"):
     mkdir("output")
-  instance.Loop("output/%s" % l_sampleDict['outName'],l_sampleDict['xsection'],lumi,l_sampleDict['totalEvents'], "3")#
+  instance.Loop("output/{0}_{1}".format(cutString,l_sampleDict['outName']),l_sampleDict['xsection'],lumi,l_sampleDict['totalEvents'], cutString)#
 
 
+cutStrings = ["b=1_j=0",
+"b=1,2_b+j=2"]
 
+cutStrings = ["1",
+"2",
+"3",
+"4",
+"5",
+""]
 
-for sample in sampleDict:
-  #print sample, sampleDict[sample]
-  makePlots(sampleDict[sample], 35.9)
+for cutString in cutStrings:
+  for sample in sampleDict:
+    #print sample, sampleDict[sample]
+    makePlots(sampleDict[sample], 35.9, cutString)
 
 
 '''                       //if(bJets.size() < 1 || bJets.size()+non_bJets.size() < 2) continue;//N_jet >= 2, N_bjets >= 1 (Case 1)

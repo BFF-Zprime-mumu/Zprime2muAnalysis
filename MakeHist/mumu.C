@@ -46,7 +46,7 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
 
    
    //Create root file with histograms
-   TFile *output = new TFile(sample_name+"_DiMu_bjetpT20_Histograms.root","recreate");
+   TFile *output = new TFile(sample_name,"recreate");
 
    
    //histograms
@@ -184,14 +184,22 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
                        njvsnbj_hist->Fill(non_bJets.size(),bJets.size());
                        nbjet_hist->Fill(bJets.size());
 
+                       int nBjets = bJets.size();
+                       int nNonBjets = non_bJets.size();
+                       int njets = bJets.size()+ non_bJets.size();
+
                        //Case 1 = Case 3 + Case 4 + Case 5
-                       if(caseText == "1" and (bJets.size() < 1 || bJets.size()+non_bJets.size() < 2) )continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
-                       //if(caseText == "na" and (bJets.size() < 1 || non_bJets < 2) )continue;//N_bjet >= 1, N_jet >= 2
-                       if(caseText == "2" and (bJets.size() != 1 || non_bJets.size() != 0) )continue;//N_jet = 1, N_bjet = 1 (Case 2)
-                       //if(caseText == "3" and (bJets.size() < 1 || bJets.size()+non_bJets.size() == 2) )continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
-                       if(caseText == "3" and not (bJets.size() >= 1 && bJets.size()+non_bJets.size() == 2) )continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
-                       if(caseText == "4" and (bJets.size() < 1 || bJets.size() > 2 || bJets.size()+non_bJets.size() < 3) )continue;//N_jet >= 3, N_bjets = 1or2 (Case 4)
-                       if(caseText == "5" and (bJets.size() < 3) )continue;//N_jet >=3, N_bjet >= 3 (Case 5)
+                       if(caseText == "1" and (nBjets < 1 || njets < 2) )continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
+                       //if(caseText == "na" and (nBjets < 1 || non_bJets < 2) )continue;//N_bjet >= 1, N_jet >= 2
+                       if(caseText == "2" and (nBjets != 1 || nNonBjets != 0) )continue;//N_jet = 1, N_bjet = 1 (Case 2)
+                       //if(caseText == "3" and (nBjets < 1 || njets == 2) )continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
+                       if(caseText == "3" and not (nBjets >= 1 && njets == 2) )continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
+                       if(caseText == "4" and (nBjets < 1 || nBjets > 2 || njets < 3) )continue;//N_jet >= 3, N_bjets = 1or2 (Case 4)
+                       if(caseText == "5" and (nBjets < 3) )continue;//N_jet >=3, N_bjet >= 3 (Case 5)
+
+
+                       if(caseText == "b=1_j=0" and not (nBjets == 1 && nNonBjets == 0) )continue;
+                       if(caseText == "b=1,2_b+j=2" and not ( (nBjets == 1 || nBjets == 2) && njets == 2) )continue;
 
                        count++;
 

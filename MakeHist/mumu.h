@@ -443,7 +443,7 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
    //virtual void     Loop();
-   virtual void     Loop(TString sample_name, Float_t l_xsection, Float_t l_targetLumi, Float_t l_numberOfEvents);
+   virtual void     Loop(TString sample_name, Float_t l_xsection, Float_t l_targetLumi, Float_t l_numberOfEvents, TString caseText);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };
