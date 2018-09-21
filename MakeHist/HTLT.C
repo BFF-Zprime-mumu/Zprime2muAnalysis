@@ -1,17 +1,18 @@
 void HTLT(){
 
+
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
 
     //Signal input files
-    TFile *zp200 = new TFile("/cms/ldap_home/hyeahyun/signal/zp200/zp200_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *zp350 = new TFile("/cms/ldap_home/hyeahyun/signal/zp350/zp350_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *zp500 = new TFile("/cms/ldap_home/hyeahyun/signal/zp500/zp500_basic_DiMu_bjetpT20_Histograms.root");
+    TFile *zp200 = new TFile("./output/1_zp200.root");
+    TFile *zp350 = new TFile("./output/1_zp350.root");
+    TFile *zp500 = new TFile("./output/1_zp500.root");
     
     //Background input files
-    TFile *DY = new TFile("DY/DY_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *TT = new TFile("TT/TT_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *DB = new TFile("diboson/DB_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *ST = new TFile("ST/ST_basic_DiMu_bjetpT20_Histograms.root");
+    TFile *DY = new TFile("./output/1_DYJetsToLL_M.root");
+    TFile *TT = new TFile("./output/1_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
+    TFile *DB = new TFile("./output/1_db.root");
+    TFile *ST = new TFile("./output/1_st.root");
 
     //Branch
     TH1F *HTLT_200 = (TH1F*)zp200->Get("HTLT_hist");
@@ -54,10 +55,12 @@ void HTLT(){
     HTLT_ST->Rebin(2); 
 
     ////////////////////// !! Stack order !! /////////////////////
+    
+    hs->Add(HTLT_DB,"");
+    hs->Add(HTLT_ST,"");
     hs->Add(HTLT_TT,"");
     hs->Add(HTLT_DY,"");
-    hs->Add(HTLT_ST,"");
-    hs->Add(HTLT_DB,"");
+   
 
     TCanvas *c1 = new TCanvas("c1","",800,800);
     TText T; 
@@ -66,7 +69,8 @@ void HTLT(){
     
     hs->SetMinimum(0.1);
     hs->SetMaximum(100000);
-    hs->Draw("hist nostack");
+    //hs->Draw("hist nostack");
+    hs->Draw("hist");
     HTLT_200->Draw("same hist");
     HTLT_350->Draw("same hist");
     HTLT_500->Draw("same hist");
