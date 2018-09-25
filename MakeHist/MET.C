@@ -6,7 +6,6 @@
 #include <TLegend.h>
 #include <THStack.h>
 
-
 void MET(TString prefix){
 
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
@@ -110,6 +109,9 @@ void MET(TString prefix){
     hs->GetYaxis()->SetTitle("Events");
 
     hs->GetYaxis()->SetLabelSize(0.03);
+    hs->GetYaxis()->SetTitleOffset(1.3);
+
+    hs->GetXaxis()->SetTitleOffset(1.25);
 
     TLegend *leg_MET = new TLegend(0.5839599,0.6739974,0.8734336,0.8576973,NULL,"brNDC");
     leg_MET->AddEntry(MET_200,"Z' 200GeV","l");

@@ -112,6 +112,9 @@ void HTLT(TString prefix){
     hs->GetYaxis()->SetTitle("Events");
 
     hs->GetYaxis()->SetLabelSize(0.03);
+    hs->GetYaxis()->SetTitleOffset(1.3);
+
+    hs->GetXaxis()->SetTitleOffset(1.25);
 
     TLegend *leg_HTLT = new TLegend(0.5839599,0.6739974,0.8734336,0.8576973,NULL,"brNDC");
     leg_HTLT->AddEntry(HTLT_200,"Z' 200GeV","l");
