@@ -1,5 +1,6 @@
 from ROOT import *
 
+gROOT.SetBatch(True)
 
 def CompileMacro():
     gSystem.CompileMacro("HTLT.C", "gOck")
