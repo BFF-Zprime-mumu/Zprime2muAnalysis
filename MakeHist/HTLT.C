@@ -1,28 +1,50 @@
-void HTLT(){
+#include <TCanvas.h>
+#include <TH1.h>
+#include <TFile.h>
+#include <TText.h>
+#include <TPaveText.h>
+#include <TLegend.h>
+#include <THStack.h>
+#include <TString.h>
 
+void HTLT(TString prefix){
 
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
 
-    //Signal input files
-    TFile *zp200 = new TFile("./output/1_zp200.root");
-    TFile *zp350 = new TFile("./output/1_zp350.root");
-    TFile *zp500 = new TFile("./output/1_zp500.root");
-    
-    //Background input files
-    TFile *DY = new TFile("./output/1_DYJetsToLL_M.root");
-    TFile *TT = new TFile("./output/1_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
-    TFile *DB = new TFile("./output/1_db.root");
-    TFile *ST = new TFile("./output/1_st.root");
+    //Open Files
+    TFile *zp200           = new TFile("./output/"+ prefix + "_zp200.root");
+    TFile *zp350           = new TFile("./output/"+ prefix + "_zp350.root");
+    TFile *zp500           = new TFile("./output/"+ prefix + "_zp500.root");
 
-    //Branch
+    TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
+    TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
+    TFile *TT              = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
+    TFile *ST_tW_top       = new TFile("./output/"+ prefix + "_ST_tW_top_5f_inclusiveDecays_13TeV.root");
+    TFile *WZ              = new TFile("./output/"+ prefix + "_WZ_TuneCUETP8M1_13TeV.root");
+    TFile *ZZ              = new TFile("./output/"+ prefix + "_ZZ_TuneCUETP8M1_13TeV.root");
+    TFile *DY              = new TFile("./output/"+ prefix + "_DYJetsToLL_M.root");
+
+    //Make TH1Fs
     TH1F *HTLT_200 = (TH1F*)zp200->Get("HTLT_hist");
     TH1F *HTLT_350 = (TH1F*)zp350->Get("HTLT_hist");
     TH1F *HTLT_500 = (TH1F*)zp500->Get("HTLT_hist");
-    TH1F *HTLT_DY = (TH1F*)DY->Get("HTLT_hist");
+
+    //first is named DB as it will include ww, wz, and zz
+    TH1F *HTLT_DB = (TH1F*)WW->Get("HTLT_hist");
+    TH1F *HTLT_WZ = (TH1F*)WZ->Get("HTLT_hist");
+    TH1F *HTLT_ZZ = (TH1F*)ZZ->Get("HTLT_hist");
+    HTLT_DB->Add(HTLT_WZ);
+    HTLT_DB->Add(HTLT_ZZ);
+
     TH1F *HTLT_TT = (TH1F*)TT->Get("HTLT_hist");
-    TH1F *HTLT_DB = (TH1F*)DB->Get("HTLT_hist");
-    TH1F *HTLT_ST = (TH1F*)ST->Get("HTLT_hist");
-    
+
+    TH1F *HTLT_DY = (TH1F*)DY->Get("HTLT_hist");
+
+    //first is named ST as it will contain top and antitop
+    TH1F *HTLT_ST = (TH1F*)ST_tW_antitop->Get("HTLT_hist");
+    TH1F *HTLT_ST_tW_top = (TH1F*)ST_tW_top->Get("HTLT_hist");
+    HTLT_ST->Add(HTLT_ST_tW_top);
+   
     //Setting backgrounds FillColor
     HTLT_TT->SetFillColor(kYellow-9);
     HTLT_DY->SetFillColor(kCyan-9);
@@ -91,7 +113,7 @@ void HTLT(){
 
     hs->GetYaxis()->SetLabelSize(0.03);
 
-    leg_HTLT = new TLegend(0.5839599,0.6739974,0.8734336,0.8576973,NULL,"brNDC");
+    TLegend *leg_HTLT = new TLegend(0.5839599,0.6739974,0.8734336,0.8576973,NULL,"brNDC");
     leg_HTLT->AddEntry(HTLT_200,"Z' 200GeV","l");
     leg_HTLT->AddEntry(HTLT_350,"Z' 350GeV","l");
     leg_HTLT->AddEntry(HTLT_500,"Z' 500GeV","l");
@@ -102,4 +124,6 @@ void HTLT(){
 
     leg_HTLT->Draw();
 
+    c1->SaveAs("./hists/"+prefix+"_HTLT.png");
+    delete c1;
 }

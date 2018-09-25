@@ -1,27 +1,50 @@
-void MET(){
+#include <TCanvas.h>
+#include <TH1.h>
+#include <TFile.h>
+#include <TText.h>
+#include <TPaveText.h>
+#include <TLegend.h>
+#include <THStack.h>
+
+
+void MET(TString prefix){
 
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
    
-    //Signal input files
-    TFile *zp200 = new TFile("/cms/ldap_home/hyeahyun/signal/zp200/zp200_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *zp350 = new TFile("/cms/ldap_home/hyeahyun/signal/zp350/zp350_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *zp500 = new TFile("/cms/ldap_home/hyeahyun/signal/zp500/zp500_basic_DiMu_bjetpT20_Histograms.root");
+    //Open Files
+    TFile *zp200           = new TFile("./output/"+ prefix + "_zp200.root");
+    TFile *zp350           = new TFile("./output/"+ prefix + "_zp350.root");
+    TFile *zp500           = new TFile("./output/"+ prefix + "_zp500.root");
 
-    //Background input files
-    TFile *DY = new TFile("DY/DY_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *TT = new TFile("TT/TT_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *DB = new TFile("diboson/DB_basic_DiMu_bjetpT20_Histograms.root");
-    TFile *ST = new TFile("ST/ST_basic_DiMu_bjetpT20_Histograms.root");
+    TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
+    TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
+    TFile *TT              = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
+    TFile *ST_tW_top       = new TFile("./output/"+ prefix + "_ST_tW_top_5f_inclusiveDecays_13TeV.root");
+    TFile *WZ              = new TFile("./output/"+ prefix + "_WZ_TuneCUETP8M1_13TeV.root");
+    TFile *ZZ              = new TFile("./output/"+ prefix + "_ZZ_TuneCUETP8M1_13TeV.root");
+    TFile *DY              = new TFile("./output/"+ prefix + "_DYJetsToLL_M.root");
 
-    //Branch
+    //Make TH1Fs
     TH1F *MET_200 = (TH1F*)zp200->Get("METvsMmm_hist");
     TH1F *MET_350 = (TH1F*)zp350->Get("METvsMmm_hist");
     TH1F *MET_500 = (TH1F*)zp500->Get("METvsMmm_hist");
-    TH1F *MET_DY = (TH1F*)DY->Get("METvsMmm_hist");
+
+    //first is named DB as it will include ww, wz, and zz
+    TH1F *MET_DB = (TH1F*)WW->Get("METvsMmm_hist");
+    TH1F *MET_WZ = (TH1F*)WZ->Get("METvsMmm_hist");
+    TH1F *MET_ZZ = (TH1F*)ZZ->Get("METvsMmm_hist");
+    MET_DB->Add(MET_WZ);
+    MET_DB->Add(MET_ZZ);
+
     TH1F *MET_TT = (TH1F*)TT->Get("METvsMmm_hist");
-    TH1F *MET_DB = (TH1F*)DB->Get("METvsMmm_hist");
-    TH1F *MET_ST = (TH1F*)ST->Get("METvsMmm_hist");
-    
+
+    TH1F *MET_DY = (TH1F*)DY->Get("METvsMmm_hist");
+
+    //first is named ST as it will contain top and antitop
+    TH1F *MET_ST = (TH1F*)ST_tW_antitop->Get("METvsMmm_hist");
+    TH1F *MET_ST_tW_top = (TH1F*)ST_tW_top->Get("METvsMmm_hist");
+    MET_ST->Add(MET_ST_tW_top);
+
     //Setting backgrounds FillColor
     MET_TT->SetFillColor(kYellow-9);
     MET_DY->SetFillColor(kCyan-9);
@@ -54,10 +77,10 @@ void MET(){
     MET_ST->Rebin(2); 
 
     ////////////////////// !! Stack order !! /////////////////////
+    hs->Add(MET_DB,"");
+    hs->Add(MET_ST,"");
     hs->Add(MET_TT,"");
     hs->Add(MET_DY,"");
-    hs->Add(MET_ST,"");
-    hs->Add(MET_DB,"");
 
     TCanvas *c1 = new TCanvas("c1","",800,800);
     TText T; 
@@ -67,7 +90,7 @@ void MET(){
     hs->SetMinimum(0.1);
     hs->SetMaximum(10000);
     
-    hs->Draw("hist nostack");
+    hs->Draw("hist ");
     MET_200->Draw("same hist");
     MET_350->Draw("same hist");
     MET_500->Draw("same hist");
@@ -88,7 +111,7 @@ void MET(){
 
     hs->GetYaxis()->SetLabelSize(0.03);
 
-    leg_MET = new TLegend(0.5839599,0.6739974,0.8734336,0.8576973,NULL,"brNDC");
+    TLegend *leg_MET = new TLegend(0.5839599,0.6739974,0.8734336,0.8576973,NULL,"brNDC");
     leg_MET->AddEntry(MET_200,"Z' 200GeV","l");
     leg_MET->AddEntry(MET_350,"Z' 350GeV","l");
     leg_MET->AddEntry(MET_500,"Z' 500GeV","l");
@@ -98,5 +121,8 @@ void MET(){
     leg_MET->AddEntry(MET_DB,"WW, WZ, ZZ","f");
 
     leg_MET->Draw();
+
+    c1->SaveAs("./hists/"+prefix+"_MET.png");
+    delete c1;
 
 }
