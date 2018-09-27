@@ -15,7 +15,7 @@ struct Lepton{
 };
 
 
-void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float_t numberOfEvents, TString caseText)
+std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float_t numberOfEvents, TString caseText)
 {
 
 //   In a ROOT session, you can do:
@@ -42,7 +42,13 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
 
-   if (fChain == 0) return;
+
+   //static int  r[4];
+
+   std::vector<float> cutFlow = {0,0,0,0};
+
+  
+   if (fChain == 0) return cutFlow;
 
    
    //Create root file with histograms
@@ -113,13 +119,17 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
 
        run_hist->Fill(run);
 
+       cutFlow.at(0) = cutFlow.at(0) + weight;
 
        if(lep_pt[0] > 53 &&lep_pt[1] > 53){ //lep pT > 53GeV
            if(dil_dR > 0.1){ // dR(lep,lep) > 0.1
                if(fabs(lep_dz[0])<0.5 && fabs(lep_dz[1])<0.5){
 
+                    cutFlow.at(1) = cutFlow.at(1) + weight;
                    //Opposite sign dilepton
                    if(lep_id[0] * lep_id[1] < 0){
+
+                    cutFlow.at(2) = cutFlow.at(2) + weight;
 
                        //if(dil_chosen != 0) continue;
                        //particle id
@@ -200,6 +210,9 @@ void mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float
 
                        if(caseText == "b=1_j=0" and not (nBjets == 1 && nNonBjets == 0) )continue;
                        if(caseText == "b=1,2_b+j=2" and not ( (nBjets == 1 || nBjets == 2) && njets == 2) )continue;
+                       if(caseText == "1j" and not (njets == 1) )continue;
+
+                       cutFlow.at(3) = cutFlow.at(3) + weight;
 
                        count++;
 
@@ -362,4 +375,6 @@ std::vector<TH1F *> hists = {run_hist, mini_SBM_hist, mini_SBM_minus173_hist, le
     njvsnbj_hist->Write();
 
     output->Close();
+
+    return cutFlow;
 }

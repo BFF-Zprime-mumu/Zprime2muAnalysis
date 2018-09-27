@@ -2,13 +2,14 @@ from os import listdir, mkdir, popen
 from os.path import isfile, join, exists
 from sampleDict import sampleDict
 from ROOT import *
+import json
 
 
 gSystem.CompileMacro("mumu.C", "gOck")
 gSystem.Load("mumu_C")
 
-def makePlots(l_sampleDict, lumi, cutString):
-  chain = TChain('SimpleNtupler/t')
+def makePlots(l_sampleDict, lumi, cutString, treeString):
+  chain = TChain('{0}/t'.format(tree))
   inFiles = []
 
   for path in l_sampleDict['path']:
@@ -25,37 +26,32 @@ def makePlots(l_sampleDict, lumi, cutString):
 
   if not exists("output"):
     mkdir("output")
-  instance.Loop("output/{0}_{1}".format(cutString,l_sampleDict['outName']),l_sampleDict['xsection'],lumi,l_sampleDict['totalEvents'], cutString)#
+  cutFlow = instance.Loop("output/{0}_{2}_{1}".format(cutString,l_sampleDict['outName'],treeString),l_sampleDict['xsection'],lumi,l_sampleDict['totalEvents'], cutString)#
+  return [cutFlow[0],cutFlow[1],cutFlow[2],cutFlow[3]]
 
 
 cutStrings = ["b=1_j=0",
-"b=1,2_b+j=2"]
+"b=1,2_b+j=2",
+"2"]
 
-cutStrings = ["1",
-"2",
-"3",
-"4",
-"5",
-""]
+#cutStrings = ["1",
+#"2",
+#"3",
+#"4",
+#"5",
+#""]
+
+treeName = ["SimpleNtuplerDiEle","SimpleNtupler"]
+cutFlow = {}
 
 for cutString in cutStrings:
-  for sample in sampleDict:
-    #print sample, sampleDict[sample]
-    makePlots(sampleDict[sample], 35.9, cutString)
+  cutFlow[cutString] = {}
+  for tree in treeName:
+    cutFlow[cutString][tree] = {}
+    for sample in sampleDict:
+      print sample, tree, sampleDict[sample]['outName']
+      cutFlow[cutString][tree][sample] = makePlots(sampleDict[sample], 35.9, cutString, tree)
 
+with open('cutflow.json','w') as fp:
+  json.dump(cutFlow, fp, indent=4)
 
-'''                       //if(bJets.size() < 1 || bJets.size()+non_bJets.size() < 2) continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
-                       //if(bJets.size() < 1 || Njet < 2) continue;//N_bjet >= 1, N_jet >= 2
-                       //if(bJets.size() != 1 || non_bJets.size() != 0) continue;//N_jet = 1, N_bjet = 1 (Case 2)
-                       //if(bJets.size() < 1 || bJets.size()+non_bJets.size() == 2) continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3)
-                       //if(bJets.size() < 1 || bJets.size() > 2 || bJets.size()+non_bJets.size() < 3) continue;//N_jet >= 3, N_bjets = 1or2 (Case 4)
-                       //if(bJets.size() < 3) continue;//N_jet >=3, N_bjet >= 3 (Case 5)
-
-
-ncut
-njets_ge_2_nbjets_ge_1
-njets_e_1_nbjets_e_1 if(bJets.size() != 1 || non_bJets.size() != 0) continue;//N_jet = 1, N_bjet = 1 (Case 2)
-njets_e_2_nbjets_e_1_or_2 if(bJets.size() < 1 || bJets.size()+non_bJets.size() == 2) continue;//N_jet = 2, N_bjet >=1(1or2) (Case 3) #wrong
-njets_ge_3_nbjets_e_1_or_2 if(bJets.size() < 1 || bJets.size() > 2 || bJets.size()+non_bJets.size() < 3) continue;//N_jet >= 3 and N_bjets = 1or2 (Case 4)
-njets_ge_3_nbjets_ge_3 if(bJets.size() < 3) continue;//N_jet >=3 and N_bjet >= 3 (Case 5) 
-'''
