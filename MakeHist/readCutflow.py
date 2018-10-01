@@ -1,4 +1,5 @@
 import json
+import numpy as np
 
 
 with open('cutflow.json', 'r') as fp:
@@ -25,7 +26,7 @@ for cut in cutflow:
         ttrees.append(ttree)
         ABCD[cut][ttree] = [0,0,0,0]
         for sample in cutflow[cut][ttree]:
-            print cutflow[cut][ttree][sample]
+            #print cutflow[cut][ttree][sample]
             if sample in backgrounds:
                 ABCD[cut][ttree][0] = ABCD[cut][ttree][0] +  cutflow[cut][ttree][sample][3]
             else:
@@ -37,27 +38,60 @@ for cut in cutflow:
                     ABCD[cut][ttree][3] = ABCD[cut][ttree][3] +  cutflow[cut][ttree][sample][3]
 
 
-print "background"
-print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+#print "background"
+#print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+#
+#for ttree in ABCD[cuts[0]]:
+#    print ttree,"\t", ABCD[cuts[0]][ttree][0], "\t", ABCD[cuts[1]][ttree][0], "\t", ABCD[cuts[2]][ttree][0]
+#
+#print "zp200"
+#print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+#
+#for ttree in ABCD[cuts[0]]:
+#    print ttree,"\t", ABCD[cuts[0]][ttree][1], "\t", ABCD[cuts[1]][ttree][1], "\t", ABCD[cuts[2]][ttree][1]
+#
+#print "zp350"
+#print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+#
+#for ttree in ABCD[cuts[0]]:
+#    print ttree,"\t", ABCD[cuts[0]][ttree][2], "\t", ABCD[cuts[1]][ttree][2], "\t", ABCD[cuts[2]][ttree][2]
+#
+#print "zp500"
+#print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+#
+#for ttree in ABCD[cuts[0]]:
+#    print ttree,"\t", ABCD[cuts[0]][ttree][3], "\t", ABCD[cuts[1]][ttree][3], "\t", ABCD[cuts[2]][ttree][3]
 
-for ttree in ABCD[cuts[0]]:
-    print ttree,"\t", ABCD[cuts[0]][ttree][0], "\t", ABCD[cuts[1]][ttree][0], "\t", ABCD[cuts[2]][ttree][0]
+#print ttrees[0], ",\t", ttrees[1]
+#print cuts[2], ",\t", cuts[1], ",\t", cuts[2], ",\t", cuts[1]
 
-print "zp200"
-print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
 
-for ttree in ABCD[cuts[0]]:
-    print ttree,"\t", ABCD[cuts[0]][ttree][1], "\t", ABCD[cuts[1]][ttree][1], "\t", ABCD[cuts[2]][ttree][1]
+#for ttree in ttrees:
+#    for cut in cuts:
+#        if cut == "2": continue
+#        for sample in cutflow[cut][ttree]:
+#
+#            l_cutflow = cutflow[cut][ttree][sample]
+#            nEvents = l_cutflow[0]
+#            #print cut, ttree, sample
+#            #print sample, ",\t", l_cutflow[0], ",\t", l_cutflow[1], ",\t", l_cutflow[2], ",\t", l_cutflow[3]
 
-print "zp350"
-print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+for ttree in ttrees:
+    for cut in cuts:
+        if cut == "2": continue
+        print cut, ttree
 
-for ttree in ABCD[cuts[0]]:
-    print ttree,"\t", ABCD[cuts[0]][ttree][2], "\t", ABCD[cuts[1]][ttree][2], "\t", ABCD[cuts[2]][ttree][2]
+        cutFlowTable = []
 
-print "zp500"
-print "ttree\t", cuts[0], "\t", cuts[1], "\t", cuts[2]
+        for sample in cutflow[cut][ttree]:
 
-for ttree in ABCD[cuts[0]]:
-    print ttree,"\t", ABCD[cuts[0]][ttree][3], "\t", ABCD[cuts[1]][ttree][3], "\t", ABCD[cuts[2]][ttree][3]
+            l_cutflow = cutflow[cut][ttree][sample]
+            nEvents = l_cutflow[0]
+            #print cut, ttree, sample
+            if nEvents !=0: 
+                nEvents = 1
+                cutFlowTable.append([ sample, l_cutflow[0]/nEvents, l_cutflow[1]/nEvents, l_cutflow[2]/nEvents, l_cutflow[3]/nEvents])
+        cutFlowTable = sorted(cutFlowTable, key= lambda cutFlowTable: cutFlowTable[0])
+        for cutflowRow in  cutFlowTable:
+            print cutflowRow[0], ",\t", cutflowRow[1], cutflowRow[1]/cutflowRow[1], ",\t", cutflowRow[2], cutflowRow[2]/cutflowRow[1], ",\t", cutflowRow[3], cutflowRow[3]/cutflowRow[1], ",\t", cutflowRow[4], cutflowRow[4]/cutflowRow[1]
 
