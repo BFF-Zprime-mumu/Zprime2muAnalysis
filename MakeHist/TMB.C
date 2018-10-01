@@ -5,6 +5,9 @@
 #include <TPaveText.h>
 #include <TLegend.h>
 #include <THStack.h>
+#include <iostream>
+
+
 
 
 void TMB(TString prefix){
@@ -25,24 +28,24 @@ void TMB(TString prefix){
     TFile *DY              = new TFile("./output/"+ prefix + "_DYJetsToLL_M.root");
 
     //Make TH1Fs
-    TH1F *TMB_200 = (TH1F*)zp200->Get("SBM_hist");
-    TH1F *TMB_350 = (TH1F*)zp350->Get("SBM_hist");
-    TH1F *TMB_500 = (TH1F*)zp500->Get("SBM_hist");
+    TH1F *TMB_200 = (TH1F*)zp200->Get("mini_SBM_hist");
+    TH1F *TMB_350 = (TH1F*)zp350->Get("mini_SBM_hist");
+    TH1F *TMB_500 = (TH1F*)zp500->Get("mini_SBM_hist");
 
     //first is named DB as it will include ww, wz, and zz
-    TH1F *TMB_DB = (TH1F*)WW->Get("SBM_hist");
-    TH1F *TMB_WZ = (TH1F*)WZ->Get("SBM_hist");
-    TH1F *TMB_ZZ = (TH1F*)ZZ->Get("SBM_hist");
+    TH1F *TMB_DB = (TH1F*)WW->Get("mini_SBM_hist");
+    TH1F *TMB_WZ = (TH1F*)WZ->Get("mini_SBM_hist");
+    TH1F *TMB_ZZ = (TH1F*)ZZ->Get("mini_SBM_hist");
     TMB_DB->Add(TMB_WZ);
     TMB_DB->Add(TMB_ZZ);
 
-    TH1F *TMB_TT = (TH1F*)TT->Get("SBM_hist");
+    TH1F *TMB_TT = (TH1F*)TT->Get("mini_SBM_hist");
 
-    TH1F *TMB_DY = (TH1F*)DY->Get("SBM_hist");
+    TH1F *TMB_DY = (TH1F*)DY->Get("mini_SBM_hist");
 
     //first is named ST as it will contain top and antitop
-    TH1F *TMB_ST = (TH1F*)ST_tW_antitop->Get("SBM_hist");
-    TH1F *TMB_ST_tW_top = (TH1F*)ST_tW_top->Get("SBM_hist");
+    TH1F *TMB_ST = (TH1F*)ST_tW_antitop->Get("mini_SBM_hist");
+    TH1F *TMB_ST_tW_top = (TH1F*)ST_tW_top->Get("mini_SBM_hist");
     TMB_ST->Add(TMB_ST_tW_top);
    
     //Setting backgrounds FillColor
@@ -129,6 +132,103 @@ void TMB(TString prefix){
     leg_TMB->Draw();
 
     c1->SaveAs("./hists/"+prefix+"_TMB.png");
+
+
+    //make bkg for siginificance plot
+    TMB_DB->Add(TMB_ST);
+    TMB_DB->Add(TMB_TT);
+    TMB_DB->Add(TMB_DY);
+
+    TH1F * TMB_DB_copy = (TH1F*) TMB_DB->Clone("DB_copy");
+
+    TH1F * TMB_200_copy = (TH1F*) TMB_200->Clone("200_copy");
+
+    //std::cout << "ComputeIntegral " << TMB_DB->ComputeIntegral() << "\n";
+    float previousBin;
+    float currentBin;
+    int nBins = TMB_DB->GetNbinsX();
+
+    //std::cout << "right cut \n";
+    for(int i=-2;i<nBins+3;i++){
+
+        previousBin = TMB_DB->GetBinContent(i-1);
+        currentBin = TMB_DB->GetBinContent(i);
+
+        TMB_DB->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << TMB_DB->GetBinContent(i) << "\n";
+
+        previousBin = TMB_200->GetBinContent(i-1);
+        currentBin = TMB_200->GetBinContent(i);
+
+        TMB_200->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << TMB_200->GetBinContent(i) << "\n";
+
+
+
+    }
+
+    //std::cout << "left cut \n";
+    for(int i=nBins+2;i>-2;i--){
+
+        previousBin = TMB_DB_copy->GetBinContent(i+1);
+        currentBin = TMB_DB_copy->GetBinContent(i);
+
+        TMB_DB_copy->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << TMB_DB_copy->GetBinContent(i) << "\n";
+
+        previousBin = TMB_200_copy->GetBinContent(i+1);
+        currentBin = TMB_200_copy->GetBinContent(i);
+
+        TMB_200_copy->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << TMB_200_copy->GetBinContent(i) << "\n";
+
+
+    }
+
+      //TMB_200->Divide(TMB_DB);
+    TMB_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_right_cut.png");
+
+    TMB_DB->Draw();
+    TMB_DB->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_DB_right_cut.png");
+
+
+    TMB_200->Divide(TMB_DB);
+    TMB_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_right_cut_s_over_b.png");
+    TMB_200->Multiply(TMB_DB);
+
+    TMB_DB->Add(TMB_200);
+    TMB_200->Multiply(TMB_200);
+    TMB_200->Divide(TMB_DB);
+    TMB_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_right_cut_sig.png");
+
+
+
+
+    //TMB_200_copy->Divide(TMB_DB_copy);
+    TMB_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_left_cut.png");
+
+    TMB_DB_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_DB_left_cut.png");
+
+
+    TMB_200_copy->Divide(TMB_DB_copy);
+    TMB_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_left_cut_s_over_b.png");
+    TMB_200_copy->Multiply(TMB_DB_copy);
+    
+    TMB_DB_copy->Add(TMB_200_copy);
+    TMB_200_copy->Multiply(TMB_200_copy);
+    TMB_200_copy->Divide(TMB_DB_copy);
+    TMB_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_TMB_left_cut_sig.png");
+
+
+
     delete c1;
 
 }

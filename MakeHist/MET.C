@@ -5,6 +5,8 @@
 #include <TPaveText.h>
 #include <TLegend.h>
 #include <THStack.h>
+#include <iostream>
+
 
 void MET(TString prefix){
 
@@ -125,6 +127,100 @@ void MET(TString prefix){
     leg_MET->Draw();
 
     c1->SaveAs("./hists/"+prefix+"_MET.png");
+
+     //make bkg for siginificance plot
+    MET_DB->Add(MET_ST);
+    MET_DB->Add(MET_TT);
+    MET_DB->Add(MET_DY);
+
+    TH1F * MET_DB_copy = (TH1F*) MET_DB->Clone("DB_copy");
+
+    TH1F * MET_200_copy = (TH1F*) MET_200->Clone("200_copy");
+
+    //std::cout << "ComputeIntegral " << MET_DB->ComputeIntegral() << "\n";
+    float previousBin;
+    float currentBin;
+    int nBins = MET_DB->GetNbinsX();
+
+    //std::cout << "right cut \n";
+    for(int i=-2;i<nBins+3;i++){
+
+        previousBin = MET_DB->GetBinContent(i-1);
+        currentBin = MET_DB->GetBinContent(i);
+
+        MET_DB->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << MET_DB->GetBinContent(i) << "\n";
+
+        previousBin = MET_200->GetBinContent(i-1);
+        currentBin = MET_200->GetBinContent(i);
+
+        MET_200->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << MET_200->GetBinContent(i) << "\n";
+
+
+
+    }
+
+    std::cout << "left cut \n";
+    for(int i=nBins+2;i>-2;i--){
+
+        previousBin = MET_DB_copy->GetBinContent(i+1);
+        currentBin = MET_DB_copy->GetBinContent(i);
+
+        MET_DB_copy->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << MET_DB_copy->GetBinContent(i) << "\n";
+
+        previousBin = MET_200_copy->GetBinContent(i+1);
+        currentBin = MET_200_copy->GetBinContent(i);
+
+        MET_200_copy->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << MET_200_copy->GetBinContent(i) << "\n";
+
+
+    }
+
+    //MET_200->Divide(MET_DB);
+    MET_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_right_cut.png");
+
+    MET_DB->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_DB_right_cut.png");
+
+
+    MET_200->Divide(MET_DB);
+    MET_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_right_cut_s_over_b.png");
+    MET_200->Multiply(MET_DB);
+
+    MET_DB->Add(MET_200);
+    MET_200->Multiply(MET_200);
+    MET_200->Divide(MET_DB);
+    MET_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_right_cut_sig.png");
+
+
+
+
+    //MET_200_copy->Divide(MET_DB_copy);
+    MET_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_left_cut.png");
+
+    MET_DB_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_DB_left_cut.png");
+
+
+    MET_200_copy->Divide(MET_DB_copy);
+    MET_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_left_cut_s_over_b.png");
+    MET_200_copy->Multiply(MET_DB_copy);
+    
+    MET_DB_copy->Add(MET_200_copy);
+    MET_200_copy->Multiply(MET_200_copy);
+    MET_200_copy->Divide(MET_DB_copy);
+    MET_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_MET_left_cut_sig.png");
+
+
     delete c1;
 
 }

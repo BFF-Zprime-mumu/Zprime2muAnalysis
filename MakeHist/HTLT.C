@@ -6,6 +6,7 @@
 #include <TLegend.h>
 #include <THStack.h>
 #include <TString.h>
+#include <iostream>
 
 void HTLT(TString prefix){
 
@@ -128,5 +129,99 @@ void HTLT(TString prefix){
     leg_HTLT->Draw();
 
     c1->SaveAs("./hists/"+prefix+"_HTLT.png");
+
+
+    //make bkg for siginificance plot
+    HTLT_DB->Add(HTLT_ST);
+    HTLT_DB->Add(HTLT_TT);
+    HTLT_DB->Add(HTLT_DY);
+
+    TH1F * HTLT_DB_copy = (TH1F*) HTLT_DB->Clone("DB_copy");
+
+    TH1F * HTLT_200_copy = (TH1F*) HTLT_200->Clone("200_copy");
+
+    //std::cout << "ComputeIntegral " << HTLT_DB->ComputeIntegral() << "\n";
+    float previousBin;
+    float currentBin;
+    int nBins = HTLT_DB->GetNbinsX();
+
+    //std::cout << "right cut \n";
+    for(int i=-2;i<nBins+3;i++){
+
+        previousBin = HTLT_DB->GetBinContent(i-1);
+        currentBin = HTLT_DB->GetBinContent(i);
+
+        HTLT_DB->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << HTLT_DB->GetBinContent(i) << "\n";
+
+        previousBin = HTLT_200->GetBinContent(i-1);
+        currentBin = HTLT_200->GetBinContent(i);
+
+        HTLT_200->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << HTLT_200->GetBinContent(i) << "\n";
+
+
+
+    }
+
+    std::cout << "left cut \n";
+    for(int i=nBins+2;i>-2;i--){
+
+        previousBin = HTLT_DB_copy->GetBinContent(i+1);
+        currentBin = HTLT_DB_copy->GetBinContent(i);
+
+        HTLT_DB_copy->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << HTLT_DB_copy->GetBinContent(i) << "\n";
+
+        previousBin = HTLT_200_copy->GetBinContent(i+1);
+        currentBin = HTLT_200_copy->GetBinContent(i);
+
+        HTLT_200_copy->SetBinContent(i, currentBin+ previousBin);
+        //std::cout << HTLT_200_copy->GetBinContent(i) << "\n";
+
+
+    }
+
+      //HTLT_200->Divide(HTLT_DB);
+    HTLT_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_right_cut.png");
+
+    HTLT_DB->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_DB_right_cut.png");
+
+
+    HTLT_200->Divide(HTLT_DB);
+    HTLT_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_right_cut_s_over_b.png");
+    HTLT_200->Multiply(HTLT_DB);
+
+    HTLT_DB->Add(HTLT_200);
+    HTLT_200->Multiply(HTLT_200);
+    HTLT_200->Divide(HTLT_DB);
+    HTLT_200->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_right_cut_sig.png");
+
+
+
+
+    //HTLT_200_copy->Divide(HTLT_DB_copy);
+    HTLT_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_left_cut.png");
+
+    HTLT_DB_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_DB_left_cut.png");
+
+
+    HTLT_200_copy->Divide(HTLT_DB_copy);
+    HTLT_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_left_cut_s_over_b.png");
+    HTLT_200_copy->Multiply(HTLT_DB_copy);
+    
+    HTLT_DB_copy->Add(HTLT_200_copy);
+    HTLT_200_copy->Multiply(HTLT_200_copy);
+    HTLT_200_copy->Divide(HTLT_DB_copy);
+    HTLT_200_copy->Draw();
+    c1->SaveAs("./hists/"+prefix+"_HTLT_left_cut_sig.png");
+
     delete c1;
 }
