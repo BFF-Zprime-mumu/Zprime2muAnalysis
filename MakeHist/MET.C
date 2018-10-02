@@ -143,7 +143,7 @@ void MET(TString prefix){
     int nBins = MET_DB->GetNbinsX();
 
     //std::cout << "right cut \n";
-    for(int i=-2;i<nBins+3;i++){
+    for(int i=1;i<nBins+2;i++){
 
         previousBin = MET_DB->GetBinContent(i-1);
         currentBin = MET_DB->GetBinContent(i);
@@ -161,8 +161,10 @@ void MET(TString prefix){
 
     }
 
+
+
     std::cout << "left cut \n";
-    for(int i=nBins+2;i>-2;i--){
+    for(int i=nBins;i>-1;i--){
 
         previousBin = MET_DB_copy->GetBinContent(i+1);
         currentBin = MET_DB_copy->GetBinContent(i);

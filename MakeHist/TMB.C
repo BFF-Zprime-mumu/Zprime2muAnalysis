@@ -148,8 +148,9 @@ void TMB(TString prefix){
     float currentBin;
     int nBins = TMB_DB->GetNbinsX();
 
+
     //std::cout << "right cut \n";
-    for(int i=-2;i<nBins+3;i++){
+    for(int i=1;i<nBins+2;i++){
 
         previousBin = TMB_DB->GetBinContent(i-1);
         currentBin = TMB_DB->GetBinContent(i);
@@ -163,12 +164,11 @@ void TMB(TString prefix){
         TMB_200->SetBinContent(i, currentBin+ previousBin);
         //std::cout << TMB_200->GetBinContent(i) << "\n";
 
-
-
     }
 
+
     //std::cout << "left cut \n";
-    for(int i=nBins+2;i>-2;i--){
+    for(int i=nBins;i>-1;i--){
 
         previousBin = TMB_DB_copy->GetBinContent(i+1);
         currentBin = TMB_DB_copy->GetBinContent(i);
@@ -181,7 +181,6 @@ void TMB(TString prefix){
 
         TMB_200_copy->SetBinContent(i, currentBin+ previousBin);
         //std::cout << TMB_200_copy->GetBinContent(i) << "\n";
-
 
     }
 
