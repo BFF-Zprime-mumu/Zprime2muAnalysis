@@ -7,9 +7,8 @@
 #include <THStack.h>
 #include <iostream>
 
-TH1F * returnLeftCut(TH1F * background, TH1F * sample)
+TH1F * returnKeepGreaterThan(TH1F * background, TH1F * sample)
 {
-
     float previousBin;
     float currentBin;
     int nBins = background->GetNbinsX();
@@ -17,8 +16,6 @@ TH1F * returnLeftCut(TH1F * background, TH1F * sample)
     TH1F* background_integrated = (TH1F*) background->Clone();
     TH1F* sample_integrated = (TH1F*) sample->Clone();
 
-
-    //std::cout << "right cut \n";
     for(int i=1;i<nBins+2;i++){
 
         previousBin = background_integrated->GetBinContent(i-1);
@@ -42,7 +39,7 @@ TH1F * returnLeftCut(TH1F * background, TH1F * sample)
     return sample_integrated;
 };
 
-TH1F * returnRightCut(TH1F * background, TH1F * sample)
+TH1F * returnKeepLessThan(TH1F * background, TH1F * sample)
 {
 
     float previousBin;
@@ -52,8 +49,6 @@ TH1F * returnRightCut(TH1F * background, TH1F * sample)
     TH1F* background_integrated = (TH1F*) background->Clone();
     TH1F* sample_integrated = (TH1F*) sample->Clone();
 
-
-    //std::cout << "right cut \n";
     for(int i=nBins;i>-1;i--){
 
         previousBin = background_integrated->GetBinContent(i+1);
@@ -79,7 +74,7 @@ TH1F * returnRightCut(TH1F * background, TH1F * sample)
 
 
 
-void makeStackPlot(TString prefix, TString plot){
+void makeStackPlot(TString prefix, TString plot, TString title){
 
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
 
@@ -180,7 +175,7 @@ void makeStackPlot(TString prefix, TString plot){
     pt->Draw();
 
     //hs->GetYaxis()->SetRangeUser(0.001,100000.);
-    hs->GetXaxis()->SetTitle("max(M_{b,lep})[GeV]");
+    hs->GetXaxis()->SetTitle(title);
     hs->GetYaxis()->SetTitle("Events");
 
     hs->GetYaxis()->SetLabelSize(0.03);
@@ -211,15 +206,15 @@ void makeStackPlot(TString prefix, TString plot){
     hist_background->Add(hist_DY);
 
 
-    TH1F * leftCut = (TH1F*) returnLeftCut(hist_background,hist_200);
+    TH1F * leftCut = (TH1F*) returnKeepGreaterThan(hist_background,hist_200);
 
     leftCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_left_cut_s_over_sqrtb.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb.png");
 
-    TH1F * rightCut = (TH1F*) returnRightCut(hist_background,hist_200);
+    TH1F * rightCut = (TH1F*) returnKeepLessThan(hist_background,hist_200);
 
     rightCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_right_cut_s_over_sqrtb.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb.png");
 
 
     delete c1;

@@ -7,13 +7,13 @@ def CompileMacro():
 
 def makePlots(prefix):
     gSystem.Load("makeStackPlot_C")
-    makeStackPlot(prefix,"mini_SBM_hist")
+    makeStackPlot(prefix,"mini_SBM_hist", "max(M_{b,lep})[GeV]")
 
     gSystem.Load("makeStackPlot_C")
-    makeStackPlot(prefix,"HTLT_hist")
+    makeStackPlot(prefix,"HTLT_hist", "HT-LT")
 
     gSystem.Load("makeStackPlot_C")
-    makeStackPlot(prefix,"METvsMmm_hist")
+    makeStackPlot(prefix,"METvsMmm_hist", "E^{miss}_{T}/M_{#mu^{+}#mu^{-}}")
 
 #cutStrings = ["1",
 #"2",
