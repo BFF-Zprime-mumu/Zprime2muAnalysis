@@ -63,6 +63,59 @@ float calculateHTLT(vector<TLorentzVector> bJets, vector<TLorentzVector> non_bJe
    return DHTLT;
 };
 
+
+float * calculateSBM(float aSBM[], vector<TLorentzVector> allJets, vector<TLorentzVector> leptons)
+{
+
+    //lepton-jet pair mass and SBM definition
+   float lep1_jet1_mass;
+   float lep1_jet2_mass;
+   float lep2_jet1_mass;
+   float lep2_jet2_mass;
+   
+   float SBM1 = 0.;
+   float SBM2 = 0.;
+   float SBMMin =-1;
+   float SBMMax =-1;
+   float SBM = -1;
+   float SBMsecond = -1;
+
+
+  //std::cout << lep1_jet1_mass << " " << lep1_jet2_mass << " " << lep2_jet1_mass << " " << lep2_jet2_mass << " " << std::endl;
+  if(allJets.size()== 1){
+       SBM1 = ((leptons[0])+(allJets[0])).M();
+       SBM2 = ((leptons[1])+(allJets[0])).M();
+
+       SBM=min(SBM1,SBM2);
+       SBMMin=min(SBM1,SBM2);
+       SBMMax=max(SBM1,SBM2);
+
+  } else if (allJets.size() == 2){
+      lep1_jet1_mass = ((leptons[0])+(allJets[0])).M();
+      lep1_jet2_mass = ((leptons[0])+(allJets[1])).M();
+      lep2_jet1_mass = ((leptons[1])+(allJets[0])).M();
+      lep2_jet2_mass = ((leptons[1])+(allJets[1])).M();
+
+      //std::cout << lep1_jet1_mass << " " << lep1_jet2_mass << " " << lep2_jet1_mass << " " << lep2_jet2_mass << " " << std::endl;
+      if(abs(lep1_jet1_mass - lep2_jet2_mass) < abs(lep2_jet1_mass - lep1_jet2_mass)){
+        SBM=max(lep1_jet1_mass,lep2_jet2_mass);
+        SBMMin=min(lep1_jet1_mass,lep2_jet2_mass);
+        SBMMax=max(lep1_jet1_mass,lep2_jet2_mass);
+      }
+      else{
+        SBM=max(lep2_jet1_mass,lep1_jet2_mass);
+        SBMMin=min(lep2_jet1_mass,lep1_jet2_mass);
+        SBMMax=max(lep2_jet1_mass,lep1_jet2_mass);
+      }
+    }
+
+    aSBM[0] =  SBM;
+    aSBM[1] =  SBMMin;
+    aSBM[2] =  SBMMax;
+
+    return aSBM;
+}
+
 std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t targetLumi, Float_t numberOfEvents, TString caseText)
 {
 
@@ -323,57 +376,20 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
                        float DHTLT = calculateHTLT(bJets, non_bJets, leptons);
 
-                      //METvsMmm (Normalized MET)
+                       //METvsMmm (Normalized MET)
                        float Mmm = ((leptons[0])+(leptons[1])).M();
                        float MET_t = met_pt;
                        float METvsMmm = MET_t/Mmm ;
                        //if(METvsMmm<0.2){ // <0.2 cut
 
+                      float aSBM[3]= {-1, -1, -1};
 
-                        //lepton-jet pair mass and SBM definition
-                       float lep1_jet1_mass;
-                       float lep1_jet2_mass;
-                       float lep2_jet1_mass;
-                       float lep2_jet2_mass;
-                       
-                       float SBM1 = 0.;
-                       float SBM2 = 0.;
-                       float SBMMin =-1;
-                       float SBMMax =-1;
-                       float SBM = -1;
-                       float SBMsecond = -1;
+                      calculateSBM(aSBM, allJets, leptons);
 
 
-                      //std::cout << lep1_jet1_mass << " " << lep1_jet2_mass << " " << lep2_jet1_mass << " " << lep2_jet2_mass << " " << std::endl;
-                      if(allJets.size()== 1){
-                           SBM1 = ((leptons[0])+(allJets[0])).M();
-                           SBM2 = ((leptons[1])+(allJets[0])).M();
-
-                           SBM=min(SBM1,SBM2);
-                           SBMMin=min(SBM1,SBM2);
-                           SBMMax=max(SBM1,SBM2);
-
-                      } else if (allJets.size() == 2){
-                          lep1_jet1_mass = ((leptons[0])+(allJets[0])).M();
-                          lep1_jet2_mass = ((leptons[0])+(allJets[1])).M();
-                          lep2_jet1_mass = ((leptons[1])+(allJets[0])).M();
-                          lep2_jet2_mass = ((leptons[1])+(allJets[1])).M();
-
-                          //std::cout << lep1_jet1_mass << " " << lep1_jet2_mass << " " << lep2_jet1_mass << " " << lep2_jet2_mass << " " << std::endl;
-                          if(abs(lep1_jet1_mass - lep2_jet2_mass) < abs(lep2_jet1_mass - lep1_jet2_mass)){
-                            SBM=max(lep1_jet1_mass,lep2_jet2_mass);
-                            SBMMin=min(lep1_jet1_mass,lep2_jet2_mass);
-                            SBMMax=max(lep1_jet1_mass,lep2_jet2_mass);
-                          }
-                          else{
-                            SBM=max(lep2_jet1_mass,lep1_jet2_mass);
-                            SBMMin=min(lep2_jet1_mass,lep1_jet2_mass);
-                            SBMMax=max(lep2_jet1_mass,lep1_jet2_mass);
-                          }
-                        }
-                      
-                       
-                       //std::cout << "passed" << std::endl;
+                      float SBMMin =aSBM[1];
+                      float SBMMax =aSBM[2];
+                      float SBM = aSBM[0];
 
                        histClass.METvsMmm_hist->Fill(METvsMmm,weight);
                        histClass.mini_SBM_hist->Fill(SBMMin,weight);
