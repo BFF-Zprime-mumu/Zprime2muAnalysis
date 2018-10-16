@@ -27,21 +27,19 @@ def makePlots(l_sampleDict, lumi, cutString, treeString):
   if not exists("output"):
     mkdir("output")
   cutFlow = instance.Loop("output/{0}_{2}_{1}".format(cutString,l_sampleDict['outName'],treeString),l_sampleDict['xsection'],lumi,l_sampleDict['totalEvents'], cutString)#
-  return [cutFlow[0],cutFlow[1],cutFlow[2],cutFlow[3]]
+  return [cutFlow[0],cutFlow[1],cutFlow[2],cutFlow[3],cutFlow[4],cutFlow[5],cutFlow[6]]
 
 
-cutStrings = ["b=1_j=0",
+cutStrings = [
+"b=1_j=0",
 "b=1,2_b+j=2",
-"2"]
+"b=0_b+j=2",
+"b=0_j=1"
+]
 
-#cutStrings = ["1",
-#"2",
-#"3",
-#"4",
-#"5",
-#""]
 
 treeName = ["SimpleNtuplerDiEle","SimpleNtupler"]
+
 cutFlow = {}
 
 for cutString in cutStrings:
