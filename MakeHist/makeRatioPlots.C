@@ -158,7 +158,7 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   pt->Draw();
 
   c1->SaveAs("./hists/"+prefix_b_ee+"_"+prefix_antib_mumu+"_"+prefix_antib_ee+"_"+plot+"_hist.png");
-  TFile *savefile=new TFile("test.root","RECREATE");
+  TFile *savefile=new TFile("./hists/"+prefix_b_ee+"_"+prefix_antib_mumu+"_"+prefix_antib_ee+"_"+plot+"_hist.root","RECREATE");
   c1->Write();
   rp->Write("ratioTest");
   pt->Write("txt");
