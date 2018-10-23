@@ -127,7 +127,7 @@ TH1F * returnTopCut(TH1F * background, TH1F * sample, Float_t centerValue)
 
 
 
-void make2DPlotCut(TH1F * background, TH1F * sample, TCanvas *c1, TString prefix, TString plot)
+void make2DPlotCut(TH1F * background, TH1F * sample, TCanvas *c1, TString prefix, TString plot, TString postfix)
 {
 
     float previousBin;
@@ -164,20 +164,20 @@ void make2DPlotCut(TH1F * background, TH1F * sample, TCanvas *c1, TString prefix
     TH2F_sample->SetStats(0);
     TH2F_sample->SetTitle(prefix+"_"+plot);
     TH2F_sample->Draw("colz");
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_centerCut.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_centerCut"+postfix+".png");
 
 }
 
 
 
-void makeStackPlot(TString prefix, TString plot, TString title){
+void makeStackPlot(TString prefix, TString postfix, TString plot, TString title){
 
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
 
     //Open Files
-    TFile *zp200           = new TFile("./output/"+ prefix + "_zp200.root");
-    TFile *zp350           = new TFile("./output/"+ prefix + "_zp350.root");
-    TFile *zp500           = new TFile("./output/"+ prefix + "_zp500.root");
+    TFile *zp200           = new TFile("./output/"+ prefix + "_zp200"+postfix+".root");
+    TFile *zp350           = new TFile("./output/"+ prefix + "_zp350"+postfix+".root");
+    TFile *zp500           = new TFile("./output/"+ prefix + "_zp500"+postfix+".root");
 
     TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
     TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
@@ -231,13 +231,13 @@ void makeStackPlot(TString prefix, TString plot, TString title){
     //hist_zp200->GetYaxis()->SetRangeUser(0.001,100000.);
 
     //Reduce number of bin
-    hist_200->Rebin(4);    
-    hist_350->Rebin(4);    
-    hist_500->Rebin(4);    
-    hist_DY->Rebin(4);    
-    hist_TT->Rebin(4);    
-    hist_DB->Rebin(4);    
-    hist_ST->Rebin(4);    
+    //hist_200->Rebin(4);    
+    //hist_350->Rebin(4);    
+    //hist_500->Rebin(4);    
+    //hist_DY->Rebin(4);    
+    //hist_TT->Rebin(4);    
+    //hist_DB->Rebin(4);    
+    //hist_ST->Rebin(4);    
 
     ////////////////////// !! Stack order !! /////////////////////
     hs->Add(hist_DB,"");
@@ -288,7 +288,7 @@ void makeStackPlot(TString prefix, TString plot, TString title){
 
     leg_hist->Draw();
 
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist"+postfix+".png");
 
 
     //make bkg for siginificance plot
@@ -302,36 +302,45 @@ void makeStackPlot(TString prefix, TString plot, TString title){
     TH1F * hist_top = (TH1F*) hist_ST->Clone("background");
     hist_top->Add(hist_TT);
 
-    TH1F * leftCut = (TH1F*) returnKeepGreaterThan(hist_top,hist_500);
+    /*TH1F * leftCut = (TH1F*) returnKeepGreaterThan(hist_top,hist_500);
 
     leftCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb"+postfix+".png");
 
     TH1F * rightCut = (TH1F*) returnKeepLessThan(hist_top,hist_500);
 
     rightCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb"+postfix+".png");
 
 
     TH1F * leftCutTop = (TH1F*) returnKeepGreaterThan(hist_top,hist_500);
 
     leftCutTop->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb_tops.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb_tops"+postfix+".png");
 
 
     TH1F * rightCutTop = (TH1F*) returnKeepLessThan(hist_top,hist_500);
 
     rightCutTop->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb_tops.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb_tops"+postfix+".png");
 
 
     TH1F * topCut = returnTopCut(hist_top, hist_500, 120);
 
     topCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_top_cut_s_over_sqrtb_tops.png");
+    c1->SaveAs("./hists/"+prefix+"_"+plot+"_top_cut_s_over_sqrtb_tops"+postfix+".png");*/
 
-    make2DPlotCut(hist_top, hist_200,c1,prefix,plot);
+    make2DPlotCut(hist_top, hist_200,c1,prefix,plot, postfix);
 
+    TFile *shapeFile = new TFile("./hists/shape_"+prefix+"_"+plot+"_"+postfix+".root","RECREATE");
+
+
+    hist_background->Write("background");
+    hist_200->Write("zp200");
+    hist_350->Write("zp350");
+    hist_500->Write("zp500");
+
+    shapeFile->Close();;
 
     delete c1;
 
