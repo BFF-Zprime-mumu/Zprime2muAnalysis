@@ -14,6 +14,38 @@ struct Lepton{
     float Iso;
 };
 
+void BinLogX(TH1*h) 
+{
+
+   TAxis *axis = h->GetXaxis(); 
+   int bins = axis->GetNbins();
+
+   Axis_t from = axis->GetXmin();
+   Axis_t to = axis->GetXmax();
+   Axis_t width = (to - from) / bins;
+   Axis_t *new_bins = new Axis_t[bins + 1];
+
+   for (int i = 0; i <= bins; i++) {
+     new_bins[i] = TMath::Power(10, from + i * width);
+   } 
+   axis->Set(bins, new_bins); 
+   delete new_bins; 
+}
+
+/*Float_t * returnLogArray(Float_t minEdge, Float_t maxEdge, Int_t nBins) 
+{
+
+  Float_t width = (maxEdge - minEdge) / nBins;
+  static Float_t bins[nBins + 1];
+
+  for (int i = 0; i <= bins; i++) {
+    bins[i] = TMath::Power(10, from + i * width);
+    std::cout << TMath::Power(10, from + i * width) <<std::endl;
+  } 
+ 
+  return bins;
+}*/
+
 
 
 float calculateHTLT(vector<TLorentzVector> bJets, vector<TLorentzVector> non_bJets, vector<TLorentzVector> leptons)
@@ -225,7 +257,27 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
     njvsnbj_hist = new TH2F(name+"njvsnbj_hist","Number of non_b-jets vs Number of b-jets; Number of non_bjets; Number of b-jets",10,0,10,5,0,5); njvsnbj_hist->Sumw2();
     
     MET_hist = new TH1F(name+"MET_hist","Missing ET; E^{miss}_{T} [GeV]; Number ofe events",100,0,1000); MET_hist->Sumw2();
-    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",100,0,1000); dilep_mass_hist->Sumw2();
+
+
+    Int_t nBins = 100;
+    Float_t bins[nBins+1];
+    Float_t maxEdge = 1000;
+    Float_t minEdge = 1;
+    Float_t width = TMath::Exp(TMath::Log(maxEdge - minEdge)/(nBins+1));
+    //static Float_t bins[nBins + 1];
+  
+    for (int i = 0; i <= nBins+1; i++) {
+      bins[i] = minEdge + TMath::Power(width,i );
+      //std::cout << 1 + TMath::Power(width,i ) <<std::endl;
+    } 
+
+    //dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",100,1,1000); 
+    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
+
+    //BinLogX(dilep_mass_hist);
+    dilep_mass_hist->Sumw2();
+
+
   
     SBM_hist = new TH1F(name+"SBM_hist","max(SBM); max(SBM) [GeV]; a.u.",100,0,300); SBM_hist->Sumw2();
     METvsMmm_hist = new TH1F(name+"METvsMmm_hist","E^{miss}_{T}/M(#mu^{+}#mu^{-}); E^{miss}_{T}/M(#mu^{+}#mu^{-}) [GeV]; a.u.",100,0,1); METvsMmm_hist->Sumw2();
