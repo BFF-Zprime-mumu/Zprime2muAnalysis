@@ -13,10 +13,13 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cfg import process
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFiltersMiniAOD
 
 process.source.fileNames =[#'file:./pat.root'
-'/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
+#'/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
 #'file:/cms/ldap_home/hyeahyun/zp/sample/0030B9D6-72C1-E611-AE49-02163E00E602.root',
+#'file:./2016-100k/zpbb_m200_50k_01_2016_miniaod.root',
+'/store/data/Run2016F/SingleMuon/MINIAOD/23Sep2016-v1/70000/DA4AC36E-7C8F-E611-8844-002590D0AF9E.root'
+
 			   ]
-process.maxEvents.input = -1 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
+process.maxEvents.input = 100 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
 # Set global tags
 for fileName in process.source.fileNames:
 	if "Run2016H" in fileName:
@@ -28,6 +31,8 @@ for fileName in process.source.fileNames:
 		process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 		isMC = True
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000 # default 1000
+
+process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
 
 from SUSYBSMAnalysis.Zprime2muAnalysis.hltTriggerMatch_cfi import trigger_match, prescaled_trigger_match, trigger_paths, prescaled_trigger_paths, overall_prescale, offline_pt_threshold, prescaled_offline_pt_threshold
 
@@ -282,8 +287,9 @@ for cut_name, Selection in cuts.iteritems():
 
 def ntuplify(process, fill_gen_info=False):
     process.load('SUSYBSMAnalysis.Zprime2muAnalysis.PrunedMCLeptons_cfi')
-    obj = process.prunedMCLeptons
-    obj.src = cms.InputTag('prunedGenParticles')
+    if fill_gen_info:
+        obj = process.prunedMCLeptons
+        obj.src = cms.InputTag('prunedGenParticles')
 
     process.SimpleNtupler = cms.EDAnalyzer('SimpleNtupler_miniAOD',
                                            dimu_src = cms.InputTag('Our2016MuonsPlusMuonsMinus'),
@@ -302,6 +308,7 @@ def ntuplify(process, fill_gen_info=False):
     else: 
         pass
     if hasattr(process, 'pathOur2016'):
+       
         if fill_gen_info:
             process.pathOur2016 *= obj * process.SimpleNtupler
             if Electrons:
@@ -310,7 +317,7 @@ def ntuplify(process, fill_gen_info=False):
                 process.pathOur2016 *= process.SimpleNtuplerEmu
                 process.pathOur2016 *= process.SimpleNtuplerDiEle
         else: 
-            pass
+            process.pathOur2016 *= process.SimpleNtupler
     else: 
         pass
 #    if hasattr(process, 'pathOur2016'):
@@ -321,11 +328,8 @@ def ntuplify(process, fill_gen_info=False):
 #    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
 #    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
-<<<<<<< HEAD
 ntuplify(process) #to have ntuples also running in interactive way
-=======
-#ntuplify(process) #to have ntuples also running in interactive way -- no need as will be executed twice
->>>>>>> central/develop
+
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
@@ -354,21 +358,24 @@ def check_prescale(process, trigger_paths, hlt_process_name='HLT'):
     process.CheckPrescale.trigger_paths = cms.vstring(*trigger_paths)
     process.pCheckPrescale = cms.Path(process.CheckPrescale)
 
+
 def for_data(process,GT):
-    
+#def for_data(process):
+    print "for_data"
     process.GlobalTag.globaltag = GT #RunH              #change line 52
     ntuplify(process)
 
 if 'int_data' in sys.argv:
-    for_data(process)
-    printify(process)
+    for_data(process, '80X_dataRun2_2016SeptRepro_v6')
+    #printify(process)
     
 if 'int_mc' in sys.argv:
     for_mc(process, 'HLT', False)
     printify(process)
     
 if 'gogo' in sys.argv:
-    for_data(process)
+    #for_data(process)
+    for_data(process, '80X_dataRun2_2016SeptRepro_v6')
     printify(process)
     
     n = sys.argv.index('gogo')
@@ -394,6 +401,9 @@ if 'gogo' in sys.argv:
 f = file('outfile_histos1', 'w')
 f.write(process.dumpPython())
 f.close()
+
+
+
 
 if __name__ == '__main__' and 'submit' in sys.argv:
     crab_cfg = '''
