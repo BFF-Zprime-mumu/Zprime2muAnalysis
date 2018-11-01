@@ -43,11 +43,11 @@ if not blinded:
     makeRatioPlots("b=1_j=0_SimpleNtuplerDiEle", "b=0_j=1_SimpleNtupler","b=0_j=1_SimpleNtuplerDiEle", "b=1_j=0_SimpleNtupler" ,"dilep_mass_hist", "\\text{M}_{\\mathscr{l}^{+}\\mathscr{l}^{-}}~[\\text{GeV}]", "CR^{ee}_{1b j=1} #bullet CR^{#mu#mu}_{1j}/CR^{ee}_{1j}")
 makeNbJetNJet("b=0_j=1_SimpleNtupler","njvsnbj_hist")
 
-#postfix = "_2016"
-##cutStrings = []
-#for cut in cutStrings:
-#    for tree in treeName:
-#        if (cut == "b=1_j=0" or cut == "b=1,2_b+j=2") and tree == "SimpleNtupler" and blinded:
-#            continue
-#        makePlots("{0}_{1}".format(cut,tree),postfix)
-#
+postfix = "_2016"
+#cutStrings = []
+for cut in cutStrings:
+    for tree in treeName:
+        if (cut == "b=1_j=0" or cut == "b=1,2_b+j=2") and tree == "SimpleNtupler" and blinded:
+            continue
+        makePlots("{0}_{1}".format(cut,tree),postfix)
+
