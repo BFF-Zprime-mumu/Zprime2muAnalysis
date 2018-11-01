@@ -7,6 +7,7 @@
 #include <TLegend.h>
 #include <THStack.h>
 #include <iostream>
+#include <TMath.h>
 
 TH1F * returnKeepGreaterThan(TH1F * background, TH1F * sample)
 {
@@ -172,12 +173,15 @@ void make2DPlotCut(TH1F * background, TH1F * sample, TCanvas *c1, TString prefix
 
 void makeStackPlot(TString prefix, TString postfix, TString plot, TString title){
 
-    THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
+    //THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
+    THStack *hs = new THStack("hs","2016F 3.102 fb^{-1} (13TeV)");
 
     //Open Files
     TFile *zp200           = new TFile("./output/"+ prefix + "_zp200"+postfix+".root");
     TFile *zp350           = new TFile("./output/"+ prefix + "_zp350"+postfix+".root");
     TFile *zp500           = new TFile("./output/"+ prefix + "_zp500"+postfix+".root");
+
+    TFile *datatest           = new TFile("./output/"+ prefix + "_datatest.root");
 
     TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
     TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
@@ -191,6 +195,9 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     TH1F *hist_200 = (TH1F*)zp200->Get(plot);
     TH1F *hist_350 = (TH1F*)zp350->Get(plot);
     TH1F *hist_500 = (TH1F*)zp500->Get(plot);
+    TH1F *hist_datatest = (TH1F*)datatest->Get(plot);
+
+    std::cout << hist_200->GetEntries() << std::endl;
 
     //first is named DB as it will include ww, wz, and zz
     TH1F *hist_DB = (TH1F*)WW->Get(plot);
@@ -218,6 +225,7 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     hist_200->SetLineColor(kBlue);
     hist_350->SetLineColor(kRed);
     hist_500->SetLineColor(kGreen+1);
+    hist_datatest->SetLineColor(kBlack);
     hist_DY->SetLineColor(1);
     hist_TT->SetLineColor(1);
     hist_DB->SetLineColor(1);
@@ -227,6 +235,9 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     hist_200->SetLineWidth(3);
     hist_350->SetLineWidth(3);
     hist_500->SetLineWidth(3);
+    //hist_datatest->SetLineWidth(3);
+
+    //hist_datatest->SetMarkerStyle(8);
     
     //hist_zp200->GetYaxis()->SetRangeUser(0.001,100000.);
 
@@ -239,11 +250,71 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     //hist_DB->Rebin(4);    
     //hist_ST->Rebin(4);    
 
+
+
+
+    //rebin thstack
+
+
+    TAxis *axis = hist_200->GetXaxis(); 
+   int nbins = 50;//axis->GetNbins();
+    //Int_t nBins = 100;
+    Double_t bins[nbins+1];
+    Float_t maxEdge = 1000;
+    Float_t minEdge = 1;
+    Float_t width = TMath::Exp(TMath::Log(maxEdge - minEdge)/(nbins+1));
+    //static Float_t bins[nBins + 1];
+  
+    for (int i = 0; i <= nbins+1; i++) {
+      bins[i] = minEdge + TMath::Power(width,i );
+      //std::cout << i << " " <<  1 + TMath::Power(width,i ) <<std::endl;
+    } 
+
+    TH1F* hist_DB_new = (TH1F*)hist_DB->Rebin(nbins,"hnew",bins );
+    TH1F* hist_ST_new = (TH1F*)hist_ST->Rebin(nbins,"hnew",bins );
+    TH1F* hist_TT_new = (TH1F*)hist_TT->Rebin(nbins,"hnew",bins );
+    TH1F* hist_DY_new = (TH1F*)hist_DY->Rebin(nbins,"hnew",bins );
+
+    TH1F* hist_datatest_new = (TH1F*)hist_datatest->Rebin(nbins,"hnew",bins );
+
+    TH1F* hist_200_new = (TH1F*)hist_200->Rebin(nbins,"hnew",bins );
+    TH1F* hist_350_new = (TH1F*)hist_350->Rebin(nbins,"hnew",bins );
+    TH1F* hist_500_new = (TH1F*)hist_500->Rebin(nbins,"hnew",bins );
+
+   //axis->Set(nbins, bins); 
+
+    Float_t numMC = hist_DB->Integral(68, -1);
+    numMC += hist_ST->Integral(68, -1);
+    numMC += hist_TT->Integral(68, -1);
+    numMC += hist_DY->Integral(68, -1);
+
+    Float_t numData = hist_datatest->Integral(68, -1);
+
+    Float_t mcSF = hist_datatest->Integral(68, -1)/numMC;
+
+    mcSF = 3.102/35.9;
+
+    std::cout << "scale factor " << mcSF << " numMC " << numMC <<  " numdata " << numData <<  std::endl;
+
+    hist_DB_new->Scale(mcSF);
+    hist_ST_new->Scale(mcSF);
+    hist_TT_new->Scale(mcSF);
+    hist_DY_new->Scale(mcSF);
+//
+    hist_200_new->Scale(mcSF);
+    hist_350_new->Scale(mcSF);
+    hist_500_new->Scale(mcSF);
+
+
+///-----
+
     ////////////////////// !! Stack order !! /////////////////////
-    hs->Add(hist_DB,"");
-    hs->Add(hist_ST,"");
-    hs->Add(hist_TT,"");
-    hs->Add(hist_DY,"");
+    hs->Add(hist_DB_new,"");
+    hs->Add(hist_ST_new,"");
+    hs->Add(hist_TT_new,"");
+    hs->Add(hist_DY_new,"");
+
+
 
     TCanvas *c1 = new TCanvas("c1","",800,800);
     TText T; 
@@ -255,9 +326,10 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     hs->SetMaximum(100000); 
 
     hs->Draw("hist ");
-    hist_200->Draw("same hist");
-    hist_350->Draw("same hist");
-    hist_500->Draw("same hist");
+    hist_200_new->Draw("same hist");
+    hist_350_new->Draw("same hist");
+    hist_500_new->Draw("same hist");
+    hist_datatest_new->Draw("same");
 
     TPaveText *pt = new TPaveText(0.6378446,0.8822768,0.9072682,0.9547219,"blNDC");
     pt->SetName("title");
@@ -266,7 +338,8 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     pt->SetFillStyle(0);
     pt->SetTextAlign(11);
     pt->SetTextFont(42);
-    TText *AText = pt->AddText("35.9 fb^{-1} (13TeV)");
+    //TText *AText = pt->AddText("35.9 fb^{-1} (13TeV)");
+    TText *AText = pt->AddText("2016F (13TeV)");
     pt->Draw();
 
     hs->GetXaxis()->SetTitle(title);
@@ -281,6 +354,7 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     leg_hist->AddEntry(hist_200,"Z' 200GeV","l");
     leg_hist->AddEntry(hist_350,"Z' 350GeV","l");
     leg_hist->AddEntry(hist_500,"Z' 500GeV","l");
+    leg_hist->AddEntry(hist_datatest,"2016F","lp");
     leg_hist->AddEntry(hist_DY,"DY+jets","f");
     leg_hist->AddEntry(hist_TT,"t#bar{t}","f");
     leg_hist->AddEntry(hist_ST,"tW,#bar{t}W","f");

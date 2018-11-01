@@ -1,6 +1,20 @@
 
 sampleDict = {}
 
+sampleDict['datatest'] ={
+"path":["/store/user/rymuelle/zPrime/data/SingleMuon/crab_20181029_020212/181029_070241/0000/"],
+"xsection": -1,
+"totalEvents": -1,
+"outName":"datatest.root"}
+
+
+sampleDict['2016F_singleElectron'] ={
+"path":["/store/user/rymuelle/zPrime/data/SingleElectron/crab_20181031_191318/181101_001337/0000/",
+"/store/user/rymuelle/zPrime/data/SingleElectron/crab_20181031_191318/181101_001337/0001/",],
+"xsection": -1,
+"totalEvents": -1,
+"outName":"2016F_singleElectron.root"}
+
 sampleDict['zp200'] ={
 "path":["/afs/cern.ch/work/h/hyeahyun/public/signal/zp200.root"],
 "xsection": 0.5125 * 1000,

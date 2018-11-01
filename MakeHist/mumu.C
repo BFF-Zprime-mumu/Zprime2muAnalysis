@@ -271,8 +271,8 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
       //std::cout << 1 + TMath::Power(width,i ) <<std::endl;
     } 
 
-    //dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",100,1,1000); 
-    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
+    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",200,1,1000); 
+    //dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
 
     //BinLogX(dilep_mass_hist);
     dilep_mass_hist->Sumw2();
@@ -301,7 +301,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
    //cs, totalN, Lumi -> Refer to see header file (.h)
    float weight = targetLumi * xsection/numberOfEvents;
-
+   if(xsection < 0) weight = 1;
    std::cout << "sample_name "<< sample_name << std::endl;
    //std::cout << "weight "<< weight << std::endl;
    //std::cout << "targetLumi "<< targetLumi << std::endl;

@@ -93,8 +93,31 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   hs->Add(hist_TT_SR,"");
   hs->Add(hist_DY_SR,"");
 
+
+  TFile *data_b_ee = new TFile("./output/"+ prefix_b_ee + "_2016F_singleElectron.root");
+  TFile *data_antib_mumu = new TFile("./output/"+ prefix_antib_mumu + "_datatest.root");
+  TFile *data_antib_ee = new TFile("./output/"+ prefix_antib_ee + "_2016F_singleElectron.root");
+
+
+  std::cout << "./output/"+ prefix_b_ee + "_2016F_singleElectron.root" << std::endl;
+  TH1F *hist_data_b_ee = (TH1F*)data_b_ee->Get(plot);
+  TH1F *hist_data_antib_mumu = (TH1F*)data_antib_mumu->Get(plot);
+  TH1F *hist_data_antib_ee = (TH1F*)data_antib_ee->Get(plot);
+
+
+  std::cout << hist_data_b_ee->GetEntries() << std::endl;
+  std::cout << hist_data_antib_mumu->GetEntries() << std::endl;
+  std::cout << hist_data_antib_ee->GetEntries() << std::endl;
+
+  TH1F * hist_CR_prediction_data = (TH1F*) hist_data_b_ee->Clone();
+  
+  hist_CR_prediction_data->Divide(hist_data_antib_ee);
+  hist_CR_prediction_data->Multiply(hist_data_antib_mumu);
+  hist_CR_prediction_data->Rebin(4);
+
   //calculate SR predition
   TH1F * hist_CR_prediction = (TH1F*) hist_b_ee->Clone();
+
 
   hist_CR_prediction->Divide(hist_antib_ee);
   hist_CR_prediction->Multiply(hist_antib_mumu);
@@ -102,12 +125,24 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   hist_CR_prediction->SetLineColor(1);
   hist_CR_prediction->SetTitle("");
 
+
+
   hist_CR_prediction->Rebin(4);
 
   hist_DB_SR->Rebin(4);
   hist_ST_SR->Rebin(4);
   hist_TT_SR->Rebin(4);
   hist_DY_SR->Rebin(4);
+
+  float mcScale = 3.102/35.9;
+
+  hist_CR_prediction->Scale(mcScale);
+  hist_DB_SR->Scale(mcScale);
+  hist_ST_SR->Scale(mcScale);
+  hist_TT_SR->Scale(mcScale);
+  hist_DY_SR->Scale(mcScale);
+
+
 
   TCanvas *c1 = new TCanvas("c1","",800,800);
   TText T; 
@@ -118,10 +153,14 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   hs->SetTitle("");
   hs->SetMinimum(0.1);
   hs->SetMaximum(100000); 
-  auto rp = new TRatioPlot(hs,hist_CR_prediction);
+  //auto rp = new TRatioPlot(hs,hist_CR_prediction);
+  auto rp = new TRatioPlot(hs,hist_CR_prediction_data);
 
 
   rp->Draw();
+  //hist_CR_prediction_data->Draw("same");
+  
+  //hist_data_b_ee->Draw("same");
 
   rp->GetLowerRefYaxis()->SetTitle("MC/Pred");
   rp->GetUpperRefYaxis()->SetTitle("Events");
@@ -164,6 +203,9 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   pt->Write("txt");
   leg_hist->Write("leg");
   savefile->Close();
+
+  hist_CR_prediction_data->Draw();
+  c1->SaveAs("test.png");
 
   delete c1;
 

@@ -13,14 +13,23 @@ def makePlots(l_sampleDict, lumi, cutString, treeString):
   inFiles = []
 
   for path in l_sampleDict['path']:
-    for inFile in filter(None,popen("ls -u "+path).read().split('\n')):
+
+    print "ok"
+    prefix = ""
+    if '/store/' in path:
+      prefix = "eos root://cmseos.fnal.gov "
+      filePrefix = "root://cmseos.fnal.gov/"
+
+    for inFile in filter(None,popen(prefix+"ls -u "+path).read().split('\n')):
+      print "infile", inFile
       if ".root" in inFile and ".root" not in path:
         pathString = path  + inFile
       elif ".root" in path:
         pathString = path
+      else:
+        continue
 
-
-      chain.Add(pathString)
+      chain.Add(filePrefix+pathString)
 
   instance = mumu(chain)
 
