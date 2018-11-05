@@ -192,9 +192,55 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
    //histograms
    TH1F *run_hist;
    TH1F *leppT_hist;
+
    TH1F *lepeta_hist;
    TH1F *lepphi_hist;
    TH1F *lepIso_hist;
+
+
+   TH1F *leppT_p_hist;
+   TH1F *lepeta_p_hist;
+   TH1F *lepphi_p_hist;
+   TH1F *lepIso_p_hist;
+
+   TH1F *leppT_n_hist;
+   TH1F *lepeta_n_hist;
+   TH1F *lepphi_n_hist;
+   TH1F *lepIso_n_hist;
+
+   TH1F * nLeptons;
+   TH1F * nElectrons;
+   TH1F * nMuons;
+
+   TH1F *jet1eta_n_hist;
+   TH1F *jet1phi_n_hist;
+   TH1F *jet1pT_n_hist;
+
+   TH1F *jet2eta_n_hist;
+   TH1F *jet2phi_n_hist;
+   TH1F *jet2pT_n_hist;
+
+   TH1F *nJet_hist;
+
+   TH1F *jet1NonB_atleast2_eta_n_hist;
+   TH1F *jet1NonB_atleast2_phi_n_hist;
+   TH1F *jet1NonB_atleast2_pT_n_hist;
+
+   TH1F *jet2NonB_atleast2_eta_n_hist;
+   TH1F *jet2NonB_atleast2_phi_n_hist;
+   TH1F *jet2NonB_atleast2_pT_n_hist;
+
+   TH1F *jet1B_atleast2_eta_n_hist;
+   TH1F *jet1B_atleast2_phi_n_hist;
+   TH1F *jet1B_atleast2_pT_n_hist;
+
+   TH1F *jet2B_atleast2_eta_n_hist;
+   TH1F *jet2B_atleast2_phi_n_hist;
+   TH1F *jet2B_atleast2_pT_n_hist;
+
+
+
+
 
    TH1F *dPhi_dimuon_hist;
    TH1F *dR_hist;
@@ -289,6 +335,47 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
     mini_SBM_hist = new TH1F(name+"mini_SBM_hist","minimum mass of mu-b combinations; mini(SBM) [GeV]; a.u.",100,0,300); mini_SBM_hist->Sumw2();
     mini_SBM_minus173_hist = new TH1F(name+"mini_SBM_minus173_hist","minimum mass of |(mu-b combinations) - 173 |; mini(SBM)-173 [GeV]; a.u.",100,0,300); mini_SBM_minus173_hist->Sumw2();
 
+
+   lepeta_p_hist = new TH1F(name+"lepeta_p_hist", "lepeta_p_hist", 20,-3,3); lepeta_p_hist->Sumw2();
+   lepphi_p_hist = new TH1F(name+"lepphi_p_hist", "lepphi_p_hist", 20,-3.5,3.5); lepphi_p_hist->Sumw2();
+   leppT_p_hist = new TH1F(name+"leppT_p_hist", "leppT_p_hist", 100,0,500); leppT_p_hist->Sumw2();
+
+   lepeta_n_hist = new TH1F(name+"lepeta_n_hist", "lepeta_n_hist", 20,-3,3); lepeta_n_hist->Sumw2();
+   lepphi_n_hist = new TH1F(name+"lepphi_n_hist", "lepphi_n_hist", 20,-3.5,3.5); lepphi_n_hist->Sumw2();
+   leppT_n_hist = new TH1F(name+"leppT_n_hist", "leppT_n_hist", 100,0,500); leppT_n_hist->Sumw2();
+
+    nLeptons = new TH1F(name+"nLeptons", "nLeptons", 11,0,11); nLeptons->Sumw2();
+    nElectrons = new TH1F(name+"nElectrons", "nElectrons", 11,0,11); nElectrons->Sumw2();
+    nMuons = new TH1F(name+"nMuons", "nMuons", 11,0,11); nMuons->Sumw2();
+
+   jet1eta_n_hist = new TH1F(name+"jet1eta_n_hist", "jet1eta_n_hist",20,-3,3); jet1eta_n_hist->Sumw2();
+   jet1phi_n_hist = new TH1F(name+"jet1phi_n_hist", "jet1phi_n_hist", 20,-3.5,3.5); jet1phi_n_hist->Sumw2();
+   jet1pT_n_hist = new TH1F(name+"jet1pT_n_hist", "jet1pT_n_hist", 100,0,500); jet1pT_n_hist->Sumw2();
+
+   jet2eta_n_hist = new TH1F(name+"jet2eta_n_hist", "jet2eta_n_hist", 20,-3,3); jet2eta_n_hist->Sumw2();
+   jet2phi_n_hist = new TH1F(name+"jet2phi_n_hist", "jet2phi_n_hist", 20,-3.5,3.5); jet2phi_n_hist->Sumw2();
+   jet2pT_n_hist = new TH1F(name+"jet2pT_n_hist", "jet2pT_n_hist", 100,0,500); jet2pT_n_hist->Sumw2();
+
+   nJet_hist = new TH1F(name+"nJet_hist", "nJet_hist", 11,0,11); nJet_hist->Sumw2();
+
+   jet1NonB_atleast2_eta_n_hist = new TH1F(name+"jet1NonB_atleast2_eta_n_hist", "jet1NonB_atleast2_eta_n_hist", 20,-3,3); jet1NonB_atleast2_eta_n_hist->Sumw2();
+   jet1NonB_atleast2_phi_n_hist = new TH1F(name+"jet1NonB_atleast2_phi_n_hist", "jet1NonB_atleast2_phi_n_hist", 20,-3.5,3.5); jet1NonB_atleast2_phi_n_hist->Sumw2();
+   jet1NonB_atleast2_pT_n_hist = new TH1F(name+"jet1NonB_atleast2_pT_n_hist", "jet1NonB_atleast2_pT_n_hist", 100,0,500); jet1NonB_atleast2_pT_n_hist->Sumw2();
+
+   jet2NonB_atleast2_eta_n_hist = new TH1F(name+"jet2NonB_atleast2_eta_n_hist", "jet2NonB_atleast2_eta_n_hist", 20,-3,3); jet2NonB_atleast2_eta_n_hist->Sumw2();
+   jet2NonB_atleast2_phi_n_hist = new TH1F(name+"jet2NonB_atleast2_phi_n_hist", "jet2NonB_atleast2_phi_n_hist", 20,-3.5,3.5); jet2NonB_atleast2_phi_n_hist->Sumw2();
+   jet2NonB_atleast2_pT_n_hist = new TH1F(name+"jet2NonB_atleast2_pT_n_hist", "jet2NonB_atleast2_pT_n_hist", 100,0,500); jet2NonB_atleast2_pT_n_hist->Sumw2();
+
+   jet1B_atleast2_eta_n_hist = new TH1F(name+"jet1B_atleast2_eta_n_hist", "jet1B_atleast2_eta_n_hist", 20,-3,3); jet1B_atleast2_eta_n_hist->Sumw2();
+   jet1B_atleast2_phi_n_hist = new TH1F(name+"jet1B_atleast2_phi_n_hist", "jet1B_atleast2_phi_n_hist", 20,-3.5,3.5); jet1B_atleast2_phi_n_hist->Sumw2();
+   jet1B_atleast2_pT_n_hist = new TH1F(name+"jet1B_atleast2_pT_n_hist", "jet1B_atleast2_pT_n_hist", 100,0,500); jet1B_atleast2_pT_n_hist->Sumw2();
+
+   jet2B_atleast2_eta_n_hist = new TH1F(name+"jet2B_atleast2_eta_n_hist", "jet2B_atleast2_eta_n_hist", 20,-3,3); jet2B_atleast2_eta_n_hist->Sumw2();
+   jet2B_atleast2_phi_n_hist = new TH1F(name+"jet2B_atleast2_phi_n_hist", "jet2B_atleast2_phi_n_hist", 20,-3.5,3.5); jet2B_atleast2_phi_n_hist->Sumw2();
+   jet2B_atleast2_pT_n_hist = new TH1F(name+"jet2B_atleast2_pT_n_hist", "jet2B_atleast2_pT_n_hist", 100,0,500); jet2B_atleast2_pT_n_hist->Sumw2();
+
+
+
    }
 
   };
@@ -332,6 +419,11 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
                     cutFlow.at(2) = cutFlow.at(2) + weight;
 
+
+
+
+
+
                        //if(dil_chosen != 0) continue;
                        //particle id
                        int id1 = lep_id[0];
@@ -355,6 +447,37 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                            leptons_.push_back(dummy);
                        }  // example(1): float FirstLeptonMass = leptons[0].M();
                        ///// example(2): float FirstLeptonIso = leptons_[0].Iso;
+
+
+                      //first lepton is negative
+                      float lep_p_pt = lep_pt[1];
+                      float lep_p_eta = lep_eta[1];
+                      float lep_p_phi = lep_phi[1];
+
+                      float lep_n_pt = lep_pt[0];
+                      float lep_n_eta = lep_eta[0];
+                      float lep_n_phi = lep_phi[0];
+
+                      int nElectronsValue = 0;
+                      int nMuonsValue = 0;
+                      int nLepValue = 0;
+
+    
+
+                      for(unsigned lep_N=0; lep_N<sizeof(lep_pt)/sizeof(lep_pt[0])+1; ++lep_N){
+                        if (lep_id[lep_N] == 13){
+                          nMuonsValue = nMuonsValue+1;
+
+                        }
+
+                        if (lep_id[lep_N] == 11){
+                            nElectronsValue = nElectronsValue+1;
+                        }
+
+                      }
+
+                      nLepValue = nElectronsValue + nMuonsValue;
+
                        
                        vector<TLorentzVector> bJets;
                        vector<TLorentzVector> non_bJets;
@@ -397,10 +520,72 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        histClass.nNonbjet_hist->Fill(non_bJets.size());
                        histClass.njvsnbj_hist->Fill(non_bJets.size(),bJets.size());
                        histClass.nbjet_hist->Fill(bJets.size());
+                      
 
                        int nBjets = bJets.size();
                        int nNonBjets = non_bJets.size();
                        int njets = bJets.size()+ non_bJets.size();
+
+                        histClass.nJet_hist->Fill(njets);
+
+
+                        
+                        histClass.lepeta_p_hist->Fill(lep_p_eta);
+                        histClass.lepphi_p_hist->Fill(lep_p_phi);
+                        histClass.leppT_p_hist->Fill(lep_p_pt);
+                        
+                        histClass.lepeta_n_hist->Fill(lep_n_eta);
+                        histClass.lepphi_n_hist->Fill(lep_n_phi);
+                        histClass.leppT_n_hist->Fill(lep_n_pt);
+                        
+                        histClass.nLeptons->Fill(nLepValue);
+                        histClass.nElectrons->Fill(nElectronsValue);
+                        histClass.nMuons->Fill(nMuonsValue);
+                        
+                        if (njets >0){
+                        
+                          histClass.jet1eta_n_hist->Fill(allJets[0].Eta());
+                          histClass.jet1phi_n_hist->Fill(allJets[0].Phi());
+                          histClass.jet1pT_n_hist->Fill(allJets[0].Pt());
+                          
+                          if (njets >1){
+                          histClass.jet2eta_n_hist->Fill(allJets[1].Eta());
+                          histClass.jet2phi_n_hist->Fill(allJets[1].Phi());
+                          histClass.jet2pT_n_hist->Fill(allJets[1].Pt());
+                          }
+                        
+                        }
+                        
+                        
+                        if (njets <3){
+                          
+                          if (nNonBjets >0){
+                          histClass.jet1NonB_atleast2_eta_n_hist->Fill(non_bJets[0].Eta());
+                          histClass.jet1NonB_atleast2_phi_n_hist->Fill(non_bJets[0].Phi());
+                          histClass.jet1NonB_atleast2_pT_n_hist->Fill(non_bJets[0].Pt());
+                        
+                          if (nNonBjets >1){
+                          histClass.jet2NonB_atleast2_eta_n_hist->Fill(non_bJets[1].Eta());
+                          histClass.jet2NonB_atleast2_phi_n_hist->Fill(non_bJets[1].Phi());
+                          histClass.jet2NonB_atleast2_pT_n_hist->Fill(non_bJets[1].Pt());
+                          }
+                          }
+                        
+                          if (nBjets >0){
+                          histClass.jet1B_atleast2_eta_n_hist->Fill(bJets[0].Eta());
+                          histClass.jet1B_atleast2_phi_n_hist->Fill(bJets[0].Phi());
+                          histClass.jet1B_atleast2_pT_n_hist->Fill(bJets[0].Pt());
+                          if (nBjets >1){
+                          histClass.jet2B_atleast2_eta_n_hist->Fill(bJets[1].Eta());
+                          histClass.jet2B_atleast2_phi_n_hist->Fill(bJets[1].Phi());
+                          histClass.jet2B_atleast2_pT_n_hist->Fill(bJets[1].Pt());
+                          }
+                          } 
+                        
+                        }
+                        float MET_t = met_pt;
+                        histClass.MET_hist->Fill(MET_t);
+
 
                        //Case 1 = Case 3 + Case 4 + Case 5
                        if(caseText == "1" and (nBjets < 1 || njets < 2) )continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
@@ -430,7 +615,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
                        //METvsMmm (Normalized MET)
                        float Mmm = ((leptons[0])+(leptons[1])).M();
-                       float MET_t = met_pt;
+     
                        float METvsMmm = MET_t/Mmm ;
                        //if(METvsMmm<0.2){ // <0.2 cut
 
@@ -447,6 +632,8 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        histClass.mini_SBM_hist->Fill(SBMMin,weight);
                        histClass.SBM_hist->Fill(SBMMax,weight);
                        histClass.HTLT_hist->Fill(DHTLT,weight);
+
+
 
 
 
@@ -484,6 +671,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
                        count++;
 
+
                        //pT
                        histClass.leppT_hist->Fill(leptons[0].Pt());
                        histClass.leppT_hist->Fill(leptons[1].Pt());
@@ -517,7 +705,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
 
 
-                       histClass.MET_hist->Fill(MET_t);
+
                        histClass.dilep_mass_hist->Fill(Mmm, weight);
 
 
@@ -538,7 +726,11 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
    } 
    std::cout << "count*weigth " << count*weight << std::endl;
 
-std::vector<TH1F *> hists = {histClass.run_hist, histClass.mini_SBM_hist, histClass.mini_SBM_minus173_hist, histClass.leppT_hist, histClass.lepeta_hist, histClass.lepphi_hist, histClass.dPhi_dimuon_hist, histClass.dPhi_hist, histClass.dR_hist, histClass.mass_hist, histClass.jetpT_hist, histClass.jeteta_hist, histClass.bjetpT_hist, histClass.bjeteta_hist, histClass.NonbjetpT_hist, histClass.Nonbjeteta_hist, histClass.nbjet_hist, histClass.nNonbjet_hist, histClass.id_hist, histClass.MET_hist, histClass.dilep_mass_hist, histClass.SBM_hist, histClass.METvsMmm_hist, histClass.HTLT_hist, histClass.Mass_hist};
+std::vector<TH1F *> hists = {histClass.run_hist, histClass.mini_SBM_hist, histClass.mini_SBM_minus173_hist, histClass.leppT_hist, histClass.lepeta_hist, histClass.lepphi_hist, histClass.dPhi_dimuon_hist, histClass.dPhi_hist, histClass.dR_hist, histClass.mass_hist, histClass.jetpT_hist, histClass.jeteta_hist, histClass.bjetpT_hist, histClass.bjeteta_hist, histClass.NonbjetpT_hist, histClass.Nonbjeteta_hist, histClass.nbjet_hist, histClass.nNonbjet_hist, histClass.id_hist, histClass.MET_hist, histClass.dilep_mass_hist, histClass.SBM_hist, histClass.METvsMmm_hist, histClass.HTLT_hist, histClass.Mass_hist,
+histClass.lepeta_p_hist,histClass.lepphi_p_hist,histClass.leppT_p_hist,histClass.lepeta_n_hist,histClass.lepphi_n_hist,histClass.leppT_n_hist,histClass.nLeptons,histClass.nElectrons,histClass.nMuons,histClass.jet1eta_n_hist,histClass.jet1phi_n_hist,histClass.jet1pT_n_hist,histClass.jet2eta_n_hist,histClass.jet2phi_n_hist,histClass.jet2pT_n_hist,histClass.nJet_hist,histClass.jet1NonB_atleast2_eta_n_hist,histClass.jet1NonB_atleast2_phi_n_hist,histClass.jet1NonB_atleast2_pT_n_hist,histClass.jet2NonB_atleast2_eta_n_hist,histClass.jet2NonB_atleast2_phi_n_hist,histClass.jet2NonB_atleast2_pT_n_hist,histClass.jet1B_atleast2_eta_n_hist,histClass.jet1B_atleast2_phi_n_hist,histClass.jet1B_atleast2_pT_n_hist,histClass.jet2B_atleast2_eta_n_hist,histClass.jet2B_atleast2_phi_n_hist,histClass.jet2B_atleast2_pT_n_hist,
+};
+
+
 
     for(unsigned Nh=0; Nh<hists.size(); ++Nh) hists[Nh]->Write();
 

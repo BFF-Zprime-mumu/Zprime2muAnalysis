@@ -45,7 +45,7 @@ TH1F * returnStack(TString prefix, TString plot)
 
 void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix_antib_ee, TString prefix_b_mumu, TString plot, TString title, TString titleY){
 
-  THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
+  THStack *hs = new THStack("hs","2016F 3.102 fb^{-1} (13TeV)");
 
   //make CRs
   TH1F * hist_b_ee = (TH1F*) returnStack(prefix_b_ee, plot);
@@ -135,6 +135,7 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   hist_DY_SR->Rebin(4);
 
   float mcScale = 3.102/35.9;
+  //mcScale =  3.285/35.9;
 
   hist_CR_prediction->Scale(mcScale);
   hist_DB_SR->Scale(mcScale);
@@ -193,7 +194,8 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   pt->SetFillStyle(0);
   pt->SetTextAlign(11);
   pt->SetTextFont(42);
-  TText *AText = pt->AddText("35.9 fb^{-1} (13TeV)");
+  //TText *AText = pt->AddText("35.9 fb^{-1} (13TeV)");
+  TText *AText = pt->AddText("2016F 3.102 fb^{-1} (13TeV)");
   pt->Draw();
 
   c1->SaveAs("./hists/"+prefix_b_ee+"_"+prefix_antib_mumu+"_"+prefix_antib_ee+"_"+plot+"_hist.png");

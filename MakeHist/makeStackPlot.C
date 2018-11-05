@@ -182,6 +182,7 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     TFile *zp500           = new TFile("./output/"+ prefix + "_zp500"+postfix+".root");
 
     TFile *datatest           = new TFile("./output/"+ prefix + "_datatest.root");
+    //TFile *datatest           = new TFile("./output/"+ prefix + "_2016F_singleElectron.root");
 
     TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
     TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
@@ -293,6 +294,7 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     Float_t mcSF = hist_datatest->Integral(68, -1)/numMC;
 
     mcSF = 3.102/35.9;
+    //mcSF =  3.285/35.9;
 
     std::cout << "scale factor " << mcSF << " numMC " << numMC <<  " numdata " << numData <<  std::endl;
 

@@ -20,8 +20,11 @@ def makePlots(l_sampleDict, lumi, cutString, treeString):
       prefix = "eos root://cmseos.fnal.gov "
       filePrefix = "root://cmseos.fnal.gov/"
 
+    print prefix+"ls -u "+path
+
+
     for inFile in filter(None,popen(prefix+"ls -u "+path).read().split('\n')):
-      print "infile", inFile
+      #print "infile", inFile
       if ".root" in inFile and ".root" not in path:
         pathString = path  + inFile
       elif ".root" in path:
@@ -48,6 +51,7 @@ cutStrings = [
 
 
 treeName = ["SimpleNtuplerDiEle","SimpleNtupler"]
+#treeName = ["SimpleNtupler"]
 
 cutFlow = {}
 
