@@ -28,7 +28,7 @@ for cut in cutflow:
         for sample in cutflow[cut][ttree]:
             #print cutflow[cut][ttree][sample]
             if sample in backgrounds:
-                ABCD[cut][ttree][0] = ABCD[cut][ttree][0] +  cutflow[cut][ttree][sample][3]
+                ABCD[cut][ttree][0] +=  cutflow[cut][ttree][sample][3]
             else:
                 if sample == "zp200":
                     ABCD[cut][ttree][1] +=  cutflow[cut][ttree][sample][3]

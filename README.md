@@ -62,7 +62,7 @@ crab submit -c crabConfig_TT.py
 
 # Producing the plots
 
-This is tested in CMSSW_10_2_1 enviroment. You need a CMSSW envirment that includes TRatioPlot.h.
+This is tested in CMSSW_10_2_1 enviroment. You need a CMSSW environment that includes TRatioPlot.h.
 
 Navigate to $CMSSWBASE/SUSYBSMAnalysis/Zprime2muAnalysis/MakeHist
 

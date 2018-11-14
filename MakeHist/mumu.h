@@ -73,7 +73,7 @@ struct histogramClass
         jetpT_hist = new TH1F(name+"jetpT_hist","jet pT; p_{T} [GeV]; Number of events",100,0,500); jetpT_hist->Sumw2();
         jeteta_hist = new TH1F(name+"jeteta_hist","jet eta; #eta; Number of events",20,-5,5); jeteta_hist->Sumw2();
         
-        bjetpT_hist = new TH1F(name+"bjetpT_hist","b-jet pT; p_{T} [GeV]; Number of Evets",100,0,500); bjetpT_hist->Sumw2();
+        bjetpT_hist = new TH1F(name+"bjetpT_hist","b-jet pT; p_{T} [GeV]; Number of events",100,0,500); bjetpT_hist->Sumw2();
         bjeteta_hist = new TH1F(name+"bjeteta_hist","b-jet eta; #eta; Number of events",20,-5,5); bjeteta_hist->Sumw2();
         
         NonbjetpT_hist = new TH1F(name+"NonbjetpT_hist","non b-jet pT; p_{T} [GeV]; Number of events",100,0,500); NonbjetpT_hist->Sumw2();
@@ -85,7 +85,7 @@ struct histogramClass
         
         njvsnbj_hist = new TH2F(name+"njvsnbj_hist","Number of non_b-jets vs Number of b-jets; Number of non_bjets; Number of b-jets",10,0,10,5,0,5); njvsnbj_hist->Sumw2();
         
-        MET_hist = new TH1F(name+"MET_hist","Missing ET; E^{miss}_{T} [GeV]; Number ofe events",100,0,1000); MET_hist->Sumw2();
+        MET_hist = new TH1F(name+"MET_hist","Missing ET; E^{miss}_{T} [GeV]; Number of events",100,0,1000); MET_hist->Sumw2();
         
         Int_t nBins = 100;
         Float_t bins[nBins+1];

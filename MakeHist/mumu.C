@@ -166,7 +166,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                    //Opposite sign dilepton
                    if(lep_id[0] * lep_id[1] < 0){
 
-                    cutFlow.at(2) = cutFlow.at(2) + weight;
+                    cutFlow.at(2) += weight;
 
                        //if(dil_chosen != 0) continue;
                        //particle id
@@ -253,9 +253,9 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        if(caseText == "b0j1" and not (nBjets == 0 && nNonBjets == 1) )continue;
 
                        //SR 2 j
-                       if(caseText == "b12bj2" and not ( (nBjets == 1 || nBjets == 2) && njets == 2) )continue;
+                       if(caseText == "b12bj2" and not ( nBjets >=1 && njets == 2) )continue;
                        //CR 1 j
-                       if(caseText == "b0bj2" and not ( (nBjets == 0 ) && njets == 2) )continue;
+                       if(caseText == "b0bj2" and not ( nBjets == 0  && njets == 2) )continue;
 
                        //1j
                        if(caseText == "1j" and not (njets == 1) )continue;
@@ -284,24 +284,24 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        {
                            //(HT-LT) cut
                            if(DHTLT > -120)continue;
-                           cutFlow.at(4) = cutFlow.at(4) + weight;
+                           cutFlow.at(4) += weight;
                            //METvsMmm (Normalized MET) cut
                            if(METvsMmm > .25)continue;
-                           cutFlow.at(5) = cutFlow.at(5) + weight;
+                           cutFlow.at(5) += weight;
                            //TMB cut
                            if (SBM < 160) continue;
-                           cutFlow.at(6) = cutFlow.at(6) + weight;
+                           cutFlow.at(6) += weight;
                        } else if (caseText == "b12bj2" || caseText ==  "b0bj2")
                        {
                            //(HT-LT) cut
                            if(DHTLT > -80)continue;
-                           cutFlow.at(4) = cutFlow.at(4) + weight;
+                           cutFlow.at(4) += weight;
                            //METvsMmm (Normalized MET) cut
                            if(METvsMmm > .3)continue;
-                           cutFlow.at(5) = cutFlow.at(5) + weight;
+                           cutFlow.at(5) += weight;
                            //TMB cut
                            if (SBM < 150) continue;
-                           cutFlow.at(6) = cutFlow.at(6) + weight;
+                           cutFlow.at(6) += weight;
                        } else{
                            std::cout << "WARNING: Selection not recognized, continuing"<< std::endl;
                            continue;
