@@ -1,13 +1,11 @@
 #define mumu_cxx
 #include "mumu.h"
-#include <TH2.h>
 #include <TStyle.h>
 #include <TCanvas.h>
-#include <TVector2.h>
 #include <vector>
-#include <TH1.h>
 #include <TLorentzVector.h>
 #include <iostream>
+#include <TVector2.h>
 
 struct Lepton{
     TLorentzVector LV;
@@ -32,119 +30,78 @@ void BinLogX(TH1*h)
    delete new_bins; 
 }
 
-/*Float_t * returnLogArray(Float_t minEdge, Float_t maxEdge, Int_t nBins) 
-{
-
-  Float_t width = (maxEdge - minEdge) / nBins;
-  static Float_t bins[nBins + 1];
-
-  for (int i = 0; i <= bins; i++) {
-    bins[i] = TMath::Power(10, from + i * width);
-    std::cout << TMath::Power(10, from + i * width) <<std::endl;
-  } 
- 
-  return bins;
-}*/
-
-
-
 float calculateHTLT(vector<TLorentzVector> bJets, vector<TLorentzVector> non_bJets, vector<TLorentzVector> leptons)
 {
-   int nBjets = bJets.size();
-   int nNonBjets = non_bJets.size();
-   int njets = bJets.size()+ non_bJets.size();
-   //Jet1: (b-)jet with the largest pT
-   //Jet2: (b-)jet with the second largest pT
-   int Jet1=-1;
-   int Jet2=-1;
-   float Jet1_PT=0.;
-   float Jet2_PT=0.;
-  
-   //Putting the value in Jet1 and Jet2
-   if(bJets.size() == 1){
-       Jet1 = 0;
-       Jet1_PT = bJets[0].Pt();
-       for(unsigned Nj=0; Nj<non_bJets.size(); ++Nj){
-           if(Jet2_PT<non_bJets[Nj].Pt()){
-               Jet2=Nj;
-               Jet2_PT=non_bJets[Nj].Pt();
-           }
-       }
-   }
-   else if(bJets.size() > 1){
-       for(unsigned Nbj=0; Nbj<bJets.size(); ++Nbj){
-           if(Jet1_PT < bJets[Nbj].Pt()){
-               Jet1=Nbj;
-               Jet1_PT=bJets[Nbj].Pt();
-           }
-           if(Jet2_PT < bJets[Nbj].Pt() && Jet1_PT > bJets[Nbj].Pt()){
-               Jet2 = Nbj;
-               Jet2_PT = bJets[Nbj].Pt();
-           }
-       }
-   }
+    //(HT-LT) calculation
+    float DHTLT = -999.;
+    //check leptons collection size, throw a warning if it is less than 2
+    if (leptons.size()<2) { std::cout << "HTLT computation: WARNING! Lepton collection size is less than 2!!!" << std::endl; return DHTLT;}
+    //sort leptons collection
+    std::sort(leptons.begin(), leptons.end(), [](TLorentzVector a, TLorentzVector b){return a.Pt() > b.Pt();});
 
-   //(HT-LT) calculation
-   float DHTLT = -999.;
-   if(bJets.size() == 1 && non_bJets.size() == 0){
-       DHTLT = (bJets[0].Pt()) - (leptons[0].Pt()+leptons[1].Pt());
-   }
-   else {
-       DHTLT = (Jet1_PT+Jet2_PT) - (leptons[0].Pt()+leptons[1].Pt());
-   }
-   return DHTLT;
+    if(bJets.size() == 1){
+        if (non_bJets.size() == 0){
+            DHTLT = (bJets[0].Pt()) - (leptons[0].Pt()+leptons[1].Pt());
+        } else {
+            std::sort(non_bJets.begin(), non_bJets.end(), [](TLorentzVector a, TLorentzVector b){return a.Pt() > b.Pt();});
+            DHTLT = (bJets[0].Pt()+non_bJets[0].Pt()) - (leptons[0].Pt()+leptons[1].Pt());
+        }
+    } else {
+        if (bJets.size()>1){ 
+            std::sort(bJets.begin(), bJets.end(), [](TLorentzVector a, TLorentzVector b){return a.Pt() > b.Pt();});
+            DHTLT = (bJets[0].Pt()+bJets[1].Pt()) - (leptons[0].Pt()+leptons[1].Pt());
+        } else {
+            float HT = 0;
+            const int n_non_b_jets = non_bJets.size();
+            for (int i = 0; i < std::max(2,n_non_b_jets); ++i) HT+=non_bJets[i].Pt();//Sum hadronic activity of first N leading jets where N<=2
+            DHTLT = HT - (leptons[0].Pt()+leptons[1].Pt());
+        }
+    }
+    return DHTLT;
 };
-
 
 float * calculateSBM(float aSBM[], vector<TLorentzVector> allJets, vector<TLorentzVector> leptons)
 {
-
     //lepton-jet pair mass and SBM definition
-   float lep1_jet1_mass;
-   float lep1_jet2_mass;
-   float lep2_jet1_mass;
-   float lep2_jet2_mass;
-   
-   float SBM1 = 0.;
-   float SBM2 = 0.;
-   float SBMMin =-1;
-   float SBMMax =-1;
-   float SBM = -1;
-   float SBMsecond = -1;
+    float lep1_jet1_mass;
+    float lep1_jet2_mass;
+    float lep2_jet1_mass;
+    float lep2_jet2_mass;
+    
+    float SBM1 = 0.;
+    float SBM2 = 0.;
+    float SBMMin =-1;
+    float SBMMax =-1;
+    float SBM = -1;
+    float SBMsecond = -1;
 
-
-  //std::cout << lep1_jet1_mass << " " << lep1_jet2_mass << " " << lep2_jet1_mass << " " << lep2_jet2_mass << " " << std::endl;
-  if(allJets.size()== 1){
-       SBM1 = ((leptons[0])+(allJets[0])).M();
-       SBM2 = ((leptons[1])+(allJets[0])).M();
-
-       SBM=min(SBM1,SBM2);
-       SBMMin=min(SBM1,SBM2);
-       SBMMax=max(SBM1,SBM2);
-
-  } else if (allJets.size() == 2){
-      lep1_jet1_mass = ((leptons[0])+(allJets[0])).M();
-      lep1_jet2_mass = ((leptons[0])+(allJets[1])).M();
-      lep2_jet1_mass = ((leptons[1])+(allJets[0])).M();
-      lep2_jet2_mass = ((leptons[1])+(allJets[1])).M();
-
-      //std::cout << lep1_jet1_mass << " " << lep1_jet2_mass << " " << lep2_jet1_mass << " " << lep2_jet2_mass << " " << std::endl;
-      if(abs(lep1_jet1_mass - lep2_jet2_mass) < abs(lep2_jet1_mass - lep1_jet2_mass)){
-        SBM=max(lep1_jet1_mass,lep2_jet2_mass);
-        SBMMin=min(lep1_jet1_mass,lep2_jet2_mass);
-        SBMMax=max(lep1_jet1_mass,lep2_jet2_mass);
-      }
-      else{
-        SBM=max(lep2_jet1_mass,lep1_jet2_mass);
-        SBMMin=min(lep2_jet1_mass,lep1_jet2_mass);
-        SBMMax=max(lep2_jet1_mass,lep1_jet2_mass);
-      }
+    if(allJets.size()== 1){
+        SBM1 = ((leptons[0])+(allJets[0])).M();
+        SBM2 = ((leptons[1])+(allJets[0])).M();
+    
+        SBM=min(SBM1,SBM2);
+        SBMMin=min(SBM1,SBM2);
+        SBMMax=max(SBM1,SBM2);
+    
+    } else if (allJets.size() == 2){
+        lep1_jet1_mass = ((leptons[0])+(allJets[0])).M();
+        lep1_jet2_mass = ((leptons[0])+(allJets[1])).M();
+        lep2_jet1_mass = ((leptons[1])+(allJets[0])).M();
+        lep2_jet2_mass = ((leptons[1])+(allJets[1])).M();
+        if(abs(lep1_jet1_mass - lep2_jet2_mass) < abs(lep2_jet1_mass - lep1_jet2_mass)){
+            SBM=max(lep1_jet1_mass,lep2_jet2_mass);
+            SBMMin=min(lep1_jet1_mass,lep2_jet2_mass);
+            SBMMax=max(lep1_jet1_mass,lep2_jet2_mass);
+        }
+        else{
+            SBM=max(lep2_jet1_mass,lep1_jet2_mass);
+            SBMMin=min(lep2_jet1_mass,lep1_jet2_mass);
+            SBMMax=max(lep2_jet1_mass,lep1_jet2_mass);
+        }
     }
-
     aSBM[0] =  SBM;
     aSBM[1] =  SBMMin;
     aSBM[2] =  SBMMax;
-
     return aSBM;
 }
 
@@ -175,144 +132,23 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 //    fChain->GetEntry(jentry);       //read all branches
 //by  b_branchname->GetEntry(ientry); //read only this branch
 
-
-   //static int  r[4];
-
-   std::vector<float> cutFlow = {0,0,0,0,0,0,0};
-
-  
-   if (fChain == 0) return cutFlow;
-
-   
-   //Create root file with histograms
-   TFile *output = new TFile(sample_name,"recreate");
-
-  struct histogramClass
-  {
-   //histograms
-   TH1F *run_hist;
-   TH1F *leppT_hist;
-   TH1F *lepeta_hist;
-   TH1F *lepphi_hist;
-   TH1F *lepIso_hist;
-
-   TH1F *dPhi_dimuon_hist;
-   TH1F *dR_hist;
-   TH1F *mass_hist;
-
-   TH1F *jetpT_hist;
-   TH1F *jeteta_hist;
-
-   TH1F *bjetpT_hist;
-   TH1F *bjeteta_hist;
-
-   TH1F *NonbjetpT_hist;
-   TH1F *Nonbjeteta_hist;
-   
-   TH1F *nbjet_hist;
-   TH1F *nNonbjet_hist;
-   TH1F *id_hist;
-
-   TH2F *njvsnbj_hist;
-   
-   TH1F *MET_hist;
-   TH1F *dilep_mass_hist;
-
-   TH1F *SBM_hist;
-   TH1F *METvsMmm_hist;
-   TH1F *HTLT_hist;
-   TH1F *dPhi_hist;
-
-   TH1F *Mass_hist;
-   
-   TH1F *mini_SBM_hist;
-   TH1F *mini_SBM_minus173_hist;
-
-
-   histogramClass(TString name)
-   {
-    run_hist = new TH1F(name+"run_hist","Total number of events passed through the pre-selection cut; run; Number of events;",3,0,3); run_hist->Sumw2();
-    leppT_hist = new TH1F(name+"leppT_hist","lepton pt; p_{T} [GeV]; Number of events",100,0,500); leppT_hist->Sumw2();
-    lepeta_hist = new TH1F(name+"lepeta_hist","lepton eta; #eta; Number of events",20,-3,3); lepeta_hist->Sumw2();
-    lepphi_hist = new TH1F(name+"lepphi_hist","lepton phi; #phi; Number of events",20,-3.5,3.5); lepphi_hist->Sumw2();
-    lepIso_hist = new TH1F(name+"lepIso_hist","lepton isolation; Isolation; Number of events;",100,0,400); lepIso_hist->Sumw2();
-  
-    dPhi_dimuon_hist = new TH1F(name+"dPhi_dimuon_hist","delta phi_{#mu,#mu}; #Delta#phi_{#mu,#mu}; Number of events",50,-4,4); dPhi_dimuon_hist->Sumw2();
-    dR_hist = new TH1F(name+"dR_hist","delta R_{#mu,#mu}; #DeltaR_{#mu,#mu}; Number of events",50,0,5); dR_hist->Sumw2();
-    mass_hist = new TH1F(name+"mass_hist","Dilepton mass tree; Dilepton mass; Number of events",50,0,500); mass_hist->Sumw2();
-  
-    jetpT_hist = new TH1F(name+"jetpT_hist","jet pT; p_{T} [GeV]; Number of events",100,0,500); jetpT_hist->Sumw2();
-    jeteta_hist = new TH1F(name+"jeteta_hist","jet eta; #eta; Number of events",20,-5,5); jeteta_hist->Sumw2();
-  
-    bjetpT_hist = new TH1F(name+"bjetpT_hist","b-jet pT; p_{T} [GeV]; Number of Evets",100,0,500); bjetpT_hist->Sumw2();
-    bjeteta_hist = new TH1F(name+"bjeteta_hist","b-jet eta; #eta; Number of events",20,-5,5); bjeteta_hist->Sumw2();
-  
-    NonbjetpT_hist = new TH1F(name+"NonbjetpT_hist","non b-jet pT; p_{T} [GeV]; Number of events",100,0,500); NonbjetpT_hist->Sumw2();
-    Nonbjeteta_hist = new TH1F(name+"Nonbjeteta_hist","non b-jet eta; #eta; Number of events",20,-5,5); Nonbjeteta_hist->Sumw2();
+    std::vector<float> cutFlow = {0,0,0,0,0,0,0};
     
-    nbjet_hist = new TH1F(name+"nbjet_hist","Number of b-jet; Number of b-jets; Number of events",11,0,11); nbjet_hist->Sumw2();
-    nNonbjet_hist = new TH1F(name+"nNonbjet_hist","Number of non-bjet; Number of non-bjets; Number of events",11,0,11); nNonbjet_hist->Sumw2();
-    id_hist = new TH1F(name+"id_hist","particle id; id number; Number of events",30,-15,15); id_hist->Sumw2();
-  
-    njvsnbj_hist = new TH2F(name+"njvsnbj_hist","Number of non_b-jets vs Number of b-jets; Number of non_bjets; Number of b-jets",10,0,10,5,0,5); njvsnbj_hist->Sumw2();
+    if (fChain == 0) return cutFlow;
     
-    MET_hist = new TH1F(name+"MET_hist","Missing ET; E^{miss}_{T} [GeV]; Number ofe events",100,0,1000); MET_hist->Sumw2();
+    //Create root file with histograms
+    TFile *output = new TFile(sample_name,"recreate");
 
-
-    Int_t nBins = 100;
-    Float_t bins[nBins+1];
-    Float_t maxEdge = 1000;
-    Float_t minEdge = 1;
-    Float_t width = TMath::Exp(TMath::Log(maxEdge - minEdge)/(nBins+1));
-    //static Float_t bins[nBins + 1];
-  
-    for (int i = 0; i <= nBins+1; i++) {
-      bins[i] = minEdge + TMath::Power(width,i );
-      //std::cout << 1 + TMath::Power(width,i ) <<std::endl;
-    } 
-
-    //dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",100,1,1000); 
-    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
-
-    //BinLogX(dilep_mass_hist);
-    dilep_mass_hist->Sumw2();
-
-
-  
-    SBM_hist = new TH1F(name+"SBM_hist","max(SBM); max(SBM) [GeV]; a.u.",100,0,300); SBM_hist->Sumw2();
-    METvsMmm_hist = new TH1F(name+"METvsMmm_hist","E^{miss}_{T}/M(#mu^{+}#mu^{-}); E^{miss}_{T}/M(#mu^{+}#mu^{-}) [GeV]; a.u.",100,0,1); METvsMmm_hist->Sumw2();
-    HTLT_hist = new TH1F(name+"HTLT_hist","HT-LT; HT-LT [GeV]; a.u.",100,-500,500); HTLT_hist->Sumw2();
-    dPhi_hist = new TH1F(name+"dPhi_hist","delta phi_{dimuon,b}; #Delta#phi_{dimuon,b}; Number of events",50,-4,4); dPhi_hist->Sumw2();
-  
-    Mass_hist = new TH1F(name+"Mass_hist","Lepton mass(M_{#mu}); M_{#mu} [GeV]; Number of events",100,0,500); Mass_hist->Sumw2();
+    histogramClass histClass("");
     
-    mini_SBM_hist = new TH1F(name+"mini_SBM_hist","minimum mass of mu-b combinations; mini(SBM) [GeV]; a.u.",100,0,300); mini_SBM_hist->Sumw2();
-    mini_SBM_minus173_hist = new TH1F(name+"mini_SBM_minus173_hist","minimum mass of |(mu-b combinations) - 173 |; mini(SBM)-173 [GeV]; a.u.",100,0,300); mini_SBM_minus173_hist->Sumw2();
-
-   }
-
-  };
-
-
-   histogramClass histClass("");
-   
-   Long64_t nentries = fChain->GetEntriesFast();
-
-
-   //cs, totalN, Lumi -> Refer to see header file (.h)
-   float weight = targetLumi * xsection/numberOfEvents;
-
-   std::cout << "sample_name "<< sample_name << std::endl;
-   //std::cout << "weight "<< weight << std::endl;
-   //std::cout << "targetLumi "<< targetLumi << std::endl;
-   //std::cout << "xsection "<< xsection << std::endl;
-   //std::cout << "numberOfEvents "<< numberOfEvents << std::endl;
-
-
-   int count=0;
-   Long64_t nbytes = 0, nb = 0;
-   //Loop over all events
-   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+    Long64_t nentries = fChain->GetEntriesFast();
+    //cs, totalN, Lumi -> Refer to see header file (.h)
+    float weight = targetLumi * xsection/numberOfEvents;
+    std::cout << "sample_name "<< sample_name << std::endl;
+    int count=0;
+    Long64_t nbytes = 0, nb = 0;
+    //Loop over all events
+    for (Long64_t jentry=0; jentry<nentries;jentry++) {
        Long64_t ientry = LoadTree(jentry);
        if (ientry < 0) break;
        nb = fChain->GetEntry(jentry);   nbytes += nb;
@@ -432,79 +268,61 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        float Mmm = ((leptons[0])+(leptons[1])).M();
                        float MET_t = met_pt;
                        float METvsMmm = MET_t/Mmm ;
-                       //if(METvsMmm<0.2){ // <0.2 cut
 
-                      float aSBM[3]= {-1, -1, -1};
-
-                      calculateSBM(aSBM, allJets, leptons);
-
-
-                      float SBMMin =aSBM[1];
-                      float SBMMax =aSBM[2];
-                      float SBM = aSBM[0];
+                       float aSBM[3]= {-1, -1, -1};
+                       calculateSBM(aSBM, allJets, leptons);
+                       float SBMMin =aSBM[1];
+                       float SBMMax =aSBM[2];
+                       float SBM = aSBM[0];
 
                        histClass.METvsMmm_hist->Fill(METvsMmm,weight);
                        histClass.mini_SBM_hist->Fill(SBMMin,weight);
                        histClass.SBM_hist->Fill(SBMMax,weight);
                        histClass.HTLT_hist->Fill(DHTLT,weight);
 
-
-
-                        if(caseText == "b1j0" || caseText ==  "2" || caseText ==  "b0j1")
+                       if(caseText == "b1j0" || caseText ==  "2" || caseText ==  "b0j1")
                        {
-                        //std::cout << "1 "<< std::endl;
-                        //(HT-LT) cut
-                        if(DHTLT > -120)continue;
-                        cutFlow.at(4) = cutFlow.at(4) + weight;
-                        //METvsMmm (Normalized MET) cut
-                        if(METvsMmm > .25)continue;
-                        cutFlow.at(5) = cutFlow.at(5) + weight;
-                        //TMB cut
-                        if (SBM < 160) continue;
-                        cutFlow.at(6) = cutFlow.at(6) + weight;
+                           //(HT-LT) cut
+                           if(DHTLT > -120)continue;
+                           cutFlow.at(4) = cutFlow.at(4) + weight;
+                           //METvsMmm (Normalized MET) cut
+                           if(METvsMmm > .25)continue;
+                           cutFlow.at(5) = cutFlow.at(5) + weight;
+                           //TMB cut
+                           if (SBM < 160) continue;
+                           cutFlow.at(6) = cutFlow.at(6) + weight;
                        } else if (caseText == "b12bj2" || caseText ==  "b0bj2")
                        {
-                        //std::cout << "2 "<< std::endl;
-                        //(HT-LT) cut
-                        if(DHTLT > -80)continue;
-                        cutFlow.at(4) = cutFlow.at(4) + weight;
-                        //METvsMmm (Normalized MET) cut
-                        if(METvsMmm > .3)continue;
-                        cutFlow.at(5) = cutFlow.at(5) + weight;
-                        //TMB cut
-                        if (SBM < 150) continue;
-                        cutFlow.at(6) = cutFlow.at(6) + weight;
+                           //(HT-LT) cut
+                           if(DHTLT > -80)continue;
+                           cutFlow.at(4) = cutFlow.at(4) + weight;
+                           //METvsMmm (Normalized MET) cut
+                           if(METvsMmm > .3)continue;
+                           cutFlow.at(5) = cutFlow.at(5) + weight;
+                           //TMB cut
+                           if (SBM < 150) continue;
+                           cutFlow.at(6) = cutFlow.at(6) + weight;
                        } else{
-                         //std::cout << "what"<< std::endl;
-                        continue;
-
+                           std::cout << "WARNING: Selection not recognized, continuing"<< std::endl;
+                           continue;
                        }
-
-                       
-
                        count++;
-
                        //pT
                        histClass.leppT_hist->Fill(leptons[0].Pt());
                        histClass.leppT_hist->Fill(leptons[1].Pt());
-
                        //eta
                        histClass.lepeta_hist->Fill(leptons[0].Eta());
                        histClass.lepeta_hist->Fill(leptons[1].Eta());
-
                        //phi
                        histClass.lepphi_hist->Fill(leptons[0].Phi());
                        histClass.lepphi_hist->Fill(leptons[1].Phi());
-
                        //Iso
                        histClass.lepIso_hist->Fill(leptons_[0].Iso);
                        histClass.lepIso_hist->Fill(leptons_[1].Iso);
-
                        //lep-lep dPhi and dR, dilep mass
                        histClass.dPhi_dimuon_hist->Fill(dil_dPhi);
                        histClass.dR_hist->Fill(dil_dR);
                        histClass.mass_hist->Fill(dil_mass);
-
                        //dPhi(dimuon,b) calculation
                        if(bJets.size()==1){
                            float Phi_dimuon = (leptons[0] + leptons[1]).Phi();
@@ -515,36 +333,25 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                            histClass.dPhi_hist->Fill(dPhi_dimu_b,weight);
                        }
 
-
-
                        histClass.MET_hist->Fill(MET_t);
                        histClass.dilep_mass_hist->Fill(Mmm, weight);
 
-
-                       //if(DHTLT<0){//<0 cut
-
-                       //}
-                       //}
-                       //}
                        float Mm_1 = (leptons[0]).M();
                        float Mm_2 = (leptons[1]).M();
                        histClass.Mass_hist->Fill(Mm_1);
                        histClass.Mass_hist->Fill(Mm_2);
-                       //          }
                    }
                }
            }
        }
-   } 
-   std::cout << "count*weigth " << count*weight << std::endl;
+    } 
+    std::cout << "count*weigth " << count*weight << std::endl;
 
-std::vector<TH1F *> hists = {histClass.run_hist, histClass.mini_SBM_hist, histClass.mini_SBM_minus173_hist, histClass.leppT_hist, histClass.lepeta_hist, histClass.lepphi_hist, histClass.dPhi_dimuon_hist, histClass.dPhi_hist, histClass.dR_hist, histClass.mass_hist, histClass.jetpT_hist, histClass.jeteta_hist, histClass.bjetpT_hist, histClass.bjeteta_hist, histClass.NonbjetpT_hist, histClass.Nonbjeteta_hist, histClass.nbjet_hist, histClass.nNonbjet_hist, histClass.id_hist, histClass.MET_hist, histClass.dilep_mass_hist, histClass.SBM_hist, histClass.METvsMmm_hist, histClass.HTLT_hist, histClass.Mass_hist};
+    std::vector<TH1F *> hists = {histClass.run_hist, histClass.mini_SBM_hist, histClass.mini_SBM_minus173_hist, histClass.leppT_hist, histClass.lepeta_hist, histClass.lepphi_hist, histClass.dPhi_dimuon_hist, histClass.dPhi_hist, histClass.dR_hist, histClass.mass_hist, histClass.jetpT_hist, histClass.jeteta_hist, histClass.bjetpT_hist, histClass.bjeteta_hist, histClass.NonbjetpT_hist, histClass.Nonbjeteta_hist, histClass.nbjet_hist, histClass.nNonbjet_hist, histClass.id_hist, histClass.MET_hist, histClass.dilep_mass_hist, histClass.SBM_hist, histClass.METvsMmm_hist, histClass.HTLT_hist, histClass.Mass_hist};
 
     for(unsigned Nh=0; Nh<hists.size(); ++Nh) hists[Nh]->Write();
-
     histClass.njvsnbj_hist->Write();
 
     output->Close();
-
     return cutFlow;
 }
