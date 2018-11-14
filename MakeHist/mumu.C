@@ -156,7 +156,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
        histClass.run_hist->Fill(run);
 
-       cutFlow.at(0) = cutFlow.at(0) + weight;
+       cutFlow.at(0) += weight;
 
        if(lep_pt[0] > 53 &&lep_pt[1] > 53){ //lep pT > 53GeV
            if(dil_dR > 0.1){ // dR(lep,lep) > 0.1
