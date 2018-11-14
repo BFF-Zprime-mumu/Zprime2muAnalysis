@@ -35,7 +35,7 @@ for cut in cutflow:
                 if sample == "zp500":
                     ABCD[cut][ttree][2] +=  cutflow[cut][ttree][sample][3]
                 if sample == "zp500":
-                    ABCD[cut][ttree][3] = ABCD[cut][ttree][3] +  cutflow[cut][ttree][sample][3]
+                    ABCD[cut][ttree][3] += cutflow[cut][ttree][sample][3]
 
 for ttree in ttrees:
     for cut in cuts:
