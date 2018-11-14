@@ -33,7 +33,7 @@ for cut in cutflow:
                 if sample == "zp200":
                     ABCD[cut][ttree][1] +=  cutflow[cut][ttree][sample][3]
                 if sample == "zp500":
-                    ABCD[cut][ttree][2] = ABCD[cut][ttree][2] +  cutflow[cut][ttree][sample][3]
+                    ABCD[cut][ttree][2] +=  cutflow[cut][ttree][sample][3]
                 if sample == "zp500":
                     ABCD[cut][ttree][3] = ABCD[cut][ttree][3] +  cutflow[cut][ttree][sample][3]
 
