@@ -11,8 +11,107 @@
 #include <TROOT.h>
 #include <TChain.h>
 #include <TFile.h>
+#include <TH1.h>
+#include <TH2.h>
+#include <TMath.h>
 
 // Header file for the classes stored in the TTree if any.
+
+struct histogramClass
+{
+    TH1F *run_hist;
+    TH1F *leppT_hist;
+    TH1F *lepeta_hist;
+    TH1F *lepphi_hist;
+    TH1F *lepIso_hist;
+    
+    TH1F *dPhi_dimuon_hist;
+    TH1F *dR_hist;
+    TH1F *mass_hist;
+    
+    TH1F *jetpT_hist;
+    TH1F *jeteta_hist;
+    
+    TH1F *bjetpT_hist;
+    TH1F *bjeteta_hist;
+    
+    TH1F *NonbjetpT_hist;
+    TH1F *Nonbjeteta_hist;
+    
+    TH1F *nbjet_hist;
+    TH1F *nNonbjet_hist;
+    TH1F *id_hist;
+    
+    TH2F *njvsnbj_hist;
+    
+    TH1F *MET_hist;
+    TH1F *dilep_mass_hist;
+    
+    TH1F *SBM_hist;
+    TH1F *METvsMmm_hist;
+    TH1F *HTLT_hist;
+    TH1F *dPhi_hist;
+    
+    TH1F *Mass_hist;
+    
+    TH1F *mini_SBM_hist;
+    TH1F *mini_SBM_minus173_hist;
+    
+    //struct constructor
+    histogramClass(TString name)
+    {
+        run_hist = new TH1F(name+"run_hist","Total number of events passed through the pre-selection cut; run; Number of events;",3,0,3); run_hist->Sumw2();
+        leppT_hist = new TH1F(name+"leppT_hist","lepton pt; p_{T} [GeV]; Number of events",100,0,500); leppT_hist->Sumw2();
+        lepeta_hist = new TH1F(name+"lepeta_hist","lepton eta; #eta; Number of events",20,-3,3); lepeta_hist->Sumw2();
+        lepphi_hist = new TH1F(name+"lepphi_hist","lepton phi; #phi; Number of events",20,-3.5,3.5); lepphi_hist->Sumw2();
+        lepIso_hist = new TH1F(name+"lepIso_hist","lepton isolation; Isolation; Number of events;",100,0,400); lepIso_hist->Sumw2();
+        
+        dPhi_dimuon_hist = new TH1F(name+"dPhi_dimuon_hist","delta phi_{#mu,#mu}; #Delta#phi_{#mu,#mu}; Number of events",50,-4,4); dPhi_dimuon_hist->Sumw2();
+        dR_hist = new TH1F(name+"dR_hist","delta R_{#mu,#mu}; #DeltaR_{#mu,#mu}; Number of events",50,0,5); dR_hist->Sumw2();
+        mass_hist = new TH1F(name+"mass_hist","Dilepton mass tree; Dilepton mass; Number of events",50,0,500); mass_hist->Sumw2();
+        
+        jetpT_hist = new TH1F(name+"jetpT_hist","jet pT; p_{T} [GeV]; Number of events",100,0,500); jetpT_hist->Sumw2();
+        jeteta_hist = new TH1F(name+"jeteta_hist","jet eta; #eta; Number of events",20,-5,5); jeteta_hist->Sumw2();
+        
+        bjetpT_hist = new TH1F(name+"bjetpT_hist","b-jet pT; p_{T} [GeV]; Number of events",100,0,500); bjetpT_hist->Sumw2();
+        bjeteta_hist = new TH1F(name+"bjeteta_hist","b-jet eta; #eta; Number of events",20,-5,5); bjeteta_hist->Sumw2();
+        
+        NonbjetpT_hist = new TH1F(name+"NonbjetpT_hist","non b-jet pT; p_{T} [GeV]; Number of events",100,0,500); NonbjetpT_hist->Sumw2();
+        Nonbjeteta_hist = new TH1F(name+"Nonbjeteta_hist","non b-jet eta; #eta; Number of events",20,-5,5); Nonbjeteta_hist->Sumw2();
+        
+        nbjet_hist = new TH1F(name+"nbjet_hist","Number of b-jet; Number of b-jets; Number of events",11,0,11); nbjet_hist->Sumw2();
+        nNonbjet_hist = new TH1F(name+"nNonbjet_hist","Number of non-bjet; Number of non-bjets; Number of events",11,0,11); nNonbjet_hist->Sumw2();
+        id_hist = new TH1F(name+"id_hist","particle id; id number; Number of events",30,-15,15); id_hist->Sumw2();
+        
+        njvsnbj_hist = new TH2F(name+"njvsnbj_hist","Number of non_b-jets vs Number of b-jets; Number of non_bjets; Number of b-jets",10,0,10,5,0,5); njvsnbj_hist->Sumw2();
+        
+        MET_hist = new TH1F(name+"MET_hist","Missing ET; E^{miss}_{T} [GeV]; Number of events",100,0,1000); MET_hist->Sumw2();
+        
+        Int_t nBins = 100;
+        Float_t bins[nBins+1];
+        Float_t maxEdge = 1000;
+        Float_t minEdge = 1;
+        Float_t width = TMath::Exp(TMath::Log(maxEdge - minEdge)/(nBins+1));
+        
+        for (int i = 0; i <= nBins+1; i++) {
+          bins[i] = minEdge + TMath::Power(width,i );
+        } 
+        
+        dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
+        
+        dilep_mass_hist->Sumw2();
+        
+        SBM_hist = new TH1F(name+"SBM_hist","max(SBM); max(SBM) [GeV]; a.u.",100,0,300); SBM_hist->Sumw2();
+        METvsMmm_hist = new TH1F(name+"METvsMmm_hist","E^{miss}_{T}/M(#mu^{+}#mu^{-}); E^{miss}_{T}/M(#mu^{+}#mu^{-}) [GeV]; a.u.",100,0,1); METvsMmm_hist->Sumw2();
+        HTLT_hist = new TH1F(name+"HTLT_hist","HT-LT; HT-LT [GeV]; a.u.",100,-500,500); HTLT_hist->Sumw2();
+        dPhi_hist = new TH1F(name+"dPhi_hist","delta phi_{dimuon,b}; #Delta#phi_{dimuon,b}; Number of events",50,-4,4); dPhi_hist->Sumw2();
+        
+        Mass_hist = new TH1F(name+"Mass_hist","Lepton mass(M_{#mu}); M_{#mu} [GeV]; Number of events",100,0,500); Mass_hist->Sumw2();
+        
+        mini_SBM_hist = new TH1F(name+"mini_SBM_hist","minimum mass of mu-b combinations; mini(SBM) [GeV]; a.u.",100,0,300); mini_SBM_hist->Sumw2();
+        mini_SBM_minus173_hist = new TH1F(name+"mini_SBM_minus173_hist","minimum mass of |(mu-b combinations) - 173 |; mini(SBM)-173 [GeV]; a.u.",100,0,300); mini_SBM_minus173_hist->Sumw2();
+    }
+};
 
 class mumu {
 public :
@@ -443,7 +542,7 @@ public :
    virtual Long64_t LoadTree(Long64_t entry);
    virtual void     Init(TTree *tree);
    //virtual void     Loop();
-   virtual void     Loop(TString sample_name, Float_t l_xsection, Float_t l_targetLumi, Float_t l_numberOfEvents, TString caseText);
+   virtual std::vector<float>    Loop(TString sample_name, Float_t l_xsection, Float_t l_targetLumi, Float_t l_numberOfEvents, TString caseText);
    virtual Bool_t   Notify();
    virtual void     Show(Long64_t entry = -1);
 };

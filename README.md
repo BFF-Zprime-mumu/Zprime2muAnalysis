@@ -61,4 +61,25 @@ crab submit -c crabConfig_TT.py
 ```
 
 # Producing the plots
-TBD
+
+This is tested in CMSSW_10_2_1 enviroment. You need a CMSSW environment that includes TRatioPlot.h.
+
+Navigate to $CMSSWBASE/SUSYBSMAnalysis/Zprime2muAnalysis/MakeHist
+
+In sampleDict.py, set the paths to the samples, xsections, total events, and outputnames.
+
+In makeHists.py, specify which b and jet cuts and ttrees you would like to run over. (edit mumu.C for lower level issues).
+
+Create an 'output' dir if not created.
+
+Then run "python makeHists.py".
+
+This produces root files of histograms needed to produce the stack plots and so on.
+
+Create a 'hists' dir if not created.
+
+In automatedStackPlots.py, similarly specify which b and jet cuts and ttrees you would like to run over.
+
+To produce the stack, nBjetsVsNjets, and ratio plots, run "python automatedStackPlots.py".
+
+The final plots will be located in the hist dir.

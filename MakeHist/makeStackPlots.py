@@ -1,9 +1,15 @@
 import ROOT as r
 import math
 
-c1 = r.TCanvas("c1", "c1",500, 600)
+from ROOT import gROOT
 
-prefix = "1"
+# Set TDR styles
+gROOT.LoadMacro("tdrstyle.C")
+gROOT.ProcessLine("setTDRStyle();")
+
+c1 = r.TCanvas("c1", "c1",500, 500)
+
+prefix = "2"
 
 ZZ_TuneCUETP8M1_13TeV = r.TFile("./output/{0}_ZZ_TuneCUETP8M1_13TeV.root".format(prefix), "read")
 TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV = r.TFile("./output/{0}_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root".format(prefix), "read")
@@ -107,11 +113,12 @@ zp500_norm, zp500_entries, zp500_events = returnSampleStats("zp500", zp500_xsect
 
 ZZ_TuneCUETP8M1_13TeV.cd()
 dirList = r.gDirectory.GetListOfKeys()
-leg = r.TLegend(.6, .5, .89, .89)
+leg = r.TLegend(.6, .7, .89, .89)
 for k1 in dirList: 
     zp200_h = k1.ReadObj()
     name =  zp200_h.GetName()
 
+    zp200_h = zp200.Get(name)
     zp350_h = zp350.Get(name)
     zp500_h = zp500.Get(name)
 
@@ -141,70 +148,107 @@ for k1 in dirList:
         #ST_tW_antitop_5f_inclusiveDecays_13TeV_h.Scale(ST_tW_antitop_5f_inclusiveDecays_13TeV_norm)
         #WZ_TuneCUETP8M1_13TeV_h.Scale(WZ_TuneCUETP8M1_13TeV_norm)
 
-        ZZ_TuneCUETP8M1_13TeV_h.SetFillColor(91)
-        TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h.SetFillColor(52)
-        DYJetsToLL_M_h.SetFillColor(60)
-        WWTo2L2Nu_13TeV_h.SetFillColor(8)
-        ST_tW_top_5f_inclusiveDecays_13TeV_h.SetFillColor(2)
-        ST_tW_antitop_5f_inclusiveDecays_13TeV_h.SetFillColor(4)
-        WZ_TuneCUETP8M1_13TeV_h.SetFillColor(4)
+        alpha = .75
+        ZZ_TuneCUETP8M1_13TeV_h.SetFillColorAlpha(416-9, alpha)#kGreen -9
+        TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h.SetFillColorAlpha(400-9, alpha)#kYellow-9
+        DYJetsToLL_M_h.SetFillColorAlpha(432-9, alpha) #kCyan -9
+        WWTo2L2Nu_13TeV_h.SetFillColorAlpha(416-9, alpha)#kGreen -9
+        ST_tW_top_5f_inclusiveDecays_13TeV_h.SetFillColorAlpha(616-9, alpha) #kMagneta -9
+        ST_tW_antitop_5f_inclusiveDecays_13TeV_h.SetFillColorAlpha(616-9, alpha)
+        WZ_TuneCUETP8M1_13TeV_h.SetFillColorAlpha(416-9, alpha)#kGreen -9
 
 
-        #zp350_h.Rebin(2)
-        #zp500_h.Rebin(2)
-        #zp200_h.Rebin(2)
-        #ZZ_TuneCUETP8M1_13TeV_h.Rebin(2)
-        #TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h.Rebin(2)
-        #DYJetsToLL_M_h.Rebin(2)
-        #WWTo2L2Nu_13TeV_h.Rebin(2)
-        #ST_tW_top_5f_inclusiveDecays_13TeV_h.Rebin(2)
-        #ST_tW_antitop_5f_inclusiveDecays_13TeV_h.Rebin(2)
-        #WZ_TuneCUETP8M1_13TeV_h.Rebin(2)
 
-        zp200_h.SetLineColor(3)
+        ZZ_TuneCUETP8M1_13TeV_h.SetLineColor(920+2)
+        TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h.SetLineColor(920+2)
+        DYJetsToLL_M_h.SetLineColor(920+2)
+        WWTo2L2Nu_13TeV_h.SetLineColor(920+2)
+        ST_tW_top_5f_inclusiveDecays_13TeV_h.SetLineColor(920+2)
+        ST_tW_antitop_5f_inclusiveDecays_13TeV_h.SetLineColor(920+2)
+        WZ_TuneCUETP8M1_13TeV_h.SetLineColor(920+2)
+
+
+
+        bmin,bmax = 0, ZZ_TuneCUETP8M1_13TeV_h.GetNbinsX()
+        print "ZZ_TuneCUETP8M1_13TeV_h", ZZ_TuneCUETP8M1_13TeV_h.Integral(bmin,bmax)
+        print "TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h", TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h.Integral(bmin,bmax)
+        print "DYJetsToLL_M_h", DYJetsToLL_M_h.Integral(bmin,bmax)
+        print "WWTo2L2Nu_13TeV_h", WWTo2L2Nu_13TeV_h.Integral(bmin,bmax)
+        print "ST_tW_top_5f_inclusiveDecays_13TeV_h", ST_tW_top_5f_inclusiveDecays_13TeV_h.Integral(bmin,bmax)
+        print "ST_tW_antitop_5f_inclusiveDecays_13TeV_h", ST_tW_antitop_5f_inclusiveDecays_13TeV_h.Integral(bmin,bmax)
+        print "WZ_TuneCUETP8M1_13TeV_h", WZ_TuneCUETP8M1_13TeV_h.Integral(bmin,bmax)
+
+        zp350_h.Rebin(2)
+        zp500_h.Rebin(2)
+        zp200_h.Rebin(2)
+        ZZ_TuneCUETP8M1_13TeV_h.Rebin(2)
+        TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h.Rebin(2)
+        DYJetsToLL_M_h.Rebin(2)
+        WWTo2L2Nu_13TeV_h.Rebin(2)
+        ST_tW_top_5f_inclusiveDecays_13TeV_h.Rebin(2)
+        ST_tW_antitop_5f_inclusiveDecays_13TeV_h.Rebin(2)
+        WZ_TuneCUETP8M1_13TeV_h.Rebin(2)
+
+        zp200_h.SetLineColor(600+1)#kBlue+1
+        zp200_h.SetLineWidth(2)#kBlue+1
         zp200_h.SetMarkerStyle(8)
-        zp200_h.SetMarkerColor(3)
+        zp200_h.SetMarkerColor(600+1)
         zp200_h.SetMarkerSize(1)
         zp200_h.SetFillColorAlpha(3,0)
 
-        zp350_h.SetLineColor(2)
+        zp350_h.SetLineColor(632+1)
+        zp350_h.SetLineWidth(2)
         zp350_h.SetMarkerStyle(8)
-        zp350_h.SetMarkerColor(2)
+        zp350_h.SetMarkerColor(632+1)
         zp350_h.SetMarkerSize(1)
         zp350_h.SetFillColorAlpha(2,0)
 
 
-        zp500_h.SetLineColor(1)
+        zp500_h.SetLineColor(416+1)
+        zp500_h.SetLineWidth(2)
         zp500_h.SetMarkerStyle(8)
-        zp500_h.SetMarkerColor(1)
+        zp500_h.SetMarkerColor(416+1)
         zp500_h.SetMarkerSize(1)
         zp500_h.SetFillColorAlpha(1,0)
 
 
 
         leg.Clear()
-        leg.AddEntry(zp200_h, "zp200_h", "l")
-        leg.AddEntry(zp350_h, "zp350_h", "l")
-        leg.AddEntry(zp500_h, "zp500_h", "l")
-        leg.AddEntry(ZZ_TuneCUETP8M1_13TeV_h, "ZZ_TuneCUETP8M1_13TeV_h", "f")
-        leg.AddEntry(TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h, "TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h", "f")
-        leg.AddEntry(DYJetsToLL_M_h, "DYJetsToLL_M_h", "f")
-        leg.AddEntry(WWTo2L2Nu_13TeV_h, "WWTo2L2Nu_13TeV_h", "f")
-        leg.AddEntry(ST_tW_top_5f_inclusiveDecays_13TeV_h, "ST_tW_top_5f_inclusiveDecays_13TeV_h", "f")
-        leg.AddEntry(ST_tW_antitop_5f_inclusiveDecays_13TeV_h, "ST_tW_antitop_5f_inclusiveDecays_13TeV_h", "f")
-        leg.AddEntry(WZ_TuneCUETP8M1_13TeV_h, "WZ_TuneCUETP8M1_13TeV_h", "f")
+        leg.AddEntry(zp200_h, "Z' 200GeV", "l")
+        leg.AddEntry(zp350_h, "Z' 350GeV", "l")
+        leg.AddEntry(zp500_h, "Z' 500GeV", "l")
+        leg.AddEntry(DYJetsToLL_M_h, "DY + jets", "f")
+        leg.AddEntry(TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h, "tt", "f")
+        leg.AddEntry(ST_tW_top_5f_inclusiveDecays_13TeV_h, "st tW", "f")
+        leg.AddEntry(ZZ_TuneCUETP8M1_13TeV_h, "WW, WZ, ZZ", "f")
+        
+       
+        #leg.AddEntry(WWTo2L2Nu_13TeV_h, "WWTo2L2Nu_13TeV_h", "f")
+        
+        #leg.AddEntry(ST_tW_antitop_5f_inclusiveDecays_13TeV_h, "ST_tW_antitop_5f_inclusiveDecays_13TeV_h", "f")
+        #leg.AddEntry(WZ_TuneCUETP8M1_13TeV_h, "WZ_TuneCUETP8M1_13TeV_h", "f")
         leg.SetBorderSize(0);
 
 
-
+        WZ_TuneCUETP8M1_13TeV_h.Add(WWTo2L2Nu_13TeV_h)
+        WZ_TuneCUETP8M1_13TeV_h.Add(ZZ_TuneCUETP8M1_13TeV_h)
 
         #hs.Add(ZZ_TuneCUETP8M1_13TeV_h)
-        hs.Add(TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h)
-        hs.Add(DYJetsToLL_M_h)
-        hs.Add(WWTo2L2Nu_13TeV_h)
-        hs.Add(ST_tW_top_5f_inclusiveDecays_13TeV_h)
-        hs.Add(ST_tW_antitop_5f_inclusiveDecays_13TeV_h)
+        #hs.Add(WWTo2L2Nu_13TeV_h)
         hs.Add(WZ_TuneCUETP8M1_13TeV_h)
+
+        ST_tW_antitop_5f_inclusiveDecays_13TeV_h.Add(ST_tW_top_5f_inclusiveDecays_13TeV_h)
+        #hs.Add(ST_tW_top_5f_inclusiveDecays_13TeV_h)
+        hs.Add(ST_tW_antitop_5f_inclusiveDecays_13TeV_h)
+
+        hs.Add(TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h)
+
+        hs.Add(DYJetsToLL_M_h)
+
+        #rebinTHStack(hs,2)
+        #zp200_h.Rebin(2)
+        #zp350_h.Rebin(2)
+        #zp500_h.Rebin(2)
         '''
         rebinTHStack(hs,10)
         #hs.Rebin(10)
@@ -213,51 +257,52 @@ for k1 in dirList:
         '''
         hs.Draw("HIST")
         hs.SetMinimum(.1)
-        zp200_h.Draw("same")
-        zp350_h.Draw("same")
-        zp500_h.Draw("same")
+        hs.SetMaximum(10e+4)
+        zp200_h.Draw("same HIST")
+        zp350_h.Draw("same HIST")
+        zp500_h.Draw("same HIST")
         if draw_leg: leg.Draw()
         c1.SaveAs("hists/{0}_{1}.png".format(output_text, name ))
-
-
-        ZZ_TuneCUETP8M1_13TeV_h.Add(TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h)
-        ZZ_TuneCUETP8M1_13TeV_h.Add(DYJetsToLL_M_h)
-        ZZ_TuneCUETP8M1_13TeV_h.Add(WWTo2L2Nu_13TeV_h)
-        ZZ_TuneCUETP8M1_13TeV_h.Add(ST_tW_top_5f_inclusiveDecays_13TeV_h)
-        ZZ_TuneCUETP8M1_13TeV_h.Add(ST_tW_antitop_5f_inclusiveDecays_13TeV_h)
-        ZZ_TuneCUETP8M1_13TeV_h.Add(WZ_TuneCUETP8M1_13TeV_h)
-
-        for i in reversed(xrange(ZZ_TuneCUETP8M1_13TeV_h.GetNbinsX() +1 )):
-            #print i
-            #print DY_100_250_h.GetBinContent(i), DY_100_250_h.GetBinContent(i+1)
-
-            ZZ_TuneCUETP8M1_13TeV_h.SetBinContent(i,  ZZ_TuneCUETP8M1_13TeV_h.GetBinContent(i) + ZZ_TuneCUETP8M1_13TeV_h.GetBinContent(i+1) )
-
-            zp200_h.SetBinContent(i,  zp200_h.GetBinContent(i) + zp200_h.GetBinContent(i+1) )
-
-
-
-
-        zp200_h.Divide(ZZ_TuneCUETP8M1_13TeV_h)
-
-
-        zp200_h.Draw()
-        c1.SaveAs("hists/{0}_{1}_significance_left_cut.png".format(output_text, name ))
-
-
-'''
-        if name == "TH1F_cutflow":
-            for bins in RH_h:
-                print bins
-            DY_100_250_h.Add(DY_250_400_h)
-            DY_100_250_h.Add(DY_400_650_h)
-            DY_100_250_h.Add(DY_650_Inf_h)
-            DY_100_250_h.Add(ST_t_anti_h)
-            DY_100_250_h.Add(ST_t_top_h)
-            DY_100_250_h.Add(ST_tw_anti_h)
-            DY_100_250_h.Add(ST_tw_top_h)
-            DY_100_250_h.Add(ST_s_h)
-            DY_100_250_h.Add(TTJets_h)
-            for bins in DY_100_250_h:
-                print bins  
-'''        
+#
+#        #ZZ_TuneCUETP8M1_13TeV_h.Add(TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_h)
+#        #ZZ_TuneCUETP8M1_13TeV_h.Add(DYJetsToLL_M_h)
+#        #ZZ_TuneCUETP8M1_13TeV_h.Add(WWTo2L2Nu_13TeV_h)
+#        #ZZ_TuneCUETP8M1_13TeV_h.Add(ST_tW_top_5f_inclusiveDecays_13TeV_h)
+#        #ZZ_TuneCUETP8M1_13TeV_h.Add(ST_tW_antitop_5f_inclusiveDecays_13TeV_h)
+#        #ZZ_TuneCUETP8M1_13TeV_h.Add(WZ_TuneCUETP8M1_13TeV_h)
+#
+#        #for i in reversed(xrange(ZZ_TuneCUETP8M1_13TeV_h.GetNbinsX() +1 )):
+#            #print i
+#            #print DY_100_250_h.GetBinContent(i), DY_100_250_h.GetBinContent(i+1)
+#
+#            #ZZ_TuneCUETP8M1_13TeV_h.SetBinContent(i,  ZZ_TuneCUETP8M1_13TeV_h.GetBinContent(i) + ZZ_TuneCUETP8M1_13TeV_h.GetBinContent(i+1) )
+#
+#            #zp200_h.SetBinContent(i,  zp200_h.GetBinContent(i) + zp200_h.GetBinContent(i+1) )
+#
+#
+#
+#
+#        #zp200_h.Divide(ZZ_TuneCUETP8M1_13TeV_h)
+#
+#
+#        #zp200_h.Draw()
+#        #c1.SaveAs("hists/{0}_{1}_significance_left_cut.png".format(output_text, name ))
+#
+#
+#'''
+#        if name == "TH1F_cutflow":
+#            for bins in RH_h:
+#                print bins
+#            DY_100_250_h.Add(DY_250_400_h)
+#            DY_100_250_h.Add(DY_400_650_h)
+#            DY_100_250_h.Add(DY_650_Inf_h)
+#            DY_100_250_h.Add(ST_t_anti_h)
+#            DY_100_250_h.Add(ST_t_top_h)
+#            DY_100_250_h.Add(ST_tw_anti_h)
+#            DY_100_250_h.Add(ST_tw_top_h)
+#            DY_100_250_h.Add(ST_s_h)
+#            DY_100_250_h.Add(TTJets_h)
+#            for bins in DY_100_250_h:
+#                print bins  
+#'''        
+#
