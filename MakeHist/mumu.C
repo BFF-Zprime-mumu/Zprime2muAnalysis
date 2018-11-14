@@ -412,14 +412,14 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        if(caseText == "5" and (nBjets < 3) )continue;//N_jet >=3, N_bjet >= 3 (Case 5)
 
                        //SR 1j
-                       if(caseText == "b=1_j=0" and not (nBjets == 1 && nNonBjets == 0) )continue;
+                       if(caseText == "b1j0" and not (nBjets == 1 && nNonBjets == 0) )continue;
                        //CR 1j
-                       if(caseText == "b=0_j=1" and not (nBjets == 0 && nNonBjets == 1) )continue;
+                       if(caseText == "b0j1" and not (nBjets == 0 && nNonBjets == 1) )continue;
 
                        //SR 2 j
-                       if(caseText == "b=1,2_b+j=2" and not ( (nBjets == 1 || nBjets == 2) && njets == 2) )continue;
+                       if(caseText == "b12bj2" and not ( (nBjets == 1 || nBjets == 2) && njets == 2) )continue;
                        //CR 1 j
-                       if(caseText == "b=0_b+j=2" and not ( (nBjets == 0 ) && njets == 2) )continue;
+                       if(caseText == "b0bj2" and not ( (nBjets == 0 ) && njets == 2) )continue;
 
                        //1j
                        if(caseText == "1j" and not (njets == 1) )continue;
@@ -450,7 +450,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
 
 
-                        if(caseText == "b=1_j=0" || caseText ==  "2" || caseText ==  "b=0_j=1")
+                        if(caseText == "b1j0" || caseText ==  "2" || caseText ==  "b0j1")
                        {
                         //std::cout << "1 "<< std::endl;
                         //(HT-LT) cut
@@ -462,7 +462,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                         //TMB cut
                         if (SBM < 160) continue;
                         cutFlow.at(6) = cutFlow.at(6) + weight;
-                       } else if (caseText == "b=1,2_b+j=2" || caseText ==  "b=0_b+j=2")
+                       } else if (caseText == "b12bj2" || caseText ==  "b0bj2")
                        {
                         //std::cout << "2 "<< std::endl;
                         //(HT-LT) cut
