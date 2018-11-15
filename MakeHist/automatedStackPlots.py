@@ -37,7 +37,8 @@ if not blinded:
     makeRatioPlots("b1j0_SimpleNtuplerDiEle", "b0j1_SimpleNtupler","b0j1_SimpleNtuplerDiEle", "b1j0_SimpleNtupler" ,"dilep_mass_hist", "\\text{M}_{\\mathscr{l}^{+}\\mathscr{l}^{-}}~[\\text{GeV}]", "CR^{ee}_{1b j=1} #bullet CR^{#mu#mu}_{1j}/CR^{ee}_{1j}")
 makeNbJetNJet("b0j1_SimpleNtupler","njvsnbj_hist")
 
-postfix = "_2016"
+#postfix = "_2016"
+postfix = ""
 for cut in cutStrings:
     for tree in treeName:
         if (cut == "b1j0" or cut == "b12bj2") and tree == "SimpleNtupler" and blinded:

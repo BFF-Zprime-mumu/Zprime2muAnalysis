@@ -8,156 +8,25 @@
 #include <THStack.h>
 #include <iostream>
 
-TH1F * returnKeepGreaterThan(TH1F * background, TH1F * sample)
-{
-    float previousBin;
-    float currentBin;
-    int nBins = background->GetNbinsX();
-
-    TH1F* background_integrated = (TH1F*) background->Clone();
-    TH1F* sample_integrated = (TH1F*) sample->Clone();
-
-    for(int i=1;i<nBins+2;i++){
-
-        previousBin = background_integrated->GetBinContent(i-1);
-        currentBin = background_integrated->GetBinContent(i);
-
-        background_integrated->SetBinContent(i, currentBin+ previousBin);
-
-        previousBin = sample_integrated->GetBinContent(i-1);
-        currentBin = sample_integrated->GetBinContent(i);
-
-        sample_integrated->SetBinContent(i, currentBin+ previousBin);
-
-    }
-
-    sample_integrated->Multiply(sample_integrated);
-
-    sample_integrated->Divide(background_integrated);
-
-    return sample_integrated;
-};
-
-TH1F * returnKeepLessThan(TH1F * background, TH1F * sample)
-{
-
-    float previousBin;
-    float currentBin;
-    int nBins = background->GetNbinsX();
-
-    TH1F* background_integrated = (TH1F*) background->Clone();
-    TH1F* sample_integrated = (TH1F*) sample->Clone();
-
-    for(int i=nBins;i>-1;i--){
-
-        previousBin = background_integrated->GetBinContent(i+1);
-        currentBin = background_integrated->GetBinContent(i);
-
-        background_integrated->SetBinContent(i, currentBin+ previousBin);
-
-        previousBin = sample_integrated->GetBinContent(i+1);
-        currentBin = sample_integrated->GetBinContent(i);
-
-        sample_integrated->SetBinContent(i, currentBin+ previousBin);
-
-    }
-
-    sample_integrated->Multiply(sample_integrated);
-
-    sample_integrated->Divide(background_integrated);
-
-    return sample_integrated;
-};
-
-
-TH1F * returnTopCut(TH1F * background, TH1F * sample, Float_t centerValue)
-{
-
-    float previousBin;
-    float currentBin;
-    int nBins = background->GetNbinsX();
-
-    TH1F* background_integrated = (TH1F*) background->Clone();
-    TH1F* sample_integrated = (TH1F*) sample->Clone();
-
-    TH1F* background_integrated_temp = (TH1F*) background->Clone();
-    TH1F* sample_integrated_temp = (TH1F*) sample->Clone();
-
-    float minRange = background_integrated->GetXaxis()->GetXmin();
-    float maxRange = background_integrated->GetXaxis()->GetXmax();
-
-    float sizePerBin = (maxRange-minRange)/(float)nBins;
-   
-
-    float binOfCenter = (int)(centerValue - minRange)/sizePerBin;
-
-    std::cout << binOfCenter << std::endl;
-
-    if(binOfCenter > nBins)
-    {
-        return sample_integrated;
-    }
-
-    float range;
-    int binLow;
-    int binHigh;
-
-    float totalBck = background_integrated->Integral(-1,nBins+1);
-    float totalSample = sample_integrated->Integral(-1,nBins+1);
-
-   for(int i=0;i<nBins+2;i++){
-
-
-        range = (float)i*sizePerBin;
-        background_integrated_temp->SetBinContent(binOfCenter-i, totalBck - background_integrated->Integral(binOfCenter-1,binOfCenter+i));
-        background_integrated_temp->SetBinContent(binOfCenter+i, totalBck - background_integrated->Integral(binOfCenter-1,binOfCenter+i));
-        sample_integrated_temp->SetBinContent(binOfCenter-i, totalSample - sample_integrated->Integral(binOfCenter-1,binOfCenter+i));
-        sample_integrated_temp->SetBinContent(binOfCenter+i, totalSample - sample_integrated->Integral(binOfCenter-1,binOfCenter+i));
-    }
-
-    background_integrated_temp->Add(sample_integrated_temp);
-
-    sample_integrated_temp->Multiply(sample_integrated_temp);
-
-    sample_integrated_temp->Divide(background_integrated_temp);
-
-
-    return sample_integrated_temp;
-};
-
-
-
 void make2DPlotCut(TH1F * background, TH1F * sample, TCanvas *c1, TString prefix, TString plot, TString postfix)
 {
-
-    float previousBin;
-    float currentBin;
     int nBins = background->GetNbinsX();
 
     float minRange = background->GetXaxis()->GetXmin();
     float maxRange = background->GetXaxis()->GetXmax();
 
-    float sizePerBin = (maxRange-minRange)/(float)nBins;
-
     TH2F * TH2F_sample = new TH2F("sample1", "sample", nBins, minRange,maxRange, nBins, minRange,maxRange  );
-    TH2F * TH2F_background = new TH2F("background1", "background", nBins, minRange,maxRange, nBins, minRange,maxRange  );
 
-    float totalBck = background->Integral(-1,nBins+1);
-    float totalSample = sample->Integral(-1,nBins+1);
+    float totalBck = background->Integral(0,nBins+1);
+    float totalSample = sample->Integral(0,nBins+1);
     for(int i =0;  i<nBins+2; i++)
     {
-         for(int j =0;  j<nBins+2; j++)
+         for(int j =i;  j<nBins+2; j++)
         {
             float sampleCount = sample->Integral(i,j);
             float backgroundCount = background->Integral(i,j);
-
-            float siginificance = (totalSample-sampleCount)/sqrt( totalSample-sampleCount + totalBck-backgroundCount );
-
-            if( i<=j)
-            {
-                TH2F_sample->SetBinContent(i,j, siginificance);
-            }
-        
+            float significance = (totalSample-sampleCount)/sqrt( totalSample-sampleCount + totalBck-backgroundCount );
+            TH2F_sample->SetBinContent(i,j, significance);
         }
     }
 
@@ -165,20 +34,15 @@ void make2DPlotCut(TH1F * background, TH1F * sample, TCanvas *c1, TString prefix
     TH2F_sample->SetTitle(prefix+"_"+plot);
     TH2F_sample->Draw("colz");
     c1->SaveAs("./hists/"+prefix+"_"+plot+"_centerCut"+postfix+".png");
-
 }
 
-
-
-void makeStackPlot(TString prefix, TString postfix, TString plot, TString title){
-
+void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
+{
     THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
-
     //Open Files
     TFile *zp200           = new TFile("./output/"+ prefix + "_zp200"+postfix+".root");
     TFile *zp350           = new TFile("./output/"+ prefix + "_zp350"+postfix+".root");
     TFile *zp500           = new TFile("./output/"+ prefix + "_zp500"+postfix+".root");
-
     TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
     TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
     TFile *TT              = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
@@ -250,7 +114,6 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     c1->SetLogy();
     gPad->SetTicks();
    
-    
     hs->SetMinimum(0.1);
     hs->SetMaximum(100000); 
 
@@ -290,50 +153,18 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
 
     c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist"+postfix+".png");
 
-
     //make bkg for siginificance plot
-
     TH1F * hist_background = (TH1F*) hist_DB->Clone("background");
     hist_background->Add(hist_ST);
     hist_background->Add(hist_TT);
     hist_background->Add(hist_DY);
 
-
     TH1F * hist_top = (TH1F*) hist_ST->Clone("background");
     hist_top->Add(hist_TT);
-
-    /*TH1F * leftCut = (TH1F*) returnKeepGreaterThan(hist_top,hist_500);
-
-    leftCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb"+postfix+".png");
-
-    TH1F * rightCut = (TH1F*) returnKeepLessThan(hist_top,hist_500);
-
-    rightCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb"+postfix+".png");
-
-
-    TH1F * leftCutTop = (TH1F*) returnKeepGreaterThan(hist_top,hist_500);
-
-    leftCutTop->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_less_than_s_over_sqrtb_tops"+postfix+".png");
-
-
-    TH1F * rightCutTop = (TH1F*) returnKeepLessThan(hist_top,hist_500);
-
-    rightCutTop->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_hist_keep_greater_than_s_over_sqrtb_tops"+postfix+".png");
-
-
-    TH1F * topCut = returnTopCut(hist_top, hist_500, 120);
-
-    topCut->Draw();
-    c1->SaveAs("./hists/"+prefix+"_"+plot+"_top_cut_s_over_sqrtb_tops"+postfix+".png");*/
 
     make2DPlotCut(hist_top, hist_200,c1,prefix,plot, postfix);
 
     TFile *shapeFile = new TFile("./hists/shape_"+prefix+"_"+plot+"_"+postfix+".root","RECREATE");
-
 
     hist_background->Write("background");
     hist_200->Write("zp200");
@@ -343,5 +174,4 @@ void makeStackPlot(TString prefix, TString postfix, TString plot, TString title)
     shapeFile->Close();;
 
     delete c1;
-
 }
