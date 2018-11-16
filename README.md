@@ -62,7 +62,10 @@ crab submit -c crabConfig_TT.py
 
 # Producing the plots
 
-This is tested in CMSSW_10_2_1 enviroment. You need a CMSSW environment that includes TRatioPlot.h.
+The following code requires TRatioPlot and will work with ROOT 6.08 and above. Thus, with default
+ROOT linked by CMSSW not all the histograms will be plotted and certain errors will be thrown. 
+You can get the correct ROOT version either sourcing it standalone, or sourcing the CMSSW
+environment for version 9_4_0 and above
 
 Navigate to $CMSSWBASE/SUSYBSMAnalysis/Zprime2muAnalysis/MakeHist
 
