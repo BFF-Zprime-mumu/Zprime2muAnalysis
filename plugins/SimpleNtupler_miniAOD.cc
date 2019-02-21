@@ -27,6 +27,8 @@
 #include "SUSYBSMAnalysis/Zprime2muAnalysis/src/ToConcrete.h"
 #include "SimDataFormats/GeneratorProducts/interface/GenEventInfoProduct.h"
 
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+
 class SimpleNtupler_miniAOD : public edm::EDAnalyzer {
 public:
   explicit SimpleNtupler_miniAOD(const edm::ParameterSet&);
@@ -40,6 +42,9 @@ private:
     unsigned lumi;
     unsigned event;
     float genWeight;
+    int nQuark_initialState;
+    int nGluon_initialState;
+    int nGisr;
     float beamspot_x;
     float beamspot_x_err;
     float beamspot_y;
@@ -459,6 +464,9 @@ SimpleNtupler_miniAOD::SimpleNtupler_miniAOD(const edm::ParameterSet& cfg)
   //////////////////////////////////////////////////////
   if (fill_gen_info) {
     tree->Branch("genWeight", &t.genWeight, "genWeight/F");
+    tree->Branch("nQuark_initialState", &t.nQuark_initialState, "nQuark_initialState/I");
+    tree->Branch("nGluon_initialState", &t.nGluon_initialState, "nGluon_initialState/I");
+    tree->Branch("nGisr", &t.nGisr, "nGisr/I");
     tree->Branch("gen_res_mass", &t.gen_res_mass, "gen_res_mass/F");
     tree->Branch("gen_res_pt", &t.gen_res_pt, "gen_res_pt/F");
     tree->Branch("gen_res_rap", &t.gen_res_rap, "gen_res_rap/F");
@@ -497,6 +505,9 @@ SimpleNtupler_miniAOD::SimpleNtupler_miniAOD(const edm::ParameterSet& cfg)
 
 #define offlineMinPt "53"
 #define triggerMatchMinPt "50"
+
+//#define offlineMinPt "25"
+//#define triggerMatchMinPt "25"
 #define triggerMatchMaxEta "2.1"
 
 //  tree->SetAlias("trigger_match_0", "lep_triggerMatchPt[0] > " triggerMatchMinPt " && abs(lep_triggerMatchEta[0]) < " triggerMatchMaxEta);
@@ -717,6 +728,45 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
   
 
   if (fill_gen_info) {
+
+
+    //access initial state
+    edm::Handle<GenEventInfoProduct> genEvtInfo;
+    event.getByLabel( "generator", genEvtInfo) ;
+    double theWeight = genEvtInfo->weight();
+
+    const gen::PdfInfo *pdfInfo = (genEvtInfo->hasPDF()) ? genEvtInfo->pdf() : 0;
+
+    int nQuark = 0;
+    int nGluon = 0;
+    //std::cout << pdfInfo->id.first << std::endl;
+    //std::cout << pdfInfo->id.second << std::endl;
+
+    if (abs(pdfInfo->id.first) < 9) nQuark = nQuark+1;
+    if (abs(pdfInfo->id.first) == 21) nGluon = nGluon+1;
+
+    if (abs(pdfInfo->id.second) < 9) nQuark = nQuark+1;
+    if (abs(pdfInfo->id.second) == 21) nGluon = nGluon+1;
+
+    t.nQuark_initialState =   nQuark;
+
+    t.nGluon_initialState = nGluon;
+
+
+    //edm::Handle<std::vector<reco::GenParticle>> genPart;
+    //event.getByLabel( "prunedGenParticles", genPart) ;
+    //const reco::GenParticle genParticles = *(genPart.product());  
+//
+//
+//
+//
+    ////std::cout << theWeight << std::endl;
+    //for(size_t i=0; i<2;i++){
+    //  std::cout << i << std::endl; //(*genParticles)[i].pdgId() << std::endl;
+    //}
+
+
+
     
     // This only works for DY/Z'/RSG events, and really just for PYTHIA!
     hardInteraction->Fill(event);
@@ -725,6 +775,9 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
     event.getByLabel(genEventInfo_, gen_ev_info);
     EventWeight = gen_ev_info->weight();
     t.genWeight = ( EventWeight > 0 ) ? 1 : -1;
+
+    t.genWeight = theWeight;
+    //t.genWeight = EventWeight;
     
     
     //
@@ -732,6 +785,16 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
     //
 //     if(hardInteraction->IsValid()){
 	if(hardInteraction->IsValidForRes()){
+
+      t.nQuark_initialState = hardInteraction->nQinitialState;
+      t.nGluon_initialState = hardInteraction->nGinitialState;
+      t.nGisr = hardInteraction->gISR;
+
+      //std::cout << "tetst" << std::endl;
+      //std::cout << "nquark " << t.nQuark_initialState << std::endl;
+      //std::cout << "nglu " <<  t.nGluon_initialState << std::endl;
+      //std::cout << "gisr " <<  t.nGisr << std::endl;
+
       t.gen_res_mass = hardInteraction->resonance->mass();
       t.gen_res_pt   = hardInteraction->resonance->pt();
       t.gen_res_rap  = hardInteraction->resonance->rapidity();
@@ -999,6 +1062,7 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
 	const reco::Track* tk = patmuon::getPickedTrack(*mu).get();
 	t.lep_p[w]     = tk->p();
 	t.lep_pt[w]     = tk->pt();
+  //std::cout << tk->pt() << std::endl;
 	t.lep_px[w]     = tk->px();
 	t.lep_py[w]     = tk->py();
 	t.lep_pz[w]     = tk->pz();
