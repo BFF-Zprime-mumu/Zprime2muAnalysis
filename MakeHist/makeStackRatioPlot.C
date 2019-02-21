@@ -12,50 +12,77 @@
 
 void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString title, TString data_postfix){
 
-   //THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
-    THStack *hs = new THStack("hs","2016F 3.102 fb^{-1} (13TeV)");
+   TCanvas *c1 = new TCanvas("c1","",800,800);
+   THStack *hs = new THStack("hs","35.9 fb^{-1} (13TeV)");
+    //THStack *hs = new THStack("hs","2016F 3.102 fb^{-1} (13TeV)");
+    //THStack *hs = new THStack("hs","2016G MC normalized to 3.102 fb^{-1} (13TeV)");
 
-     std::cout << "plot" << plot << std::endl;
+     std::cout << "plot " << plot << std::endl;
 
     //Open Files
-    TFile *zp200           = new TFile("./output/"+ prefix + "_zp200"+postfix+".root");
-    TFile *zp350           = new TFile("./output/"+ prefix + "_zp350"+postfix+".root");
-    TFile *zp500           = new TFile("./output/"+ prefix + "_zp500"+postfix+".root");
+    TFile *zp200           = new TFile("./output/"+ prefix + "_zp200"+postfix+"_new.root");
+    TFile *zp350           = new TFile("./output/"+ prefix + "_zp350"+postfix+"_new.root");
+    TFile *zp500           = new TFile("./output/"+ prefix + "_zp500"+postfix+"_new.root");
 
 
-    TFile *datatest           = new TFile("./output/"+ prefix + data_postfix+".root");
+    //TFile *datatest           = new TFile("./output/"+ prefix + data_postfix+"_new.root");
 
-    TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
-    TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
-    TFile *TT              = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
-    TFile *ST_tW_top       = new TFile("./output/"+ prefix + "_ST_tW_top_5f_inclusiveDecays_13TeV.root");
-    TFile *WZ              = new TFile("./output/"+ prefix + "_WZ_TuneCUETP8M1_13TeV.root");
-    TFile *ZZ              = new TFile("./output/"+ prefix + "_ZZ_TuneCUETP8M1_13TeV.root");
-    TFile *DY              = new TFile("./output/"+ prefix + "_DYJetsToLL_M.root");
+    std::cout << "./output/"+ prefix + data_postfix+"_new.root" << std::endl;
+    //TFile *datatest           = new TFile("./output/"+ prefix + data_postfix+"_new.root");
+
+    //b=1,2_b+j=2_SimpleNtupler_2016_SingleMu.root
+
+
+    //TFile *datatest           = new TFile("./output/b=1,2_b+j=2_SimpleNtuplerDiEle_2016_SingleElectron.root");
+
+    TFile *datatest           = new TFile("./output/"+prefix +data_postfix+ ".root");
+
+    TFile *WW              = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV_new.root");
+    TFile *ST_tW_antitop   = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV_new.root");
+    TFile *TT              = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_M_IS_without_wegiths_new.root");
+    TFile *ST_tW_top       = new TFile("./output/"+ prefix + "_ST_tW_top_5f_inclusiveDecays_13TeV_new.root");
+    TFile *WZ              = new TFile("./output/"+ prefix + "_WZ_TuneCUETP8M1_13TeV_new.root");
+    TFile *ZZ              = new TFile("./output/"+ prefix + "_ZZ_TuneCUETP8M1_13TeV_new.root");
+    TFile *DY              = new TFile("./output/"+ prefix + "_DYJetsToLL_M_IS_new.root");
+
+
 
     //Make TH1Fs
+    std::cout << "zp" <<std::endl;
     TH1F *hist_200 = (TH1F*)zp200->Get(plot);
     TH1F *hist_350 = (TH1F*)zp350->Get(plot);
     TH1F *hist_500 = (TH1F*)zp500->Get(plot);
+    std::cout << "data" <<std::endl;
     TH1F *hist_datatest = (TH1F*)datatest->Get(plot);
 
     std::cout << hist_200->GetEntries() << std::endl;
 
     //first is named DB as it will include ww, wz, and zz
+     std::cout << "bosons" <<std::endl;
     TH1F *hist_DB = (TH1F*)WW->Get(plot);
     TH1F *hist_WZ = (TH1F*)WZ->Get(plot);
     TH1F *hist_ZZ = (TH1F*)ZZ->Get(plot);
     hist_DB->Add(hist_WZ);
     hist_DB->Add(hist_ZZ);
 
+    std::cout << "tt" <<std::endl;
     TH1F *hist_TT = (TH1F*)TT->Get(plot);
+    std::cout << "DY" <<std::endl;
 
     TH1F *hist_DY = (TH1F*)DY->Get(plot);
 
+
+     //std::cout << "plot " << hist_DY->GetEntries() << std::endl;
+
+      std::cout << "st" <<std::endl;
+      std::cout << "./output/"+ prefix + "_DYJetsToLL_M_IS_new.root" << std::endl;
     //first is named ST as it will contain top and antitop
     TH1F *hist_ST = (TH1F*)ST_tW_antitop->Get(plot);
     TH1F *hist_ST_tW_top = (TH1F*)ST_tW_top->Get(plot);
     hist_ST->Add(hist_ST_tW_top);
+
+  std::cout << "past" <<std::endl;
+
    
     //Setting backgrounds FillColor
     hist_TT->SetFillColor(kYellow-9);
@@ -84,14 +111,15 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
     //hist_zp200->GetYaxis()->SetRangeUser(0.001,100000.);
 
     //Reduce number of bin
-    //hist_200->Rebin(4);    
-    //hist_350->Rebin(4);    
-    //hist_500->Rebin(4);    
-    //hist_DY->Rebin(4);    
-    //hist_TT->Rebin(4);    
-    //hist_DB->Rebin(4);    
-    //hist_ST->Rebin(4);    
-
+    hist_200->Rebin(2);    
+    hist_350->Rebin(2);    
+    hist_500->Rebin(2);    
+    hist_DY->Rebin(2);    
+    hist_TT->Rebin(2);    
+    hist_DB->Rebin(2);    
+    hist_ST->Rebin(2);
+    hist_datatest->Rebin(2);    
+//
 
 
 
@@ -113,7 +141,7 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
       //std::cout << i << " " <<  1 + TMath::Power(width,i ) <<std::endl;
     } 
 
-   /* TH1F* hist_DB_new = (TH1F*)hist_DB->Rebin(nbins,"hnew1",bins );
+    /*TH1F* hist_DB_new = (TH1F*)hist_DB->Rebin(nbins,"hnew1",bins );
     TH1F* hist_ST_new = (TH1F*)hist_ST->Rebin(nbins,"hnew2",bins );
     TH1F* hist_TT_new = (TH1F*)hist_TT->Rebin(nbins,"hnew3",bins );
     TH1F* hist_DY_new = (TH1F*)hist_DY->Rebin(nbins,"hnew4",bins );
@@ -137,7 +165,16 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
 
     Float_t mcSF = hist_datatest->Integral(68, -1)/numMC;
 
+
+
+
+    for (int i=-1; i< hist_datatest->GetNbinsX(); i++){
+      std::cout << hist_datatest->GetBinContent(i) << "\t" <<  hist_DB->GetBinContent(i) << "\t" << hist_ST->GetBinContent(i) << "\t" << hist_TT->GetBinContent(i) << "\t" << hist_DY->GetBinContent(i) << "\t" <<   std::endl;
+    }
+
     mcSF = 3.102/35.9;
+    mcSF = 1.0;
+    mcSF = 1.1425888684;
     //mcSF =  3.285/35.9;
 
     std::cout << "scale factor " << mcSF << " numMC " << numMC <<  " numdata " << numData <<  std::endl;
@@ -145,7 +182,13 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
     hist_DB->Scale(mcSF);
     hist_ST->Scale(mcSF);
     hist_TT->Scale(mcSF);
+    //hist_TT->Scale(0.1);
+    //hist_DB->Scale(0);
+    //hist_ST->Scale(0);
+    //hist_TT->Scale(0);
     hist_DY->Scale(mcSF);
+
+
 //
     hist_200->Scale(mcSF);
     hist_350->Scale(mcSF);
@@ -170,12 +213,13 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
     sum->Divide(hist_datatest);
 
     sum->Draw();
+
     Float_t maxValue = sum->GetMaximum();
 
 
 
 
-    TCanvas *c1 = new TCanvas("c1","",800,800);
+    
     TText T; 
     c1->SetLogy();
     gPad->SetTicks();
@@ -183,6 +227,7 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
     
     hs->SetMinimum(0.1);
     hs->SetMaximum(100000); 
+    //hs->SetMaximum(4000); 
 
   auto rp = new TRatioPlot(hs,hist_datatest);
 
@@ -214,7 +259,7 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
   leg_hist->AddEntry(hist_ST,"tW,#bar{t}W","f");
   leg_hist->AddEntry(hist_DB,"WW, WZ, ZZ","f");
   
-  leg_hist->Draw();
+  //leg_hist->Draw();
 
   TPaveText *pt = new TPaveText(0.6378446,0.9122768,0.972682,0.9847219,"blNDC");
   pt->SetName("title");
@@ -224,7 +269,7 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
   pt->SetTextAlign(11);
   pt->SetTextFont(42);
   //TText *AText = pt->AddText("35.9 fb^{-1} (13TeV)");
-  TText *AText = pt->AddText("2016F 3.102 fb^{-1} (13TeV)");
+  //TText *AText = pt->AddText("2016F 3.102 fb^{-1} (13TeV)");
   pt->Draw();
 
   c1->SaveAs("./hists/ratio_"+prefix+"_"+plot+"_hist"+postfix+".png");
@@ -235,6 +280,18 @@ void makeStackRatioPlot(TString prefix, TString postfix, TString plot, TString t
   leg_hist->Write("leg");
   savefile->Close();
 
+  hist_200->Draw("same");
+  hist_350->Draw("same");
+  hist_500->Draw("same");
+  c1->SaveAs("./hists/ratio_"+prefix+"_"+plot+"_hist"+postfix+".png");
+
+
+
+
+ std::cout << hist_datatest->Integral() << std::endl;
+
+ TH1 *last = (TH1*)hs->GetStack()->Last();
+ std::cout << last->Integral() << std::endl;
 
   zp200->Close();
   zp350->Close();

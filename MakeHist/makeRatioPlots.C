@@ -11,13 +11,13 @@
 
 TH1F * returnStack(TString prefix, TString plot)
 {
-    TFile *WW            = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV.root");
-    TFile *ST_tW_antitop = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
-    TFile *TT            = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
-    TFile *ST_tW_top     = new TFile("./output/"+ prefix + "_ST_tW_top_5f_inclusiveDecays_13TeV.root");
-    TFile *WZ            = new TFile("./output/"+ prefix + "_WZ_TuneCUETP8M1_13TeV.root");
-    TFile *ZZ            = new TFile("./output/"+ prefix + "_ZZ_TuneCUETP8M1_13TeV.root");
-    TFile *DY            = new TFile("./output/"+ prefix + "_DYJetsToLL_M.root");
+    TFile *WW            = new TFile("./output/"+ prefix + "_WWTo2L2Nu_13TeV_new.root");
+    TFile *ST_tW_antitop = new TFile("./output/"+ prefix + "_ST_tW_antitop_5f_inclusiveDecays_13TeV_new.root");
+    TFile *TT            = new TFile("./output/"+ prefix + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_M_IS_without_wegiths_new.root");
+    TFile *ST_tW_top     = new TFile("./output/"+ prefix + "_ST_tW_top_5f_inclusiveDecays_13TeV_new.root");
+    TFile *WZ            = new TFile("./output/"+ prefix + "_WZ_TuneCUETP8M1_13TeV_new.root");
+    TFile *ZZ            = new TFile("./output/"+ prefix + "_ZZ_TuneCUETP8M1_13TeV_new.root");
+    TFile *DY            = new TFile("./output/"+ prefix + "_DYJetsToLL_M_IS_new.root");
 
     //first is named DB as it will include ww, wz, and zz
     TH1F *hist_DB = (TH1F*)WW->Get(plot);
@@ -53,13 +53,13 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   TH1F * hist_antib_ee = (TH1F*) returnStack(prefix_antib_ee, plot);
 
   //make SRs
-  TFile *WW_SR              = new TFile("./output/"+ prefix_b_mumu + "_WWTo2L2Nu_13TeV.root");
-  TFile *ST_tW_antitop_SR   = new TFile("./output/"+ prefix_b_mumu + "_ST_tW_antitop_5f_inclusiveDecays_13TeV.root");
-  TFile *TT_SR              = new TFile("./output/"+ prefix_b_mumu + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV.root");
-  TFile *ST_tW_top_SR       = new TFile("./output/"+ prefix_b_mumu + "_ST_tW_top_5f_inclusiveDecays_13TeV.root");
-  TFile *WZ_SR              = new TFile("./output/"+ prefix_b_mumu + "_WZ_TuneCUETP8M1_13TeV.root");
-  TFile *ZZ_SR              = new TFile("./output/"+ prefix_b_mumu + "_ZZ_TuneCUETP8M1_13TeV.root");
-  TFile *DY_SR              = new TFile("./output/"+ prefix_b_mumu + "_DYJetsToLL_M.root");
+  TFile *WW_SR              = new TFile("./output/"+ prefix_b_mumu + "_WWTo2L2Nu_13TeV_new.root");
+  TFile *ST_tW_antitop_SR   = new TFile("./output/"+ prefix_b_mumu + "_ST_tW_antitop_5f_inclusiveDecays_13TeV_new.root");
+  TFile *TT_SR              = new TFile("./output/"+ prefix_b_mumu + "_TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV_M_IS_without_wegiths_new.root");
+  TFile *ST_tW_top_SR       = new TFile("./output/"+ prefix_b_mumu + "_ST_tW_top_5f_inclusiveDecays_13TeV_new.root");
+  TFile *WZ_SR              = new TFile("./output/"+ prefix_b_mumu + "_WZ_TuneCUETP8M1_13TeV_new.root");
+  TFile *ZZ_SR              = new TFile("./output/"+ prefix_b_mumu + "_ZZ_TuneCUETP8M1_13TeV_new.root");
+  TFile *DY_SR              = new TFile("./output/"+ prefix_b_mumu + "_DYJetsToLL_M_IS_new.root");
 
   //first is named DB as it will include ww, wz, and zz
   TH1F *hist_DB_SR = (TH1F*)WW_SR->Get(plot);
@@ -93,16 +93,38 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   hs->Add(hist_TT_SR,"");
   hs->Add(hist_DY_SR,"");
 
+  TFile *data_b_ee = new TFile("./output/"+ prefix_b_ee + "_2016_SingleElectron.root");
+  TFile *data_antib_mumu = new TFile("./output/"+ prefix_antib_mumu + "_2016_SingleMu.root");
+  TFile *data_antib_ee = new TFile("./output/"+ prefix_antib_ee + "_2016_SingleElectron.root");
 
-  TFile *data_b_ee = new TFile("./output/"+ prefix_b_ee + "_2016F_singleElectron.root");
-  TFile *data_antib_mumu = new TFile("./output/"+ prefix_antib_mumu + "_datatest.root");
-  TFile *data_antib_ee = new TFile("./output/"+ prefix_antib_ee + "_2016F_singleElectron.root");
+
+
+
+TCanvas *c1 = new TCanvas("c1","",800,800);
+
+
+
 
 
   std::cout << "./output/"+ prefix_b_ee + "_2016F_singleElectron.root" << std::endl;
   TH1F *hist_data_b_ee = (TH1F*)data_b_ee->Get(plot);
   TH1F *hist_data_antib_mumu = (TH1F*)data_antib_mumu->Get(plot);
   TH1F *hist_data_antib_ee = (TH1F*)data_antib_ee->Get(plot);
+
+
+  std::cout << "./output/"+ prefix_antib_mumu + "_2016_SingleMu.root" << std::endl;
+
+  std::cout << hist_data_b_ee->GetEntries() << " " <<hist_data_antib_mumu->GetEntries() << " " << hist_data_antib_ee->GetEntries() << " " << std::endl;
+  //hist_data_b_ee->Rebin(4);
+  //hist_data_antib_mumu->Rebin(4);
+  //hist_data_antib_ee->Rebin(4);
+
+  hist_data_b_ee->Draw();
+c1->SaveAs("data_b_ee.png");
+hist_data_antib_mumu->Draw();
+c1->SaveAs("data_antib_mumu.png");
+hist_data_antib_ee->Draw();
+c1->SaveAs("data_antib_ee.png");
 
 
   std::cout << hist_data_b_ee->GetEntries() << std::endl;
@@ -113,7 +135,7 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   
   hist_CR_prediction_data->Divide(hist_data_antib_ee);
   hist_CR_prediction_data->Multiply(hist_data_antib_mumu);
-  hist_CR_prediction_data->Rebin(4);
+  hist_CR_prediction_data->Rebin(8);
 
   //calculate SR predition
   TH1F * hist_CR_prediction = (TH1F*) hist_b_ee->Clone();
@@ -127,15 +149,19 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
 
 
 
-  hist_CR_prediction->Rebin(4);
+  hist_CR_prediction->Rebin(8);
 
-  hist_DB_SR->Rebin(4);
-  hist_ST_SR->Rebin(4);
-  hist_TT_SR->Rebin(4);
-  hist_DY_SR->Rebin(4);
+  hist_DB_SR->Rebin(8);
+  hist_ST_SR->Rebin(8);
+  hist_TT_SR->Rebin(8);
+  hist_DY_SR->Rebin(8);
 
   float mcScale = 3.102/35.9;
   //mcScale =  3.285/35.9;
+
+  mcScale = 1.0/2.0;
+
+  mcScale = 1.0;
 
   hist_CR_prediction->Scale(mcScale);
   hist_DB_SR->Scale(mcScale);
@@ -145,7 +171,7 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
 
 
 
-  TCanvas *c1 = new TCanvas("c1","",800,800);
+  
   TText T; 
   c1->SetLogy();
   gPad->SetTicks();
@@ -185,7 +211,7 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
   leg_hist->AddEntry(hist_ST_SR,"tW,#bar{t}W","f");
   leg_hist->AddEntry(hist_DB_SR,"WW, WZ, ZZ","f");
   
-  leg_hist->Draw();
+  //leg_hist->Draw();
 
   TPaveText *pt = new TPaveText(0.6378446,0.9122768,0.972682,0.9847219,"blNDC");
   pt->SetName("title");
@@ -208,6 +234,7 @@ void makeRatioPlots(TString prefix_b_ee,TString prefix_antib_mumu,TString prefix
 
   hist_CR_prediction_data->Draw();
   c1->SaveAs("test.png");
+
 
   delete c1;
 

@@ -246,6 +246,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
    TH1F *lepeta_hist;
    TH1F *lepphi_hist;
    TH1F *lepIso_hist;
+   TH1F *lepIso_hist_z_cut;
 
 
    TH1F *leppT_p_hist;
@@ -325,6 +326,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
    TH1F *dilep_mass_hist_before_cut;
    TH1F *dilep_mass_hist_z_cut;
    TH1F* dilep_mass_hist_z_cut_wide;
+   TH1F* dilep_mass_hist_z_cut_highMass;
    TH1F *MET_hist_before_cut;
    TH1F *SBM_hist_before_cut;
    TH1F *METvsMmm_hist_before_cut;
@@ -395,13 +397,17 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
    TH1F *dPhi_hist_z_cut;
 
 
+   TH1F *npv_hist_weighted;
+   TH1F *npv_hist;
+
    histogramClass(TString name)
    {
     run_hist = new TH1F(name+"run_hist","Total number of events passed through the pre-selection cut; run; Number of events;",3,0,3); run_hist->Sumw2();
     leppT_hist = new TH1F(name+"leppT_hist","lepton pt; p_{T} [GeV]; Number of events",100,0,500); leppT_hist->Sumw2();
     lepeta_hist = new TH1F(name+"lepeta_hist","lepton eta; #eta; Number of events",20,-5,5); lepeta_hist->Sumw2();
     lepphi_hist = new TH1F(name+"lepphi_hist","lepton phi; #phi; Number of events",20,-pi,pi); lepphi_hist->Sumw2();
-    lepIso_hist = new TH1F(name+"lepIso_hist","lepton isolation; Isolation; Number of events;",100,0,400); lepIso_hist->Sumw2();
+    lepIso_hist = new TH1F(name+"lepIso_hist","lepton isolation; Isolation; Number of events;",100,0,3); lepIso_hist->Sumw2();
+    lepIso_hist_z_cut = new TH1F(name+"lepIso_hist_z_cut","lepton isolation; Isolation; Number of events;",100,0,3); lepIso_hist_z_cut->Sumw2();
 
 
     lep1pT_p_hist = new TH1F(name+"lep1pT_p_hist","lepton 1 pt; p_{T} [GeV]; Number of events",100,0,500); leppT_hist->Sumw2();
@@ -459,12 +465,13 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
       //std::cout << 1 + TMath::Power(width,i ) <<std::endl;
     } 
 
-    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",200,1,1000);     dilep_mass_hist->Sumw2();
-    //dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
+    //dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",200,1,1000);     dilep_mass_hist->Sumw2();
+    dilep_mass_hist = new TH1F(name+"dilep_mass_hist","dilepton mass; Mass_{#mu,#mu} [GeV]; Number of events",nBins, bins ); 
     //BinLogX(dilep_mass_hist);
     dilep_mass_hist_before_cut = new TH1F(name+"dilep_mass_hist_before_cut","dilepton mass before cuts; Mass_{#mu,#mu} [GeV]; Number of events",200,1,1000); dilep_mass_hist_before_cut->Sumw2();
-    dilep_mass_hist_z_cut = new TH1F(name+"dilep_mass_hist_z_cut","dilepton mass z cuts; Mass_{#mu,#mu} [GeV]; Number of events",200,81,101); dilep_mass_hist_before_cut->Sumw2();
-    dilep_mass_hist_z_cut_wide = new TH1F(name+"dilep_mass_hist_z_cut_wide","dilepton mass z cuts; Mass_{#mu,#mu} [GeV]; Number of events",200,50,150); dilep_mass_hist_before_cut->Sumw2();
+    dilep_mass_hist_z_cut = new TH1F(name+"dilep_mass_hist_z_cut","dilepton mass z cuts; Mass_{#mu,#mu} [GeV]; Number of events",200,81,101); dilep_mass_hist_z_cut->Sumw2();
+    dilep_mass_hist_z_cut_wide = new TH1F(name+"dilep_mass_hist_z_cut_wide","dilepton mass z cuts; Mass_{#mu,#mu} [GeV]; Number of events",200,50,150); dilep_mass_hist_z_cut_wide->Sumw2();
+    dilep_mass_hist_z_cut_highMass = new TH1F(name+"dilep_mass_hist_z_cut_highMass","dilepton mass z cuts; Mass_{#mu,#mu} [GeV]; Number of events",200,120,500); dilep_mass_hist_z_cut_highMass->Sumw2();
     MET_hist_before_cut = new TH1F(name+"MET_hist_before_cut","Missing ET; E^{miss}_{T} [GeV]; Number ofe events",100,0,1000); MET_hist_before_cut->Sumw2();
     SBM_hist_before_cut = new TH1F(name+"SBM_hist_before_cut","max(SBM); max(SBM) [GeV]; a.u.",100,0,300); SBM_hist_before_cut->Sumw2();
     METvsMmm_hist_before_cut = new TH1F(name+"METvsMmm_hist_before_cut","E^{miss}_{T}/M(#mu^{+}#mu^{-}); E^{miss}_{T}/M(#mu^{+}#mu^{-}) [GeV]; a.u.",100,0,1); METvsMmm_hist_before_cut->Sumw2();
@@ -562,6 +569,10 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
     HTLT_hist_z_cut = new TH1F(name+"HTLT_hist_z_cut","HT-LT; HT-LT [GeV]; a.u.",100,-500,500); HTLT_hist_z_cut->Sumw2();
     dPhi_hist_z_cut = new TH1F(name+"dPhi_hist_z_cut","delta phi_{dimuon,b}; #Delta#phi_{dimuon,b}; Number of events",50,-4,4); dPhi_hist_z_cut->Sumw2();
 
+
+    npv_hist = new TH1F(name+"npv_hist","nPV; nPV; Number of events",41,0,40); npv_hist->Sumw2();
+    npv_hist_weighted = new TH1F(name+"npv_hist_weighted","nPV weighted; nPV; Number of events",41,0,40); npv_hist->Sumw2();
+
    
     }
   };
@@ -572,6 +583,13 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
    Long64_t nentries = fChain->GetEntriesFast();
 
 
+  //float npv[43] = {0, 0, 0.5, 0.149254, 0.179916, 0.24952, 0.248339, 0.290512, 0.267252, 0.307281,  0.296964,  0.319299,  0.321035,  0.317376,  0.323483,  0.326791,  0.328249,  0.327161,  0.338109,  0.329822,  0.337978,  0.339862,  0.327224,  0.32571,  0.309243,  0.290268,  0.276385,  0.251626,  0.228506,  0.207311,  0.175843,  0.159054,  0.131801,  0.124659,  0.0896057,  0.0800572,  0.0689354,  0.0587629,  0.0523627,  0.0453515,  0.0192813,  0,  0.0248179};
+
+
+  //float npv[43] = {0,0,1.68143,0.501921,0.605035,0.839103,0.835131,0.976954,0.898732,1.03335,0.998652,1.07376,1.0796,1.06729,1.08783,1.09896,1.10386,1.1002,1.13702,1.10915,1.13658,1.14291,1.10041,1.09532,1.03994,0.976134,0.929447,0.846185,0.768436,0.697158,0.591338,0.534878,0.443231,0.419213,0.301332,0.269222,0.231821,0.197612,0.176089,0.152511,0.0648406,0,0.0834592};
+  //float npv[43] = {0, 0, 1.88521, 1.41209, 1.52276, 1.56235, 1.66976, 1.69093, 1.60545, 1.60034, 1.55572, 1.52845, 1.47028, 1.41614, 1.37151, 1.29952, 1.2336, 1.15464, 1.10884, 1.02477, 0.970557, 0.923459, 0.858475, 0.801007, 0.736385, 0.657574, 0.599654, 0.547822, 0.492225, 0.430795, 0.36574, 0.333618, 0.285665, 0.253207, 0.215155, 0.187154, 0.166255, 0.13775, 0.129451, 0.1085, 0.0739639, 0, 0.0783707};
+
+  float npv[43] = {0, 0, 0.99418, 1.5171, 1.28981, 1.45298, 1.59585, 1.56186, 1.54144, 1.58569, 1.48071, 1.50155, 1.48916, 1.39505, 1.37479, 1.30171, 1.22737, 1.15636, 1.10338, 1.03785, 0.955401, 0.938369, 0.861168, 0.807385, 0.740167, 0.663151, 0.619439, 0.537525, 0.500459, 0.425818, 0.36613, 0.346196, 0.294438, 0.254554, 0.220052, 0.188592, 0.164129, 0.139369, 0.130995, 0.110409, 0.0749439, 0, 0.0821967};
    //cs, totalN, Lumi -> Refer to see header file (.h)
    float weight = targetLumi * xsection/numberOfEvents;
    if(xsection < 0) weight = 1;
@@ -591,9 +609,33 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
        nb = fChain->GetEntry(jentry);   nbytes += nb;
        // if (Cut(ientry) < 0) continue;
 
+
+
+       float localWeight = 1.0*weight*genWeight/abs(genWeight);
+
+       //pileup reweighting:
+
+      //std::cout << nvertices <<std::endl;
+      int index = (int)nvertices+1;
+      if (index > 42) index = 41;
+      float pileupWeight = npv[index];
+
+      //std::cout << pileupWeight <<std::endl;
+
+      //localWeight = localWeight*pileupWeight;
+
+      if (xsection < 0) localWeight = 1.0;
+
+      histClass.npv_hist->Fill(nvertices, localWeight);
+
+      histClass.npv_hist_weighted->Fill(nvertices, localWeight*pileupWeight);
+
+
+
+       //std::cout << localWeight << std::endl;
        histClass.run_hist->Fill(run);
 
-       cutFlow.at(0) = cutFlow.at(0) + weight;
+       cutFlow.at(0) = cutFlow.at(0) + localWeight;
 
        if(lep_pt[0] > 53 &&lep_pt[1] > 53){ //lep pT > 53GeV
            if(dil_dR > 0.1){ // dR(lep,lep) > 0.1
@@ -609,20 +651,20 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
                 //std::cout << lep_pfIso[0]/lep_pt[0] << std::endl;
                 if ((lep1+lep2).M()< 55) continue;
-                if (lep_pfIso[0]/lep_pt[0] > .05 or lep_pfIso[1]/lep_pt[1] > .05) continue;
+                //if (lep_pfIso[0]/lep_pt[0] > .05 or lep_pfIso[1]/lep_pt[1] > .05) continue;
 
 
-                    cutFlow.at(1) = cutFlow.at(1) + weight;
+                    cutFlow.at(1) = cutFlow.at(1) + localWeight;
                    //Opposite sign dilepton
                    if(lep_id[0] * lep_id[1] < 0){
 
-                    cutFlow.at(2) = cutFlow.at(2) + weight;
+                    cutFlow.at(2) = cutFlow.at(2) + localWeight;
 
                     //std::cout << lep_triggerMatchEta[1] << " " <<  lep_triggerMatchEta[0] << std::endl;
                     //if (lep_triggerMatchEta[0] == -999 && lep_triggerMatchEta[1] == -999) continue;
 
 
-                       cutFlow.at(3) = cutFlow.at(3) + weight;
+                       cutFlow.at(3) = cutFlow.at(3) + localWeight;
 
                        //if(dil_chosen != 0) continue;
                        //particle id
@@ -831,13 +873,14 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                       float SBM = aSBM[0];
 
 
-                        histClass.dilep_mass_hist_before_cut->Fill(Mmm, weight);
-                        if (Mmm < 101 and Mmm > 81) histClass.dilep_mass_hist_z_cut->Fill(Mmm, weight);
-                        histClass.dilep_mass_hist_z_cut_wide->Fill(Mmm, weight);
+                        histClass.dilep_mass_hist_before_cut->Fill(Mmm, localWeight);
+                        if (Mmm < 101 and Mmm > 81) histClass.dilep_mass_hist_z_cut->Fill(Mmm, localWeight);
+                        histClass.dilep_mass_hist_z_cut_wide->Fill(Mmm, localWeight);
+                        histClass.dilep_mass_hist_z_cut_highMass->Fill(Mmm, localWeight);
                         histClass.MET_hist_before_cut->Fill(MET_t);
-                        histClass.SBM_hist_before_cut->Fill(SBMMax,weight);
-                        histClass.METvsMmm_hist_before_cut->Fill(METvsMmm,weight);
-                        histClass.HTLT_hist_before_cut->Fill(DHTLT,weight);
+                        histClass.SBM_hist_before_cut->Fill(SBMMax,localWeight);
+                        histClass.METvsMmm_hist_before_cut->Fill(METvsMmm,localWeight);
+                        histClass.HTLT_hist_before_cut->Fill(DHTLT,localWeight);
 
 
                         if(bJets.size()==1){
@@ -846,7 +889,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                            float dPhi_dimu_b = Phi_dimuon - Phi_b;
                            if(dPhi_dimu_b >= TMath::Pi()) dPhi_dimu_b -= 2.*TMath::Pi();
                            if(dPhi_dimu_b < -TMath::Pi()) dPhi_dimu_b += 2.*TMath::Pi();
-                           histClass.dPhi_hist_before_cut->Fill(dPhi_dimu_b,weight);
+                           histClass.dPhi_hist_before_cut->Fill(dPhi_dimu_b,localWeight);
                        }
 
 
@@ -885,6 +928,17 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        if (Mmm < 101 and Mmm > 81) histClass.lepDphi_z_cut->Fill(dPhi);
                        if (not (Mmm < 101 and Mmm > 81)) histClass.lepDphi_anti_z_cut->Fill(dPhi);
 
+
+
+                       histClass.lepIso_hist->Fill(leptons_[0].Iso);
+                       histClass.lepIso_hist->Fill(leptons_[1].Iso);
+
+                       if (Mmm < 101 and Mmm > 81) histClass.lepIso_hist_z_cut->Fill(leptons_[0].Iso);
+                       if (Mmm < 101 and Mmm > 81) histClass.lepIso_hist_z_cut->Fill(leptons_[1].Iso);
+
+
+
+
                        if (leptons_[maxIndex].Iso > .5 and leptons_[minIndex].Iso > .5) histClass.lepDphi_iso_cut->Fill(dPhi);
 
                        histClass.lepDpt->Fill(leptons[maxIndex].Pt() - leptons[minIndex].Pt());
@@ -892,7 +946,6 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        histClass.lepDr->Fill(leptons[maxIndex].DeltaR(leptons[minIndex]));
                        histClass.lepSumPt->Fill(leptons[maxIndex].Pt() + leptons[minIndex].Pt());
 
-/*
 
                        if (nBjets + njets > 1){
 
@@ -924,12 +977,11 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                         }
                         if ( (Mmm < 101 and Mmm > 81)){
                           histClass.MET_hist_z_cut->Fill(MET_t);
-                          histClass.METvsMmm_hist_z_cut->Fill(METvsMmm,weight);
-                          histClass.SBM_hist_z_cut->Fill(SBMMax,weight);
-                          histClass.HTLT_hist_z_cut->Fill(DHTLT,weight);
+                          histClass.METvsMmm_hist_z_cut->Fill(METvsMmm,localWeight);
+                          histClass.SBM_hist_z_cut->Fill(SBMMax,localWeight);
+                          histClass.HTLT_hist_z_cut->Fill(DHTLT,localWeight);
                         }
 
-                      */
 
                        //Case 1 = Case 3 + Case 4 + Case 5
                        if(caseText == "1" and (nBjets < 1 || njets < 2) )continue;//N_jet >= 2, N_bjets >= 1 (Case 1)
@@ -954,7 +1006,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        if(caseText == "1j" and not (njets == 1) )continue;
 
 
-                       cutFlow.at(4) = cutFlow.at(4) + weight;
+                       cutFlow.at(4) = cutFlow.at(4) + localWeight;
 
 
 
@@ -962,10 +1014,10 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 
 
                        histClass.MET_hist->Fill(MET_t);
-                       histClass.METvsMmm_hist->Fill(METvsMmm,weight);
-                       histClass.mini_SBM_hist->Fill(SBMMin,weight);
-                       histClass.SBM_hist->Fill(SBMMax,weight);
-                       histClass.HTLT_hist->Fill(DHTLT,weight);
+                       histClass.METvsMmm_hist->Fill(METvsMmm,localWeight);
+                       histClass.mini_SBM_hist->Fill(SBMMin,localWeight);
+                       histClass.SBM_hist->Fill(SBMMax,localWeight);
+                       histClass.HTLT_hist->Fill(DHTLT,localWeight);
 
 
 
@@ -976,32 +1028,32 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                         //std::cout << "1 "<< std::endl;
                         //(HT-LT) cut
                         if(DHTLT > -120)continue;
-                        cutFlow.at(5) = cutFlow.at(5) + weight;
+                        cutFlow.at(5) = cutFlow.at(5) + localWeight;
                         //METvsMmm (Normalized MET) cut
                         if(METvsMmm > .25)continue;
-                        cutFlow.at(6) = cutFlow.at(6) + weight;
+                        cutFlow.at(6) = cutFlow.at(6) + localWeight;
                         //TMB cut
                         if (SBM < 160) continue;
-                        cutFlow.at(7) = cutFlow.at(7) + weight;
+                        cutFlow.at(7) = cutFlow.at(7) + localWeight;
                        } else if (caseText == "b=1,2_b+j=2" || caseText ==  "b=0_b+j=2")
                        {
                         //std::cout << "2 "<< std::endl;
                         //(HT-LT) cut
                         if(DHTLT > -80)continue;
-                        cutFlow.at(5) = cutFlow.at(5) + weight;
+                        cutFlow.at(5) = cutFlow.at(5) + localWeight;
                         //METvsMmm (Normalized MET) cut
                         if(METvsMmm > .3)continue;
-                        cutFlow.at(6) = cutFlow.at(6) + weight;
+                        cutFlow.at(6) = cutFlow.at(6) + localWeight;
                         //TMB cut
                         if (SBM < 150) continue;
-                        cutFlow.at(7) = cutFlow.at(7) + weight;
+                        cutFlow.at(7) = cutFlow.at(7) + localWeight;
                        } else{
                          //std::cout << "what"<< std::endl;
                         continue;
 
                        }
 
-                        histClass.dilep_mass_hist->Fill(Mmm, weight);
+                        histClass.dilep_mass_hist->Fill(Mmm, localWeight);
 
                        
 
@@ -1020,9 +1072,12 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                        histClass.lepphi_hist->Fill(leptons[0].Phi());
                        histClass.lepphi_hist->Fill(leptons[1].Phi());
 
-                       //Iso
-                       histClass.lepIso_hist->Fill(leptons_[0].Iso);
-                       histClass.lepIso_hist->Fill(leptons_[1].Iso);
+                       ////Iso
+                       //histClass.lepIso_hist->Fill(leptons_[0].Iso);
+                       //histClass.lepIso_hist->Fill(leptons_[1].Iso);
+
+                       //histClass.lepIso_hist_z_cut->Fill(leptons_[0].Iso);
+                       //histClass.lepIso_hist_z_cut->Fill(leptons_[1].Iso);
 
                        //lep-lep dPhi and dR, dilep mass
                        histClass.dPhi_dimuon_hist->Fill(dil_dPhi);
@@ -1036,7 +1091,7 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
                            float dPhi_dimu_b = Phi_dimuon - Phi_b;
                            if(dPhi_dimu_b >= TMath::Pi()) dPhi_dimu_b -= 2.*TMath::Pi();
                            if(dPhi_dimu_b < -TMath::Pi()) dPhi_dimu_b += 2.*TMath::Pi();
-                           histClass.dPhi_hist->Fill(dPhi_dimu_b,weight);
+                           histClass.dPhi_hist->Fill(dPhi_dimu_b,localWeight);
                        }
 
 
@@ -1068,10 +1123,10 @@ std::vector<float> mumu::Loop(TString sample_name, Float_t xsection, Float_t tar
 std::vector<TH1F *> hists = {histClass.run_hist, histClass.mini_SBM_hist, histClass.mini_SBM_minus173_hist, histClass.leppT_hist, histClass.lepeta_hist, histClass.lepphi_hist, histClass.dPhi_dimuon_hist, histClass.dPhi_hist, histClass.dR_hist, histClass.mass_hist, histClass.jetpT_hist, histClass.jeteta_hist, histClass.bjetpT_hist, histClass.bjeteta_hist, histClass.NonbjetpT_hist, histClass.Nonbjeteta_hist, histClass.nbjet_hist, histClass.nNonbjet_hist, histClass.id_hist, histClass.MET_hist, histClass.dilep_mass_hist, histClass.SBM_hist, histClass.METvsMmm_hist, histClass.HTLT_hist, histClass.Mass_hist,
 histClass.lepeta_p_hist,histClass.lepphi_p_hist,histClass.leppT_p_hist,histClass.lepeta_n_hist,histClass.lepphi_n_hist,histClass.leppT_n_hist,histClass.nLeptons,histClass.nElectrons,histClass.nMuons,histClass.jet1eta_n_hist,histClass.jet1phi_n_hist,histClass.jet1pT_n_hist,histClass.jet2eta_n_hist,histClass.jet2phi_n_hist,histClass.jet2pT_n_hist,histClass.nJet_hist,histClass.jet1NonB_atleast2_eta_n_hist,histClass.jet1NonB_atleast2_phi_n_hist,histClass.jet1NonB_atleast2_pT_n_hist,histClass.jet2NonB_atleast2_eta_n_hist,histClass.jet2NonB_atleast2_phi_n_hist,histClass.jet2NonB_atleast2_pT_n_hist,histClass.jet1B_atleast2_eta_n_hist,histClass.jet1B_atleast2_phi_n_hist,histClass.jet1B_atleast2_pT_n_hist,histClass.jet2B_atleast2_eta_n_hist,histClass.jet2B_atleast2_phi_n_hist,histClass.jet2B_atleast2_pT_n_hist,
 histClass.lep_jet_min_deltaR, histClass.jetpT_noB_hist, histClass.jeteta_noB_hist,
-histClass.dilep_mass_hist_before_cut, histClass.dilep_mass_hist_z_cut, histClass.dilep_mass_hist_z_cut_wide,histClass.MET_hist_before_cut,histClass.SBM_hist_before_cut,histClass.METvsMmm_hist_before_cut,histClass.HTLT_hist_before_cut,histClass.dPhi_hist_before_cut,
+histClass.dilep_mass_hist_before_cut, histClass.dilep_mass_hist_z_cut, histClass.dilep_mass_hist_z_cut_wide, histClass.dilep_mass_hist_z_cut_highMass,histClass.MET_hist_before_cut,histClass.SBM_hist_before_cut,histClass.METvsMmm_hist_before_cut,histClass.HTLT_hist_before_cut,histClass.dPhi_hist_before_cut,
 histClass.lep1pT_p_hist,histClass.lep1eta_p_hist,histClass.lep1phi_p_hist,histClass.lep1Iso_p_hist,histClass.lep2pT_p_hist,histClass.lep2eta_p_hist,histClass.lep2phi_p_hist,histClass.lep2Iso_p_hist,histClass.lepDphi,histClass.lepDpt,histClass.lepDeta,histClass.lepDr,histClass.lepSumPt, histClass.lepDphi_z_cut, histClass.lepDphi_iso_cut, histClass.lepDphi_anti_z_cut,
 histClass.jetDphi, histClass.jetDphi_anti_z_cut, histClass.jetDphi_z_cut, histClass.jetDpt, histClass.jetDeta, histClass.jetDr, histClass.jetSumPt, histClass.lepjetDphi, histClass.lepjetDphi_anti_z_cut, histClass.lepjetDphi_z_cut, histClass.lepjetDpt, histClass.lepjetDeta, histClass.lepjetDr, histClass.lepjetSumPt, histClass.MET_hist_z_cut, histClass.METvsMmm_hist_z_cut, histClass.SBM_hist_z_cut, histClass.HTLT_hist_z_cut
-};
+,histClass.lepIso_hist_z_cut,histClass.lepIso_hist, histClass.npv_hist_weighted, histClass.npv_hist};
 
 
 

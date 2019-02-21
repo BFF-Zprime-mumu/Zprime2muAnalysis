@@ -24,9 +24,9 @@ for cut in cutflow:
     ABCD[cut] = {}
     for ttree in cutflow[cut]:
         ttrees.append(ttree)
-        ABCD[cut][ttree] = [0,0,0,0]
+        ABCD[cut][ttree] = [0,0,0,0,0,0,0,0]
         for sample in cutflow[cut][ttree]:
-            #print cutflow[cut][ttree][sample]
+            print cutflow[cut][ttree][sample]
             if sample in backgrounds:
                 ABCD[cut][ttree][0] = ABCD[cut][ttree][0] +  cutflow[cut][ttree][sample][3]
             else:
@@ -35,7 +35,7 @@ for cut in cutflow:
                 if sample == "zp500":
                     ABCD[cut][ttree][2] = ABCD[cut][ttree][2] +  cutflow[cut][ttree][sample][3]
                 if sample == "zp500":
-                    ABCD[cut][ttree][3] = ABCD[cut][ttree][3] +  cutflow[cut][ttree][sample][3]
+                   ABCD[cut][ttree][3] = ABCD[cut][ttree][3] +  cutflow[cut][ttree][sample][3]
 
 for ttree in ttrees:
     for cut in cuts:
@@ -47,12 +47,15 @@ for ttree in ttrees:
         for sample in cutflow[cut][ttree]:
 
             l_cutflow = cutflow[cut][ttree][sample]
+            print len(l_cutflow)
             nEvents = l_cutflow[0]
             #print cut, ttree, sample
             if nEvents !=0: 
                 nEvents = 1
-                cutFlowTable.append([ sample, l_cutflow[0]/nEvents, l_cutflow[1]/nEvents, l_cutflow[2]/nEvents, l_cutflow[3]/nEvents])
+                cutFlowTable.append([ sample, l_cutflow[0]/nEvents, l_cutflow[1]/nEvents, l_cutflow[2]/nEvents, l_cutflow[3]/nEvents, l_cutflow[4]/nEvents,l_cutflow[5]/nEvents,l_cutflow[6]/nEvents,l_cutflow[7]/nEvents])
         cutFlowTable = sorted(cutFlowTable, key= lambda cutFlowTable: cutFlowTable[0])
         for cutflowRow in  cutFlowTable:
-            print cutflowRow[0], ",\t", cutflowRow[1], cutflowRow[1]/cutflowRow[1], ",\t", cutflowRow[2], cutflowRow[2]/cutflowRow[1], ",\t", cutflowRow[3], cutflowRow[3]/cutflowRow[1], ",\t", cutflowRow[4], cutflowRow[4]/cutflowRow[1]
+            print cutflowRow
+            #print cutflowRow[0], ",\t", cutflowRow[1], cutflowRow[1]/cutflowRow[1], ",\t", cutflowRow[2], cutflowRow[2]/cutflowRow[1], ",\t", cutflowRow[3], cutflowRow[3]/cutflowRow[1], ",\t", cutflowRow[4], cutflowRow[4]/cutflowRow[1]
+            #print cutflowRow[0], ",\t", cutflowRow[1], ",\t", cutflowRow[2], ",\t", cutflowRow[3], ",\t", cutflowRow[4], ",\t", cutflowRow[5], ",\t", cutflowRow[6], ",\t", cutflowRow[7]
 
