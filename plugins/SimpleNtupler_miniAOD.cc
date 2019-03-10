@@ -249,6 +249,8 @@ private:
   tree_t t;
   TTree* tree;
 
+  TH1D* NPV_no_cuts;
+
   const edm::InputTag dimu_src;
   const edm::InputTag beamspot_src;
   const edm::InputTag met_src;
@@ -663,6 +665,10 @@ SimpleNtupler_miniAOD::SimpleNtupler_miniAOD(const edm::ParameterSet& cfg)
 		 "GoodData");
 
   tree->SetAlias("EmuSel", "EmuSelNoSign && OppSign");
+
+  //NPV_no_cuts = new TH1D("NPV_no_cuts", "NPV_no_cuts", 80, 0,80);
+
+  NPV_no_cuts = fs->make<TH1D>("NPV_no_cuts", "NPV_no_cuts", 80, 0,80);
 }
 
 template <typename T>
@@ -725,6 +731,8 @@ void SimpleNtupler_miniAOD::analyze(const edm::Event& event, const edm::EventSet
   BOOST_FOREACH(const reco::Vertex& vtx, *pvs)
     if (vtx.ndof() > 4 && fabs(vtx.z()) <= 24 && fabs(vtx.position().rho()) <= 2)
       t.nvertices += 1;
+
+  NPV_no_cuts->Fill(t.nvertices);
   
 
   if (fill_gen_info) {
