@@ -2,9 +2,9 @@
 
 
 # Set to True in order to select e-mu and dielectron final states
-Electrons = True
+Electrons = False
 # Flag, setting whether we work with simulation or data
-isMC = False
+isMC =  True
 
 import sys, os, FWCore.ParameterSet.Config as cms
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import switch_hlt_process_name
@@ -13,9 +13,15 @@ from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cfg import process
 from SUSYBSMAnalysis.Zprime2muAnalysis.Zprime2muAnalysis_cff import goodDataFiltersMiniAOD
 
 process.source.fileNames =[#'file:./pat.root'
-'/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
+#'/store/mc/RunIISummer16MiniAODv2/ZToMuMu_NNPDF30_13TeV-powheg_M_120_200/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/824C363B-0AC8-E611-B4A5-20CF3027A580.root',
 #'file:/cms/ldap_home/hyeahyun/zp/sample/0030B9D6-72C1-E611-AE49-02163E00E602.root',
-			   ]
+#'file:zpbb_m200_50k_01_2016_miniaod.root',
+#'file:./2016-100k/zpbb_m200_50k_01_2016_miniaod.root',
+#'/store/mc/RunIISummer16MiniAODv2/TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6-v1/80000/1433EFBD-F0C3-E611-A761-34E6D7BDDEC1.root'
+#'/store/mc/RunIISummer16MiniAODv2/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/MINIAODSIM/PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v6_ext2-v1/60000/34776732-BDE7-E611-B25C-0025905A48EC.root'
+#'/store/user/rymuelle/zPrime/zp200.root',
+'/store/data/Run2016G/SingleMuon/MINIAOD/23Sep2016-v1/90001/F0535968-B499-E611-93A3-0CC47AD98F70.root'
+]
 process.maxEvents.input = -1 # Set to a reasonable number (e.g.100) when testing locally with cmsRun
 # Set global tags
 for fileName in process.source.fileNames:
@@ -27,9 +33,14 @@ for fileName in process.source.fileNames:
         # https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideFrontierConditions#Global_Tags_for_PdmVMCcampai_AN3
 		process.GlobalTag.globaltag = '80X_mcRun2_asymptotic_2016_TrancheIV_v8'
 		isMC = True
+        
 process.MessageLogger.cerr.FwkReport.reportEvery = 1000 # default 1000
 
+process.GlobalTag.globaltag = '80X_dataRun2_2016SeptRepro_v6'
+
 from SUSYBSMAnalysis.Zprime2muAnalysis.hltTriggerMatch_cfi import trigger_match, prescaled_trigger_match, trigger_paths, prescaled_trigger_paths, overall_prescale, offline_pt_threshold, prescaled_offline_pt_threshold
+
+#offline_pt_threshold, prescaled_offline_pt_threshold = 25,25
 
 # Since the prescaled trigger comes with different prescales in
 # different runs/lumis, this filter prescales it to a common factor to
@@ -74,7 +85,7 @@ dils = [('MuonsPlusMuonsMinus',          '%(leptons_name)s:muons@+ %(leptons_nam
 # filter somewhere below.
 cuts = {
 	'Our2016'  : OurSelection2016,
-	'Simple'   : OurSelection2016, # The selection cuts in the module listed here are ignored below.
+	#'Simple'   : OurSelection2016, # The selection cuts in the module listed here are ignored below.
 	}
 
 if Electrons:
@@ -107,6 +118,7 @@ if Electrons:
 # Loop over all the cut sets defined and make the lepton, allDilepton
 # (combinatorics only), and dilepton (apply cuts) modules for them.
 for cut_name, Selection in cuts.iteritems():
+    print "cut_name", cut_name
 	# Keep track of modules to put in the path for this set of cuts.
     path_list = []
 
@@ -160,10 +172,11 @@ for cut_name, Selection in cuts.iteritems():
         # in Zprime2muCombiner, the cuts in loose_cut and
         # tight_cut are the ones actually used to drop leptons, and
         # not the ones passed into the LeptonProducer to set cutFor above.
+        #'pt > 53 && '\
         if cut_name == 'Simple':
             alldil.electron_cut_mask = cms.uint32(0)
             alldil.loose_cut = 'isGlobalMuon && '\
-			       'pt > 53 && '\
+                   'pt > 53 && '\
 			       'abs(eta) < 2.4 && ' \
 			       'abs(dB) < 0.2 && ' \
 			       'isolationR03.sumPt / innerTrack.pt < 0.10 && ' \
@@ -282,13 +295,15 @@ for cut_name, Selection in cuts.iteritems():
 
 def ntuplify(process, fill_gen_info=False):
     process.load('SUSYBSMAnalysis.Zprime2muAnalysis.PrunedMCLeptons_cfi')
-    obj = process.prunedMCLeptons
-    obj.src = cms.InputTag('prunedGenParticles')
+    if fill_gen_info:
+        obj = process.prunedMCLeptons
+        obj.src = cms.InputTag('prunedGenParticles')
 
     process.SimpleNtupler = cms.EDAnalyzer('SimpleNtupler_miniAOD',
                                            dimu_src = cms.InputTag('Our2016MuonsPlusMuonsMinus'),
                                            met_src = cms.InputTag("slimmedMETs"),
                                            jet_src = cms.InputTag("slimmedJets"),
+                                           #jet_src = cms.InputTag("slimmedJetsPuppi"),
                                            beamspot_src = cms.InputTag('offlineBeamSpot'),
                                            vertices_src = cms.InputTag('offlineSlimmedPrimaryVertices'),
                                            TriggerResults_src = cms.InputTag('TriggerResults', '', 'RECO'),	#data
@@ -302,6 +317,7 @@ def ntuplify(process, fill_gen_info=False):
     else: 
         pass
     if hasattr(process, 'pathOur2016'):
+       
         if fill_gen_info:
             process.pathOur2016 *= obj * process.SimpleNtupler
             if Electrons:
@@ -310,7 +326,12 @@ def ntuplify(process, fill_gen_info=False):
                 process.pathOur2016 *= process.SimpleNtuplerEmu
                 process.pathOur2016 *= process.SimpleNtuplerDiEle
         else: 
-            pass
+            process.pathOur2016 *= process.SimpleNtupler
+            if Electrons:
+                process.SimpleNtuplerEmu = process.SimpleNtupler.clone(dimu_src = cms.InputTag('SimpleMuonsElectronsAllSigns'))
+                process.SimpleNtuplerDiEle = process.SimpleNtupler.clone(dimu_src = cms.InputTag('Our2016ElectronsPlusElectronsMinus'))
+                process.pathOur2016 *= process.SimpleNtuplerEmu
+                process.pathOur2016 *= process.SimpleNtuplerDiEle
     else: 
         pass
 #    if hasattr(process, 'pathOur2016'):
@@ -321,11 +342,8 @@ def ntuplify(process, fill_gen_info=False):
 #    	    	#process.pathOur2016 *=obj * process.SimpleNtupler * process.SimpleNtuplerEmu
 #    	    	process.pathOur2016 *= process.SimpleNtuplerEmu
 
-<<<<<<< HEAD
-ntuplify(process) #to have ntuples also running in interactive way
-=======
-#ntuplify(process) #to have ntuples also running in interactive way -- no need as will be executed twice
->>>>>>> central/develop
+#ntuplify(process) #to have ntuples also running in interactive way
+
 
 def for_mc(process, reco_process_name, fill_gen_info):
     ntuplify(process, fill_gen_info)
@@ -354,21 +372,27 @@ def check_prescale(process, trigger_paths, hlt_process_name='HLT'):
     process.CheckPrescale.trigger_paths = cms.vstring(*trigger_paths)
     process.pCheckPrescale = cms.Path(process.CheckPrescale)
 
+
 def for_data(process,GT):
-    
+#def for_data(process):
+    print "for_data"
     process.GlobalTag.globaltag = GT #RunH              #change line 52
     ntuplify(process)
 
 if 'int_data' in sys.argv:
-    for_data(process)
-    printify(process)
+    for_data(process, '80X_dataRun2_2016SeptRepro_v6')
+    #printify(process)
+
+if not isMC:
+    for_data(process, '80X_dataRun2_2016SeptRepro_v6')
     
 if 'int_mc' in sys.argv:
     for_mc(process, 'HLT', False)
     printify(process)
     
 if 'gogo' in sys.argv:
-    for_data(process)
+    #for_data(process)
+    for_data(process, '80X_dataRun2_2016SeptRepro_v6')
     printify(process)
     
     n = sys.argv.index('gogo')
@@ -394,6 +418,9 @@ if 'gogo' in sys.argv:
 f = file('outfile_histos1', 'w')
 f.write(process.dumpPython())
 f.close()
+
+
+
 
 if __name__ == '__main__' and 'submit' in sys.argv:
     crab_cfg = '''
